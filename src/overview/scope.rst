@@ -3,5 +3,5 @@
 
 .. default-domain:: coding-guidelines
 
-Scope
+適用範囲
 =========

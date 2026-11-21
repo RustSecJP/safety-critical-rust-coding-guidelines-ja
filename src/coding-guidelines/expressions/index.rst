@@ -3,8 +3,8 @@
 
 .. default-domain:: coding-guidelines
 
-Expressions
-===========
+式
+====
 
 .. toctree::
    :maxdepth: 1

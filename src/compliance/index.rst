@@ -3,7 +3,9 @@
 
 .. default-domain:: coding-guidelines
 
-Compliance
+.. _Compliance:
+
+準拠
 ==========
 
 .. toctree::

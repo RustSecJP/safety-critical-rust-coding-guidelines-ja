@@ -3,5 +3,5 @@
 
 .. default-domain:: coding-guidelines
 
-Deviation Process
+逸脱プロセス
 =================

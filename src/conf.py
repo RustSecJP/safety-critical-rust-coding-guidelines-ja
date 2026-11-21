@@ -254,3 +254,6 @@ templates_path = ['_templates']
 html_css_files = [
     'custom.css',
 ]
+
+# 日本語訳
+language = "ja"

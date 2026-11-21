@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-An integer shall not be converted to an invalid pointer
-=======================================================
+整数を無効なポインタに変換してはならない
+=========================================
 
-.. guideline:: An integer shall not be converted to an invalid pointer
+.. guideline:: 整数を無効なポインタに変換してはならない
    :id: gui_iv9yCMHRgpE0
    :category: <TODO>
    :status: draft
@@ -16,24 +16,24 @@ An integer shall not be converted to an invalid pointer
    :scope: system
    :tags: defect, undefined-behavior
 
-   An expression of numeric type shall not be converted to a pointer if the resulting pointer
-   is incorrectly aligned, does not point to an entity of the referenced type, or is an invalid representation.
+   結果のポインタのアラインメントが正しくない場合、参照先の型の実体を指していない場合、
+   または無効な表現である場合は、数値型の式をポインタに変換してはなりません。
 
    .. rationale::
       :id: rat_OhxKm751axKw
       :status: draft
 
-      The mapping between pointers and integers must be consistent with the addressing structure of the
-      execution environment. Issues may arise, for example, on architectures that have a segmented memory model.
+      ポインタと整数の間の対応付けは、実行環境のアドレス構造と一致していなければなりません。
+      たとえば、セグメント化されたメモリモデルを持つアーキテクチャでは、問題が起こることがあります。
 
    .. non_compliant_example::
       :id: non_compl_ex_CkytKjRQezfQ
       :status: draft
 
-      This example makes assumptions about the layout of the address space that do not hold on all platforms.
-      The manipulated address may have discarded part of the original address space, and the flag may
-      silently interfere with the address value. On platforms where pointers are 64-bits this may have
-      particularly unexpected results.
+      この例は、すべてのプラットフォームで成り立つわけではない、アドレス空間のレイアウトについての仮定をしています。
+      操作されたアドレスでは元のアドレス空間の一部が捨てられているかもしれず、フラグがアドレスの値に
+      気づかれないまま干渉するかもしれません。ポインタが 64 ビットのプラットフォームでは、
+      特に予期しない結果になることがあります。
 
       .. rust-example::
 
@@ -51,9 +51,9 @@ An integer shall not be converted to an invalid pointer
       :id: compl_ex_oBoluiKSvREu
       :status: draft
 
-      This compliant solution uses a struct to provide storage for both the pointer and the flag value.
-      This solution is portable to machines of different word sizes, both smaller and larger than 32 bits,
-      working even when pointers cannot be represented in any integer type.
+      この適合する解決策では、構造体を使って、ポインタとフラグの値の両方を格納する場所を用意します。
+      この解決策は、32 ビットより小さいものも大きいものも含め、ワードサイズの異なるマシンに移植でき、
+      ポインタをどの整数型でも表現できない場合でも動作します。
 
       .. rust-example::
 

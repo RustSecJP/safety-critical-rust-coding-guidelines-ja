@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Avoid as underscore pointer casts
-=================================
+as によるアンダースコアへのポインタのキャストを避ける
+======================================================
 
-.. guideline:: Avoid as underscore pointer casts
+.. guideline:: as によるアンダースコアへのポインタのキャストを避ける
    :id: gui_HDnAZ7EZ4z6G
    :category: required
    :status: draft
@@ -16,24 +16,24 @@ Avoid as underscore pointer casts
    :scope: module
    :tags: readability, reduce-human-error
 
-   Code must not rely on Rust's type inference when doing explicit pointer casts via ``var as Type`` or :std:`core::mem::transmute`.
-   Instead, explicitly specify the complete target type in the ``as`` expression or :std:`core::mem::transmute` call expression.
+   ``var as Type`` や :std:`core::mem::transmute` で明示的にポインタをキャストするとき、コードは Rust の型推論に頼ってはいけません。
+   代わりに、``as`` 式や :std:`core::mem::transmute` の呼び出し式で、変換先の完全な型を明示的に指定してください。
 
    .. rationale::
       :id: rat_h8LdJQ1MNKu9
       :status: draft
 
-      ``var as Type`` casts and :std:`core::mem::transmute`\s between raw pointer types are generally valid and unchecked by the compiler as long the target pointer type is a thin pointer.
-      Not specifying the concrete target pointer type allows the compiler to infer it from the surroundings context which may result in the cast accidentally changing due to surrounding type changes resulting in semantically invalid pointer casts.
+      生ポインタ型の間の ``var as Type`` によるキャストや :std:`core::mem::transmute` は、変換先のポインタ型が細いポインタである限り、一般に有効であり、コンパイラによって検査されません。
+      変換先の具体的なポインタ型を指定しないと、コンパイラは周囲の文脈からその型を推論します。そのため、周囲の型が変わったことでキャストが意図せず変わり、意味的に無効なポインタのキャストになることがあります。
 
-      Raw pointers have a variety of invariants to manually keep track of.
-      Specifying the concrete types in these scenarios allows the compiler to catch some of these potential issues for the user.
+      生ポインタには、手作業で把握しておかなければならないさまざまな不変条件があります。
+      このような場面で具体的な型を指定すると、こうした潜在的な問題の一部をコンパイラがユーザに代わって検出できるようになります。
 
    .. non_compliant_example::
       :id: non_compl_ex_V37Pl103aUW4
       :status: draft
 
-      The following code leaves it up to type inference to figure out the concrete types of the raw pointer casts, allowing changes to ``with_base``'s function signature to affect the types the function body of ``non_compliant_example`` without incurring a compiler error.
+      次のコードは、生ポインタのキャストの具体的な型を型推論に任せています。そのため、``with_base`` の関数シグネチャを変更すると、コンパイルエラーにならないまま、``non_compliant_example`` の関数本体の型に影響が及ぶことがあります。
 
       .. rust-example::
          :miri:
@@ -65,7 +65,7 @@ Avoid as underscore pointer casts
       :id: compl_ex_W08ckDrkOhkt
       :status: draft
 
-      We specify the concrete target types for our pointer casts resulting in a compilation error if the function signature of ``with_base`` is changed.
+      ポインタのキャストで変換先の具体的な型を指定しています。そのため、``with_base`` の関数シグネチャが変更されると、コンパイルエラーになります。
 
       .. rust-example::
          :miri:

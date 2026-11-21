@@ -3,5 +3,5 @@
 
 .. default-domain:: coding-guidelines
 
-Generics
-========
+ジェネリクス
+============

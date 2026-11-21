@@ -3,8 +3,8 @@
 
 .. default-domain:: coding-guidelines
 
-Process
-=======
+プロセス
+========
 
 .. toctree::
    :maxdepth: 1

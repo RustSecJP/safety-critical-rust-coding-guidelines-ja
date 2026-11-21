@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Recursive function are not allowed
+再帰関数は許可されません
 ==================================
 
-.. guideline:: Recursive function are not allowed
+.. guideline:: 再帰関数は許可されません
     :id: gui_ot2Zt3dd6of1 
     :category: required
     :status: draft
@@ -16,30 +16,30 @@ Recursive function are not allowed
     :scope: system
     :tags: stack-overflow
 
-    Any function shall not call itself directly or indirectly
+    いかなる関数も、直接的にも間接的にも自分自身を呼び出してはなりません
 
     .. rationale:: 
         :id: rat_gvoKeVSKK8fD 
         :status: draft
 
-        Recursive functions can easily cause stack overflows, which may result in exceptions or, in some cases, undefined behavior (typically some embedded systems). Although the Rust compiler supports tail call optimization :cite:`gui_ot2Zt3dd6of1:WIKI-TAIL-CALL`, this optimization is not guaranteed and depends on the specific implementation and function structure. There is an open RFC to guarantee tail call optimization in the Rust compiler :cite:`gui_ot2Zt3dd6of1:PROPOSED-RFC-EXPLICIT-TAIL-CALLS`, but this feature has not yet been stabilized. Until tail call optimization is guaranteed and stabilized, developers should avoid using recursive functions to prevent potential stack overflows and ensure program reliability.
+        再帰関数はスタックオーバーフローを容易に引き起こします。その結果、例外が発生したり、場合によっては未定義動作になったりします（典型的には一部の組み込みシステム）。Rust コンパイラは末尾呼び出し最適化 :cite:`gui_ot2Zt3dd6of1:WIKI-TAIL-CALL` をサポートしていますが、この最適化は保証されておらず、具体的な実装や関数の構造に依存します。Rust コンパイラで末尾呼び出し最適化を保証するためのオープンな RFC :cite:`gui_ot2Zt3dd6of1:PROPOSED-RFC-EXPLICIT-TAIL-CALLS` がありますが、この機能はまだ安定化されていません。末尾呼び出し最適化が保証され安定化されるまでは、起こりうるスタックオーバーフローを防ぎ、プログラムの信頼性を確保するために、開発者は再帰関数の使用を避けるべきです。
 
     .. non_compliant_example::
         :id: non_compl_ex_MxqhjfkStJJy 
         :status: draft
 
-        The below function ``concat_strings`` is not complaint because it call itself and depending on depth of data provided as input it could generate an stack overflow exception or undefine behavior.
+        以下の関数 ``concat_strings`` は適合していません。自分自身を呼び出しており、入力として与えられたデータの深さによっては、スタックオーバーフローの例外や未定義動作を発生させる可能性があるからです。
 
         .. rust-example::
 
-            // Recursive enum to represent a string or a list of `MyEnum`
+            // 文字列または `MyEnum` のリストを表す再帰的な列挙型
             #[allow(dead_code)]
             enum MyEnum {
                 Str(String),
                 List(Vec<MyEnum>),
             }
 
-            // Concatenates strings from a nested structure of `MyEnum` using recursion.
+            // 再帰を使って、`MyEnum` の入れ子構造から文字列を連結します。
             #[allow(dead_code)]
             fn concat_strings(input: &[MyEnum]) -> String {
                 let mut result = String::new();
@@ -58,33 +58,33 @@ Recursive function are not allowed
         :id: compl_ex_9pK3h65rfceO 
         :status: draft
 
-        The following code implements the same functionality using iteration instead of recursion. The ``stack`` variable is used to maintain the processing context at each step of the loop. This approach provides explicit control over memory usage. If the stack grows beyond a predefined limit due to the structure or size of the input, the function returns an error rather than risking a stack overflow or out-of-memory exception. This ensures more predictable and robust behavior in resource-constrained environments.
+        以下のコードは、再帰の代わりに反復を使って同じ機能を実装しています。``stack`` 変数は、ループの各ステップで処理のコンテキストを保持するために使われます。この方法では、メモリ使用量を明示的に制御できます。入力の構造やサイズのためにスタックがあらかじめ定めた上限を超えて大きくなった場合、この関数はスタックオーバーフローやメモリ不足の例外を起こす危険を冒すのではなく、エラーを返します。これにより、リソースが限られた環境で、より予測しやすく堅牢な動作が保証されます。
 
         .. rust-example::
 
-            // Recursive enum to represent a string or a list of `MyEnum`
+            // 文字列または `MyEnum` のリストを表す再帰的な列挙型
             #[allow(dead_code)]
             enum MyEnum {
                 Str(String),
                 List(Vec<MyEnum>),
             }
 
-            /// Concatenates strings from a nested structure of `MyEnum` without using recursion.
-            /// Returns an error if the stack size exceeds `MAX_STACK_SIZE`.
+            /// 再帰を使わずに、`MyEnum` の入れ子構造から文字列を連結します。
+            /// スタックのサイズが `MAX_STACK_SIZE` を超えた場合はエラーを返します。
             #[allow(dead_code)]
             fn concat_strings_non_recursive(input: &[MyEnum]) -> Result<String, &'static str> {
                 const MAX_STACK_SIZE: usize = 1000;
                 let mut result = String::new();
                 let mut stack = Vec::new();
 
-                // Add all items to the stack
+                // すべての要素をスタックに追加する
                 stack.extend(input.iter());
 
                 while let Some(item) = stack.pop() {
                     match item {
                         MyEnum::Str(s) => result.insert_str(0, s),
                         MyEnum::List(list) => {
-                            // Add list items to the stack
+                            // リストの要素をスタックに追加する
                             for sub_item in list.iter() {
                                 stack.push(sub_item);
                                 if stack.len() > MAX_STACK_SIZE {

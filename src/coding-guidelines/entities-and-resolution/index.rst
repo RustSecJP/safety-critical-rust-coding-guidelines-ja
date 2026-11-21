@@ -3,5 +3,5 @@
 
 .. default-domain:: coding-guidelines
 
-Entities And Resolution
+エンティティと名前解決
 =======================

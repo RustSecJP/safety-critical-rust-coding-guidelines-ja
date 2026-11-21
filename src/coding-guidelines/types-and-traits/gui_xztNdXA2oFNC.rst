@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Use strong types to differentiate between logically distinct values
+論理的に異なる値を区別するために強い型を使用する
 ===================================================================
 
-.. guideline:: Use strong types to differentiate between logically distinct values
+.. guideline:: 論理的に異なる値を区別するために強い型を使用する
    :id: gui_xztNdXA2oFNC
    :category: advisory
    :status: draft
@@ -16,47 +16,47 @@ Use strong types to differentiate between logically distinct values
    :scope: module
    :tags: types, safety, understandability
 
-   Parameters and variables with logically distinct types must be statically distinguishable by the type system.
+   論理的に異なる型を持つパラメータや変数は、型システムによって静的に区別できなければなりません。
 
-   Use a newtype (e.g., ``struct Meters(u32);``) when:
+   次のような場合には、ニュータイプ（例: ``struct Meters(u32);``）を使用してください。
    
-   * Two or more quantities share the same underlying primitive representation but are logically distinct
-   * Confusing them would constitute a semantic error
-   * You need to improve type safety and encapsulation
-   * You need to enable trait-based behavior
-   * You need to establish new invariants
+   * 2 つ以上の量が、基になるプリミティブ表現は同じだが、論理的には異なる場合
+   * それらを取り違えると意味上の誤りになる場合
+   * 型安全性とカプセル化を向上させる必要がある場合
+   * トレイトに基づく振る舞いを可能にする必要がある場合
+   * 新しい不変条件を確立する必要がある場合
    
    .. rationale::
       :id: rat_kYiIiW8R2qD2
       :status: draft
 
-      This rule ensures that parameters and variables convey intent directly through the type system to avoid accidental misuse of values with identical primitives but different semantics.
-      In particular:
+      このルールにより、パラメータや変数は型システムを通じて意図を直接伝えるようになります。これは、プリミティブは同じでも意味が異なる値を誤って使ってしまうことを避けるためです。
+      具体的には次のとおりです。
 
-      * Prevents mixing logically distinct values.
-        Primitive types like ``u32`` or ``u64`` can represent lengths, counters, timestamps, durations, IDs, or other values.
-        Different semantic domains can be confused, leading to incorrect computations.
-        The Rust type system prevents such mistakes when semantics are encoded into distinct types.
-      * Improves static safety.
-        Statically distinct types allow the compiler to enforce domain distinctions.
-        Accidental swapping of parameters or returning the wrong quantity becomes a compile-time error.
-      * Improves readability and discoverability.
-        Intent-revealing names (``Meters``, ``Seconds``, ``UserId``) make code self-documenting.
-        Type signatures become easier to read and understand.
-      * Enables domain-specific trait implementations.
-        Statically distinct types allow you to implement ``Add``, ``Mul``, or custom traits in ways that match the domain logic.
-        Aliases cannot do this, because they are not distinct types.
-      * Supports API evolution.
-        Statically distinct types act as strong API contracts that can evolve independently from their underlying representations.
+      * 論理的に異なる値が混ざるのを防ぎます。
+        ``u32`` や ``u64`` のようなプリミティブ型は、長さ、カウンタ、タイムスタンプ、期間、ID、その他の値を表すことができます。
+        異なる意味領域が取り違えられると、誤った計算につながります。
+        意味が別々の型として表現されていれば、Rust の型システムはそのような誤りを防ぎます。
+      * 静的な安全性を向上させます。
+        静的に異なる型により、コンパイラが領域の区別を強制できます。
+        パラメータを誤って入れ替えたり、間違った量を返したりすると、コンパイル時エラーになります。
+      * 読みやすさと見つけやすさを向上させます。
+        意図を表す名前（``Meters``、``Seconds``、``UserId``）により、コードが自己文書化されます。
+        型シグネチャが読みやすく、理解しやすくなります。
+      * 領域固有のトレイト実装を可能にします。
+        静的に異なる型により、``Add``、``Mul``、または独自のトレイトを、領域のロジックに合った方法で実装できます。
+        エイリアスではこれができません。エイリアスは別個の型ではないからです。
+      * API の進化を支えます。
+        静的に異なる型は強力な API 契約として機能し、基になる表現とは独立して進化させることができます。
 
    .. non_compliant_example::
       :id: non_compl_ex_PO5TyFsRTlWw
       :status: draft
 
-      This noncompliant example uses primitive types directly, leading to potential confusion between ``distance`` and ``time``.
-      Nothing prevents the caller from passing ``time`` as ``distance`` or vice-versa.
-      The units of each type are not clear from the function signature alone.
-      Mistakes compile cleanly and silently produce wrong results.
+      この不適合例はプリミティブ型を直接使っているため、``distance`` と ``time`` を取り違えるおそれがあります。
+      呼び出し側が ``time`` を ``distance`` として渡すこと、またはその逆を妨げるものは何もありません。
+      関数シグネチャだけからは、それぞれの型の単位がわかりません。
+      誤りがあっても問題なくコンパイルされ、黙って誤った結果を生み出します。
 
        .. rust-example::
 
@@ -67,21 +67,21 @@ Use strong types to differentiate between logically distinct values
          fn main() {
             let d = 100;
             let t = 10;
-            let _result = travel(t, d);  // Compiles, but semantically incorrect
+            let _result = travel(t, d);  // コンパイルは通るが、意味的に誤っている
          }
 
    .. non_compliant_example::
       :id: non_compl_ex_PO5TyFsRTlWv
       :status: draft
 
-      This noncompliant example uses aliases instead of distinct types.
-      Aliases do not create new types, so the compiler cannot enforce distinctions between ``Meters`` and ``Seconds``.
+      この不適合例は、別個の型の代わりにエイリアスを使っています。
+      エイリアスは新しい型を作らないので、コンパイラは ``Meters`` と ``Seconds`` の区別を強制できません。
      
-      Aliases cannot do this, because they are not distinct types.
-      This noncompliant example uses primitive types directly, leading to potential confusion between ``distance`` and ``time``.
-      Nothing prevents the caller from passing ``time`` as ``distance`` or vice-versa.
-      The units of each type are not clear from the function signature alone.
-      Mistakes compile cleanly and silently produce wrong results.
+      エイリアスではこれができません。エイリアスは別個の型ではないからです。
+      この不適合例はプリミティブ型を直接使っているため、``distance`` と ``time`` を取り違えるおそれがあります。
+      呼び出し側が ``time`` を ``distance`` として渡すこと、またはその逆を妨げるものは何もありません。
+      関数シグネチャだけからは、それぞれの型の単位がわかりません。
+      誤りがあっても問題なくコンパイルされ、黙って誤った結果を生み出します。
 
        .. rust-example::
 
@@ -96,16 +96,16 @@ Use strong types to differentiate between logically distinct values
          fn main() {
             let d: Meters = 100;
             let t: Seconds = 10;
-            let _result = travel(t, d);  // Compiles, but semantically incorrect
+            let _result = travel(t, d);  // コンパイルは通るが、意味的に誤っている
          }
 
    .. compliant_example::
       :id: compl_ex_WTe7GoPu5Ez1
       :status: draft
 
-      This compliant example uses newtypes to create distinct types for ``Meters``, ``Seconds``, and ``MetersPerSecond``.
-      The compiler enforces correct usage, preventing accidental swapping of parameters.
-      The function signature clearly conveys the intended semantics of each parameter and return value.  
+      この適合例は、ニュータイプを使って ``Meters``、``Seconds``、``MetersPerSecond`` を別個の型にしています。
+      コンパイラが正しい使い方を強制するので、パラメータを誤って入れ替えることを防げます。
+      関数シグネチャは、各パラメータと戻り値の意図した意味を明確に伝えます。
 
        .. rust-example::
 
@@ -131,6 +131,6 @@ Use strong types to differentiate between logically distinct values
           fn main() {
               let d = Meters(100);
               let t = Seconds(10);
-              let result = d / t;  // Clean and type-safe!
-              println!("Speed: {} m/s", result.0);  // Access the inner value
+              let result = d / t;  // すっきりしていて型安全！
+              println!("Speed: {} m/s", result.0);  // 内部の値にアクセスする
           }

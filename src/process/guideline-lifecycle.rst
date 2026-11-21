@@ -3,6 +3,8 @@
 
 .. default-domain:: coding-guidelines
 
-###################
-Guideline Lifecycle
-###################
+.. _Guideline Lifecycle:
+
+################################
+ガイドラインのライフサイクル
+################################

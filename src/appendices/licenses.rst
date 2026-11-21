@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Licenses
-========
+ライセンス
+==========
 
-Ferrocene Language Specification Apache License
+Ferrocene 言語仕様の Apache ライセンス
 -----------------------------------------------
 
 Apache License
@@ -86,7 +86,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 
 
-Ferrocene Specification MIT License
+Ferrocene 仕様の MIT ライセンス
 -----------------------------------
 
 **Copyright (c) The Ferrocene Developers**
@@ -109,8 +109,8 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
-Rust Reference Apache License
------------------------------
+Rust リファレンスの Apache ライセンス
+-------------------------------------
 
 Apache License
 
@@ -299,8 +299,8 @@ under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
 CONDITIONS OF ANY KIND, either express or implied. See the License for the
 specific language governing permissions and limitations under the License.
 
-Rust Reference MIT License
---------------------------
+Rust リファレンスの MIT ライセンス
+----------------------------------
 
 **Copyright (c) 2010 The Rust Project Developers**
 

@@ -3,24 +3,24 @@
 
 .. default-domain:: coding-guidelines
 
-###############
-Style Guideline
-###############
+##############################
+スタイルガイドライン
+##############################
 
 ******************************
-Specifying requirements levels
+要求レベルの指定
 ******************************
 
-We follow `IETF RFC 2119 <https://datatracker.ietf.org/doc/html/rfc2119>`_
-for specifying requirements levels.
+要求レベルの指定には `IETF RFC 2119 <https://datatracker.ietf.org/doc/html/rfc2119>`_
+に従います。
 
-*****************************
-Example of a coding guideline
-*****************************
+******************************
+コーディングガイドラインの例
+******************************
 
-Below is an example of a coding guideline.
+以下はコーディングガイドラインの例です。
 
-We will examine each part:
+それぞれの部分を見ていきます。
 
 * ``guideline``
 * ``rationale``
@@ -65,8 +65,8 @@ We will examine each part:
 
              fn main() {
                  let x = 0;
-                 let _y = 5 / x; // This line will panic.
-                 let _z = 5 % x; // This line would also panic.
+                 let _y = 5 / x; // この行はパニックします。
+                 let _z = 5 % x; // この行もパニックします。
              }
 
       .. compliant_example::
@@ -79,13 +79,13 @@ We will examine each part:
          .. rust-example::
 
             fn main() {
-                // Using the checked division API
+                // 検査付き除算の API を使う
                 let _y = match 5i32.checked_div(0) {
                     None => 0,
                     Some(r) => r,
                 };
 
-                // Using the checked remainder API
+                // 検査付き剰余の API を使う
                 let _z = match 5i32.checked_rem(0) {
                     None => 0,
                     Some(r) => r,
@@ -141,26 +141,27 @@ We will examine each part:
       :scope: module
       :tags: numerics, subset
 
-``guideline`` Title
--------------------
+``guideline`` のタイトル
+------------------------
 
-The Title **MUST** provide a description of the guideline.
+タイトルはガイドラインの説明を提供 **しなければなりません（MUST）** 。
 
-``guideline`` ``id``
---------------------
+``guideline`` の ``id``
+-----------------------
 
-A unique identifier for each guideline. Guideline identifiers **MUST** begin with ``gui_``.
+各ガイドラインの一意な識別子です。ガイドラインの識別子は ``gui_`` で始まら
+**なければなりません（MUST）** 。
 
-These identifiers are considered **stable** across releases and **MUST NOT** be removed.
-See ``status`` below for more.
+これらの識別子はリリースをまたいで **安定** しているものとみなされ、削除しては
+**なりません（MUST NOT）** 。詳しくは後述の ``status`` を参照してください。
 
-**MUST** be generated using the ``generate_guideline_templates.py`` script to ensure
-compliance.
+規則に従うことを確実にするため、 ``generate_guideline_templates.py`` スクリプトを使って生成
+**しなければなりません（MUST）** 。
 
 ``category``
 ------------
 
-**MUST** be one of these values:
+次のいずれかの値で **なければなりません（MUST）** 。
 
 * ``mandatory``
 * ``required``
@@ -170,209 +171,205 @@ compliance.
 ``mandatory``
 ^^^^^^^^^^^^^
 
-Code claimed to be in compliance with this document **MUST** follow every guideline marked as ``mandatory``.
+この文書に準拠していると主張するコードは、 ``mandatory`` と指定されたすべてのガイドラインに従わ **なければなりません（MUST）** 。
 
-*TODO(pete.levasseur): Add more tips on when this is a good choice for a guideline.*
+*TODO(pete.levasseur): どのような場合にガイドラインにこれを選ぶのがよいか、ヒントをさらに追加する。*
 
 ``required``
 ^^^^^^^^^^^^
 
-Code claimed to be in compliance with this document **MUST** follow every guideline marked as ``required``,
-with a formal deviation required as outlined in :ref:`Compliance`, where this is not the case.
+この文書に準拠していると主張するコードは、 ``required`` と指定されたすべてのガイドラインに従わ **なければなりません（MUST）** 。
+従わない場合は、 :ref:`Compliance` に記載されているとおり、正式な逸脱が必要です。
 
-An organization or project **MAY** choose to recategorize any ``required`` guideline to ``mandatory``.
+組織やプロジェクトは、任意の ``required`` のガイドラインを ``mandatory`` に再分類することを選んで **もかまいません（MAY）** 。
 
-*TODO(pete.levasseur): Add more tips on when this is a good choice for a guideline.*
+*TODO(pete.levasseur): どのような場合にガイドラインにこれを選ぶのがよいか、ヒントをさらに追加する。*
 
 ``advisory``
 ^^^^^^^^^^^^
 
-These are recommendations and **SHOULD** be applied. However, the category of ``advisory`` does not mean
-that these items can be ignored, but rather that they **SHOULD** be followed as far as reasonably practical.
-Formal deviation is not necessary for advisory guidelines but, if the formal deviation process is not followed,
-alternative arrangements **MUST** be made for documenting non-compliances.
+これらは推奨事項であり、適用 **すべきです（SHOULD）** 。ただし、 ``advisory`` というカテゴリは、
+これらの項目を無視してよいという意味ではありません。合理的に実行可能な限り従う **べき（SHOULD）** である、という意味です。
+advisory のガイドラインには正式な逸脱は必要ありません。しかし、正式な逸脱プロセスに従わない場合は、
+不遵守を文書化するための代わりの手立てを講じ **なければなりません（MUST）** 。
 
-An organization or project **MAY** choose to recategorize any ``advisory`` guideline as ``mandatory``
-or ``required``, or as ``disapplied``.
+組織やプロジェクトは、任意の ``advisory`` のガイドラインを ``mandatory`` や ``required`` 、
+あるいは ``disapplied`` に再分類することを選んで **もかまいません（MAY）** 。
 
-If contributing a guideline, you **MAY** choose to submit it as ``advisory``
-and ask for support in assigning the guideline the correct category.
+ガイドラインを提案する場合は、 ``advisory`` として提出し、
+ガイドラインに正しいカテゴリを割り当てるための支援を求めて **もかまいません（MAY）** 。
 
-*TODO(pete.levasseur): Add more tips on when this is a good choice for a guideline.*
+*TODO(pete.levasseur): どのような場合にガイドラインにこれを選ぶのがよいか、ヒントをさらに追加する。*
 
 ``disapplied``
 ^^^^^^^^^^^^^^
 
-These are guidelines for which no enforcement is expected and any non-compliance **MAY** be disregarded.
+これらは強制が想定されていないガイドラインであり、不遵守はすべて無視して **もかまいません（MAY）** 。
 
-Where a guideline does not apply to the chosen release of the Rust compiler, it **MUST** be treated
-as ``disapplied`` for the purposes of coding guideline :ref:`Compliance`.
+選択した Rust コンパイラのリリースにガイドラインが当てはまらない場合、コーディングガイドラインの
+:ref:`Compliance` においては、そのガイドラインを ``disapplied`` として扱わ **なければなりません（MUST）** 。
 
-An organization or project **MAY** choose to recategorize any ``disapplied`` guideline as ``mandatory``
-or ``required``, or as ``advisory``.
+組織やプロジェクトは、任意の ``disapplied`` のガイドラインを ``mandatory`` や ``required`` 、
+あるいは ``advisory`` に再分類することを選んで **もかまいません（MAY）** 。
 
-*Note*: Rather than changing the categorization of a guideline to ``disapplied`` when we wish to
-make it not applicable, we **MUST** instead leave the categorization as-is and instead change
-the ``status`` to ``retired``.
+*注*: ガイドラインを適用対象外にしたいときは、ガイドラインのカテゴリを ``disapplied`` に変更するのではなく、
+カテゴリはそのままにして、代わりに ``status`` を ``retired`` に変更 **しなければなりません（MUST）** 。
 
-*TODO(pete.levasseur): Add more tips on when this is a good choice for a guideline.*
+*TODO(pete.levasseur): どのような場合にガイドラインにこれを選ぶのがよいか、ヒントをさらに追加する。*
 
-``guideline`` ``status``
-------------------------
+``guideline`` の ``status``
+---------------------------
 
-**MUST** be one of these values:
+次のいずれかの値で **なければなりません（MUST）** 。
 
 * ``draft``
 * ``approved``
 * ``retired``
 
-Guidelines have a lifecycle. When they are first proposed and **MUST** be marked as ``draft``
-to allow adoption and feedback to accrue. The Coding Guidelines Subcommittee **MUST**
-periodically review ``draft`` guidelines and either promote them to ``approved``
-or demote them to ``retired``.
+ガイドラインにはライフサイクルがあります。最初に提案されたときは、採用とフィードバックが蓄積されるように
+``draft`` と指定され **なければなりません（MUST）** 。コーディングガイドライン小委員会は、
+``draft`` のガイドラインを定期的に見直し、 ``approved`` に昇格させるか ``retired`` に降格させるかを
+決め **なければなりません（MUST）** 。
 
-From time to time an ``approved`` guideline **MAY** be moved to ``retired``. There
-could be a number of reasons, such as: a guideline which was a poor fit or wrong,
-or in order to make a single guideline more granular and replace it with
-more than one guideline.
+``approved`` のガイドラインが ``retired`` に移されることも、ときには **あり得ます（MAY）** 。
+その理由はいくつか考えられます。たとえば、ガイドラインがうまく当てはまらなかったり間違っていたりした場合や、
+1 つのガイドラインをより細かくして複数のガイドラインに置き換える場合です。
 
-For more, see :ref:`Guideline Lifecycle`.
+詳しくは :ref:`Guideline Lifecycle` を参照してください。
 
 ``draft``
 ^^^^^^^^^
 
-These guidelines are not yet considered in force, but are mature enough they **MAY** be enforced.
-No formal deviation is required as outlined in :ref:`Compliance`, but alternative arrangements
-**MUST** be made for documenting non-compliances.
+これらのガイドラインはまだ効力があるとはみなされませんが、強制して **もかまわない（MAY）** 程度には成熟しています。
+:ref:`Compliance` に記載されているような正式な逸脱は必要ありませんが、不遵守を文書化するための
+代わりの手立てを講じ **なければなりません（MUST）** 。
 
-*Note*: ``draft`` guideline usage and feedback will help to either promote them to ``approved`` or demote
-them to ``retired``.
+*注*: ``draft`` のガイドラインを使ってもらい、フィードバックを得ることで、 ``approved`` への昇格か
+``retired`` への降格かを決める助けになります。
 
 ``approved``
 ^^^^^^^^^^^^
 
-These guidelines **MUST** be enforced. Any deviations **MUST** follow the rule for their
-appropriate ``category``.
+これらのガイドラインは強制され **なければなりません（MUST）** 。逸脱はすべて、それぞれの
+``category`` に応じた規則に従わ **なければなりません（MUST）** 。
 
 ``retired``
 ^^^^^^^^^^^^^^
 
-These are guidelines for which no enforcement is expected and any non-compliance **MAY** be disregarded.
+これらは強制が想定されていないガイドラインであり、不遵守はすべて無視して **もかまいません（MAY）** 。
 
-*Note*: The ``retired`` ``status`` supersedes any ``category`` assigned a guideline, effectively
-conferring upon the guideline the ``category`` of ``disapplied`` with no ability to recategorize it
-to ``mandatory``, ``required``, or ``advisory``. The ``category`` assigned the guideline at the time
-it is retired is kept.
+*注*: ``retired`` の ``status`` は、ガイドラインに割り当てられたどの ``category`` よりも優先されます。
+つまり実質的に、そのガイドラインには ``disapplied`` の ``category`` が与えられ、 ``mandatory`` 、
+``required`` 、 ``advisory`` のいずれにも再分類できなくなります。ガイドラインが廃止された時点で
+割り当てられていた ``category`` はそのまま残されます。
 
 ``release``
 ------------------------
 
-Each guideline **MUST** note the Rust compiler releases to which the guideline is applicable.
+各ガイドラインには、そのガイドラインが当てはまる Rust コンパイラのリリースを記載 **しなければなりません（MUST）** 。
 
-A guideline likely **MAY** apply to more than one release.
+ガイドラインは、おそらく複数のリリースに当てはまることが **あり得ます（MAY）** 。
 
-If a guideline applies to more than one release, the list **MUST** be semicolon separated.
+ガイドラインが複数のリリースに当てはまる場合、そのリストはセミコロン区切りで **なければなりません（MUST）** 。
 
 ``fls``
 -------
 
-Each guideline **MUST** have linkage to an appropriate ``paragraph-id`` from the
-FLS. That linkage to the FLS is the means by which the guidelines cover exactly
-the specification, no more and no less.
+各ガイドラインは、FLS の適切な ``paragraph-id`` へのつながりを持た **なければなりません（MUST）** 。
+この FLS へのつながりによって、ガイドラインは仕様を過不足なく、ちょうど網羅します。
 
-A single FLS ``paragraph-id`` **MAY** have more than one guideline which applies to it.
+1 つの FLS の ``paragraph-id`` に、複数のガイドラインが当てはまって **もかまいません（MAY）** 。
 
 ``decidability``
 ----------------
 
-**MUST** be one of these values:
+次のいずれかの値で **なければなりません（MUST）** 。
 
 * ``decidable``
 * ``undecidable``
 
-``decidability`` describes the theoretical ability of a static analyzer to answer the
-question: "Does this code comply with this rule?"
+``decidability`` （決定可能性）は、静的解析器が「このコードはこのルールに準拠しているか？」
+という問いに答えられるかどうかという、理論上の能力を表します。
 
-A guideline **MUST** be classified as  ``decidable`` if it is possible for such a static
-analyzer to answer the question with "yes" or "no" in *every case* and **MUST** be classified
-as ``undecidable`` otherwise.
+そのような静的解析器が *すべての場合において* この問いに「はい」か「いいえ」で答えられるなら、
+ガイドラインは ``decidable`` （決定可能）に分類され **なければならず（MUST）** 、そうでなければ
+``undecidable`` （決定不能）に分類され **なければなりません（MUST）** 。
 
 
 ``scope``
 ---------
 
-**MUST** be one of these values:
+次のいずれかの値で **なければなりません（MUST）** 。
 
 * ``module``
 * ``crate``
 * ``system``
 
-The ``scope`` describes at which level of program scope the guideline can be confirmed followed
-for each instance of code for which a guideline applies.
+``scope`` は、ガイドラインが当てはまるコードの各箇所について、プログラムのどのレベルのスコープで
+ガイドラインに従っていることを確認できるかを表します。
 
-For example, if there for each instance of ``unsafe`` code usage there may be guidelines which
-must then be checked at the module level. This must be done since if a single usage of ``unsafe``
-is used in a module, the entire module must be checked for certain invariants.
+たとえば、 ``unsafe`` なコードが使われている各箇所について、モジュールレベルで確認しなければならない
+ガイドラインがあるかもしれません。これが必要なのは、あるモジュールの中で ``unsafe`` が 1 回でも
+使われていれば、特定の不変条件についてモジュール全体を確認しなければならないからです。
 
-When writing guidelines we **MUST** attempt to lower the ``scope`` as small as possible and as
-allowed by the semantics to improve tractability of their application.
+ガイドラインを書くときは、適用しやすくするため、セマンティクスが許す限り ``scope`` をできるだけ小さく
+するよう努め **なければなりません（MUST）** 。
 
 ``module``
 ^^^^^^^^^^
 
-A guideline which is able to be checked at the module level without reference
-to other modules or crates **MUST** be classified as ``module``.
+ほかのモジュールやクレートを参照せずにモジュールレベルで確認できるガイドラインは、
+``module`` に分類され **なければなりません（MUST）** 。
 
 ``crate``
 ^^^^^^^^^
 
-A guideline which cannot be checked at the module level, but which does not require the
-entire source text **MUST** be classified as ``crate``.
+モジュールレベルでは確認できないものの、ソーステキスト全体を必要としないガイドラインは、
+``crate`` に分類され **なければなりません（MUST）** 。
 
 ``system``
 ^^^^^^^^^^
 
-A guideline which cannot be checked at the module or crate level and requires the entire
-source text **MUST** be classified as ``system``.
+モジュールレベルでもクレートレベルでも確認できず、ソーステキスト全体を必要とするガイドラインは、
+``system`` に分類され **なければなりません（MUST）** 。
 
 
 ``tags``
 --------
 
-The ``tags`` are largely descriptive, not prescriptive means of finding commonality between
-similar guidelines.
+``tags`` は主に記述的なものであり、規範的なものではありません。似たガイドラインの間の共通点を
+見つけるための手段です。
 
-Each guideline **MUST** have at least one item listed in ``tags``.
+各ガイドラインは、 ``tags`` に少なくとも 1 つの項目を持た **なければなりません（MUST）** 。
 
-Guideline Content
------------------
+ガイドラインの内容
+------------------
 
-Each ``guideline`` **MUST** have content which follows the options to give an overview of
-what it covers.
+各 ``guideline`` は、オプションに続けて、そのガイドラインが何を扱うかの概要を示す内容を持た
+**なければなりません（MUST）** 。
 
-Content **SHOULD** aim to be as short and self-contained as possible, while still explaining
-the scope of the guideline.
+内容は、ガイドラインの範囲を説明しつつも、できるだけ短く、それだけで完結したものを目指す
+**べきです（SHOULD）** 。
 
-Guideline content consists of an Amplification and any Exceptions, which are normative,
-supported by a Rationale and examples, which are not normative.
-The justification extended explanation for the guideline **SHOULD** appear in the non-normative
-Rationale rather than in the normative content.
+ガイドラインの内容は、規範的な補足（Amplification）と例外（Exception）から成り、
+規範的でない根拠（Rationale）と例によって裏付けられます。
+ガイドラインの正当性を示す詳しい説明は、規範的な内容ではなく、規範的でない根拠に書く
+**べきです（SHOULD）** 。
 
-Amplification
-^^^^^^^^^^^^^
+補足
+^^^^
 
-The *Amplification* is the block of text that **MAY** appear immediately below the guideline
-attribute block, before any other subheadings.
-If it is provided, the Amplification is normative; if it conflicts with the ``guideline`` Title,
-the Amplification **MUST** take precedence. This mechanism is convenient as it allows a complicated
-concept to be conveyed using a short Title and refined by the text below.
+*補足* （Amplification）は、ガイドラインのアトリビュートブロックのすぐ下、ほかの小見出しより前に
+置いて **もかまわない（MAY）** テキストのブロックです。
+補足を書いた場合、それは規範的です。 ``guideline`` のタイトルと食い違う場合は、補足が優先され
+**なければなりません（MUST）** 。この仕組みは便利です。複雑な概念を短いタイトルで伝え、
+その下のテキストで詳しく絞り込めるからです。
 
-Content in the Amplification **SHOULD NOT** cover the rationale for the guideline or any
-non-normative explanations, which **SHOULD** be provided in the ``rationale`` and examples sections
-where helpful.
+補足の内容では、ガイドラインの根拠や規範的でない説明を扱う **べきではありません（SHOULD NOT）** 。
+それらは、役に立つ場合には ``rationale`` や例のセクションで示す **べきです（SHOULD）** 。
 
-The Amplification **MAY** contain citations to the bibliography using the ``:cite:`` role
-(see `Citation Roles`_ below).
+補足では、 ``:cite:`` ロールを使って参考文献を引用して **もかまいません（MAY）**
+（後述の `引用ロール`_ を参照）。
 
 ::
 
@@ -381,25 +378,23 @@ The Amplification **MAY** contain citations to the bibliography using the ``:cit
       expression :cite:`gui_7y0GAMmtMhch:FLS-REMAINDER-EXPR` when the left operand also has
       integer type.
 
-Exception
-^^^^^^^^^
+例外
+^^^^
 
-Guideline Content **MAY** contain a section titled *Exception* followed by text that that describes
-situations in which the guideline does not apply. The use of exceptions permits the description of
-some guidelines to be simplified. It is important to note that an exception is a situation in which
-a guideline does not apply. Code that complies with a guideline by virtue of an exception does not
-require a deviation.
+ガイドラインの内容には、 *例外* （Exception）という題のセクションを含めて **もかまいません（MAY）** 。
+その後には、ガイドラインが当てはまらない状況を説明するテキストを続けます。例外を使うと、
+一部のガイドラインの記述を簡単にできます。例外とは、ガイドラインが当てはまらない状況のことである、
+という点に注意することが大切です。例外によってガイドラインに準拠しているコードには、逸脱は必要ありません。
 
-If it is provided, the Exception is normative; if it conflicts with the ``guideline`` Title or the
-Amplification, the Exception takes precedence over both. Depending on the individual guideline, it
-may be clearer to have an Amplification or Title with an explicit Exception overriding parts of
-their description, or it may be clearer to express excepted cases as integrated sentences in the
-Amplification. This decision is editorial.
+例外を書いた場合、それは規範的です。 ``guideline`` のタイトルや補足と食い違う場合は、例外がその両方に
+優先します。個々のガイドラインによって、補足やタイトルに明示的な例外を付けて記述の一部を上書きする方が
+わかりやすいこともあれば、例外となる場合を補足の中の文として組み込んで表す方がわかりやすいこともあります。
+この判断は編集上のものです。
 
 ``rationale``
 =============
 
-Each Guideline **MUST** provide a *Rationale* for its inclusion and enforcement.
+各ガイドラインは、それを含めて強制する理由として *根拠* （Rationale）を示さ **なければなりません（MUST）** 。
 
 ::
 
@@ -411,32 +406,31 @@ Each Guideline **MUST** provide a *Rationale* for its inclusion and enforcement.
          has a value of zero. Division by zero is undefined in mathematics because it leads
          to contradictions and there is no consistent value that can be assigned as its result.
 
-``rationale`` ``id``
---------------------
+``rationale`` の ``id``
+-----------------------
 
-A unique identifier for each rationale. Rationale identifiers **MUST** begin with ``rat_``.
+各根拠の一意な識別子です。根拠の識別子は ``rat_`` で始まら **なければなりません（MUST）** 。
 
-These identifiers are considered **stable** across releases and **MUST NOT** be removed.
-See ``status`` below for more.
+これらの識別子はリリースをまたいで **安定** しているものとみなされ、削除しては
+**なりません（MUST NOT）** 。詳しくは後述の ``status`` を参照してください。
 
-**MUST** be generated using the ``generate_guideline_templates.py`` script to ensure
-compliance.
+規則に従うことを確実にするため、 ``generate_guideline_templates.py`` スクリプトを使って生成
+**しなければなりません（MUST）** 。
 
-``rationale`` ``status``
-------------------------
+``rationale`` の ``status``
+---------------------------
 
-The ``status`` option of a ``rationale`` **MUST** match the ``status`` of its parent ``guideline``.
+``rationale`` の ``status`` オプションは、親の ``guideline`` の ``status`` と一致し
+**なければなりません（MUST）** 。
 
-Rationale Content
------------------
+根拠の内容
+----------
 
-The content of the rationale **SHOULD** provide the relevant context for why this guideline is useful.
-The Rationale **SHOULD** make reference to any undefined behaviors or known errors associated
-with the subject of the guideline.
-The Rationale **MAY** make reference to other guidelines or to external documents cited in the
-References.
+根拠の内容は、このガイドラインがなぜ役に立つのかについて、関連する背景を示す **べきです（SHOULD）** 。
+根拠は、ガイドラインの対象に関係する未定義動作や既知のエラーに言及する **べきです（SHOULD）** 。
+根拠は、ほかのガイドラインや、参考文献に挙げた外部の文書に言及して **もかまいません（MAY）** 。
 
-The Rationale **SHOULD** be supported by code examples wherever concise examples are possible.
+簡潔な例を示せる場合は、根拠をコード例で裏付ける **べきです（SHOULD）** 。
 
 ``non_compliant_example``
 =========================
@@ -455,69 +449,67 @@ The Rationale **SHOULD** be supported by code examples wherever concise examples
 
              fn main() {
                  let x = 0;
-                 let _y = 5 / x; // This line will panic.
-                 let _z = 5 % x; // This line would also panic.
+                 let _y = 5 / x; // この行はパニックします。
+                 let _z = 5 % x; // この行もパニックします。
              }
 
-``non_compliant_example`` ``id``
+``non_compliant_example`` の ``id``
+-----------------------------------
+
+各 ``non_compliant_example`` の一意な識別子です。 ``non_compliant_example`` の識別子は
+``non_compl_ex_`` で始まら **なければなりません（MUST）** 。
+
+これらの識別子はリリースをまたいで **安定** しているものとみなされ、削除しては
+**なりません（MUST NOT）** 。詳しくは後述の ``status`` を参照してください。
+
+規則に従うことを確実にするため、 ``generate_guideline_templates.py`` スクリプトを使って生成
+**しなければなりません（MUST）** 。
+
+``non_compliant_example`` の ``status``
+---------------------------------------
+
+``non_compl_ex`` の ``status`` オプションは、親の ``guideline`` の ``status`` と一致し
+**なければなりません（MUST）** 。
+
+``non_compliant_example`` の内容
 --------------------------------
 
-A unique identifier for each ``non_compliant_example``. ``non_compliant_example`` identifiers
-**MUST** begin with ``non_compl_ex_``.
+``non_compliant_example`` の内容セクションには、コードの説明とコード例の両方を含め **なければなりません（MUST）** 。
 
-These identifiers are considered **stable** across releases and **MUST NOT** be removed.
-See ``status`` below for more.
+``non_compliant_example`` は規範的でもなく、網羅的でもありません。 ``guideline`` の内容が優先され **なければなりません（MUST）** 。
 
-**MUST** be generated using the ``generate_guideline_templates.py`` script to ensure
-compliance.
+``non_compliant_example`` のコードの説明
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``non_compliant_example`` ``status``
-------------------------------------
+``non_compliant_example`` のコードの説明では、ガイドラインを適用しないと望ましくないコードになる理由を、
+文章で説明し **なければなりません（MUST）** 。
 
-The ``status`` option of a ``non_compl_ex`` **MUST** match the ``status`` of its parent ``guideline``.
+``non_compliant_example`` のコードの説明は、1 文以内の簡単な説明で **もかまいません（MAY）** 。
 
-``non_compliant_example`` Content
----------------------------------
+``non_compliant_example`` のコードの説明は、続くコード例を説明するのに必要な長さにとどめる
+**べきです（SHOULD）** 。
 
-The Content section of a ``non_compliant_example`` **MUST** contain both a Code Explanation and Code Example.
+``non_compliant_example`` のコード例
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The ``non_compliant_example`` is neither normative, nor exhaustive. ``guideline`` Content **MUST** take precedence.
+``non_compliant_example`` のコード例は ``.. rust-example::`` ディレクティブを使わ **なければなりません（MUST）**
+（後述の `rust-example ディレクティブ`_ を参照）。
 
-``non_compliant_example`` Code Explanation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``non_compliant_example`` のコード例は、できるだけ短く、わかりやすくする **べきです（SHOULD）** 。
 
-The Code Explanation of a ``non_compliant_example`` **MUST** explain in prose the reason the guideline
-when not applied results in code which is undesirable.
+``non_compliant_example`` のコード例が複雑または長い場合は、わかりやすくするためのコメントを含める
+**べきです（SHOULD）** 。
 
-The Code Explanation of a ``non_compliant_example`` **MAY** be a simple explanation no longer than
-a sentence.
-
-The Code Explanation of a ``non_compliant_example`` **SHOULD** be no longer than necessary to explain
-the Code Example that follows.
-
-``non_compliant_example`` Code Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-A ``non_compliant_example`` Code Example **MUST** use the ``.. rust-example::`` directive
-(see `The rust-example Directive`_ below).
-
-A ``non_compliant_example`` Code Example **SHOULD** be made as short and simple to understand
-as possible.
-
-A ``non_compliant_example`` Code Example **SHOULD** include clarifying comments if complex and/or
-long.
-
-The Code Example of a ``non_compliant_example`` **MUST NOT** contain a guideline violation other
-than the current guideline.
+``non_compliant_example`` のコード例は、現在のガイドライン以外のガイドライン違反を含んでは
+**なりません（MUST NOT）** 。
 
 ``compliant_example``
 =====================
 
-A compliant example **SHOULD** be omitted when the guideline forbids an action entirely, i.e. there
-is no compliant way to achieve the goal of the non-compliant code, rather than giving an irrelevant
-example (or encouraging strange workarounds).
-When there is a clear and idiomatic compliant way to achieve the goal, a compliant example **SHOULD**
-be provided after the corresponding non-compliant example.
+ガイドラインがある行為を全面的に禁止している場合、つまり不適合なコードの目的を適合する方法で達成する手段が
+ない場合は、関係のない例を示す（あるいは奇妙な回避策を勧める）のではなく、適合例を省く **べきです（SHOULD）** 。
+目的を達成する明確で慣用的な適合する方法がある場合は、対応する不適合例の後に適合例を示す
+**べきです（SHOULD）** 。
 
 ::
 
@@ -531,76 +523,75 @@ be provided after the corresponding non-compliant example.
          .. rust-example::
 
             fn main() {
-                // Using the checked division API
+                // 検査付き除算の API を使う
                 let _y = match 5i32.checked_div(0) {
                     None => 0,
                     Some(r) => r,
                 };
 
-                // Using the checked remainder API
+                // 検査付き剰余の API を使う
                 let _z = match 5i32.checked_rem(0) {
                     None => 0,
                     Some(r) => r,
                 };
             }
 
-``compliant_example`` ``id``
+``compliant_example`` の ``id``
+-------------------------------
+
+各 ``compliant_example`` の一意な識別子です。 ``compliant_example`` の識別子は
+``compl_ex_`` で始まら **なければなりません（MUST）** 。
+
+これらの識別子はリリースをまたいで **安定** しているものとみなされ、削除しては
+**なりません（MUST NOT）** 。詳しくは後述の ``status`` を参照してください。
+
+規則に従うことを確実にするため、 ``generate_guideline_templates.py`` スクリプトを使って生成
+**しなければなりません（MUST）** 。
+
+``compliant_example`` の ``status``
+-----------------------------------
+
+``compl_ex`` の ``status`` オプションは、親の ``guideline`` の ``status`` と一致し
+**なければなりません（MUST）** 。
+
+``compliant_example`` の内容
 ----------------------------
 
-A unique identifier for each ``compliant_example``. ``compliant_example`` identifiers
-**MUST** begin with ``compl_ex_``.
+``compliant_example`` の内容セクションには、コードの説明とコード例の両方を含め **なければなりません（MUST）** 。
 
-These identifiers are considered **stable** across releases and **MUST NOT** be removed.
-See ``status`` below for more.
+``compliant_example`` は規範的でもなく、網羅的でもありません。 ``guideline`` の内容が優先され **なければなりません（MUST）** 。
 
-**MUST** be generated using the ``generate_guideline_templates.py`` script to ensure
-compliance.
+``compliant_example`` のコードの説明
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-``compliant_example`` ``status``
---------------------------------
+`compliant_example` のコードの説明は、1 文以内の簡単な説明で **もかまいません（MAY）** 。
 
-The ``status`` option of a ``compl_ex`` **MUST** match the ``status`` of its parent ``guideline``.
-
-``compliant_example`` Content
------------------------------
-
-The Content section of a ``compliant_example`` **MUST** contain both a Code Explanation and Code Example.
-
-The ``compliant_example`` is neither normative, nor exhaustive. ``guideline`` Content **MUST** take precedence.
-
-``compliant_example`` Code Explanation
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The Code Explanation of a `compliant_example` **MAY** be a simple explanation no longer than
-a sentence.
-
-The Code Explanation of a ``compliant_example`` **SHOULD** be no longer than necessary to explain
-the Code Example that follows.
+``compliant_example`` のコードの説明は、続くコード例を説明するのに必要な長さにとどめる
+**べきです（SHOULD）** 。
 
 
-``compliant_example`` Code Example
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+``compliant_example`` のコード例
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-A ``compliant_example`` Code Example **MUST** use the ``.. rust-example::`` directive
-(see `The rust-example Directive`_ below).
+``compliant_example`` のコード例は ``.. rust-example::`` ディレクティブを使わ **なければなりません（MUST）**
+（後述の `rust-example ディレクティブ`_ を参照）。
 
-A ``compliant_example`` Code Example **SHOULD** be made as short and simple to understand
-as possible.
+``compliant_example`` のコード例は、できるだけ短く、わかりやすくする **べきです（SHOULD）** 。
 
-A ``compliant_example`` Code Example **SHOULD** include clarifying comments if complex and/or
-long.
+``compliant_example`` のコード例が複雑または長い場合は、わかりやすくするためのコメントを含める
+**べきです（SHOULD）** 。
 
-A ``compliant_example`` Code Example **MUST** comply with every guideline.
+``compliant_example`` のコード例は、すべてのガイドラインに準拠し **なければなりません（MUST）** 。
 
-A ``compliant_example`` Code Example **SHOULD** try to illustrate the guideline by
-getting close to violating it, but staying within compliance.
+``compliant_example`` のコード例は、ガイドラインに違反する寸前まで近づきつつも準拠の範囲にとどまることで、
+ガイドラインを説明するよう努める **べきです（SHOULD）** 。
 
 ``bibliography``
 ================
 
-Each ``guideline`` **SHOULD** have an associated ``bibliography`` if it references external
-documents or specifications. The bibliography provides a structured way to cite sources
-and enables readers to navigate directly to referenced materials.
+各 ``guideline`` は、外部の文書や仕様を参照している場合、関連する ``bibliography`` （参考文献）を持つ
+**べきです（SHOULD）** 。参考文献は、出典を引用するための構造化された方法を提供し、
+読者が参照先の資料へ直接移動できるようにします。
 
 ::
 
@@ -620,125 +611,123 @@ and enables readers to navigate directly to referenced materials.
             * - :bibentry:`gui_7y0GAMmtMhch:FLS-REMAINDER-EXPR`
               - The Rust FLS. "Expressions - Syntax - RemainderExpression." https://rust-lang.github.io/fls/expressions.html#syntax_remainderexpression
 
-``bibliography`` ``id``
+``bibliography`` の ``id``
+--------------------------
+
+各 ``bibliography`` の一意な識別子です。 ``bibliography`` の識別子は
+``bib_`` で始まら **なければなりません（MUST）** 。
+
+``bib_`` の後に続く部分は、ガイドラインの ID の後半部分と一致する **べきです（SHOULD）**
+（たとえば、ガイドライン ``gui_7y0GAMmtMhch`` に対しては ``bib_7y0GAMmtMhch`` ）。
+
+``bibliography`` の ``status``
+------------------------------
+
+``bibliography`` の ``status`` オプションは、親の ``guideline`` の ``status`` と一致し
+**なければなりません（MUST）** 。
+
+``bibliography`` の内容
 -----------------------
 
-A unique identifier for each ``bibliography``. ``bibliography`` identifiers
-**MUST** begin with ``bib_``.
+参考文献は、正しくスタイルが適用されるように、ヘッダ行のない ``list-table`` として、
+``bibliography-table`` クラスを付けて書式設定し **なければなりません（MUST）** 。
 
-The suffix after ``bib_`` **SHOULD** match the guideline's ID suffix (e.g., ``bib_7y0GAMmtMhch``
-for guideline ``gui_7y0GAMmtMhch``).
+各行は 2 つの列を含ま **なければなりません（MUST）** 。
 
-``bibliography`` ``status``
----------------------------
+1. ``:bibentry:`` ロールを使った引用のアンカー
+2. 著者、タイトル、URL を含む引用の説明
 
-The ``status`` option of a ``bibliography`` **MUST** match the ``status`` of its parent ``guideline``.
+参考文献の検証
+^^^^^^^^^^^^^^
 
-``bibliography`` Content
-------------------------
+ビルドシステムは、参考文献の項目について次の点を検証します。
 
-The bibliography **MUST** be formatted as a ``list-table`` with no header rows and the
-``bibliography-table`` class for proper styling.
+* **引用キーの形式** - キーは ``UPPERCASE-WITH-HYPHENS`` の形で **なければなりません（MUST）** （例: ``FLS-INTEGER-TYPES`` 、 ``CERT-C-INT34`` ）
+* **ガイドライン ID の一致** - ``:bibentry:`` ロール内のガイドライン ID は、それを含むガイドラインと一致し **なければなりません（MUST）**
+* **URL の一貫性** - 異なるガイドラインで同じ URL を使う場合、同一の引用キーと説明を使わ **なければなりません（MUST）**
+* **引用の参照** - すべての ``:cite:`` 参照には、対応する ``:bibentry:`` の定義がなければ **なりません（MUST）**
 
-Each row **MUST** contain two columns:
+******************************
+引用ロール
+******************************
 
-1. The citation anchor using the ``:bibentry:`` role
-2. The citation description including author, title, and URL
+このドキュメントシステムには、引用を管理するための 2 つのロールがあります。本文中で引用を参照するための
+``:cite:`` と、参考文献の中で引用のアンカーを定義するための ``:bibentry:`` です。
 
-Bibliography Validation
-^^^^^^^^^^^^^^^^^^^^^^^
+``:cite:`` ロール
+=================
 
-The build system validates bibliography entries for:
+``:cite:`` ロールは、ガイドラインの本文中に、対応する参考文献の項目へリンクするクリック可能な参照を作ります。
 
-* **Citation key format** - Keys **MUST** be ``UPPERCASE-WITH-HYPHENS`` (e.g., ``FLS-INTEGER-TYPES``, ``CERT-C-INT34``)
-* **Guideline ID matching** - The guideline ID in ``:bibentry:`` roles **MUST** match the containing guideline
-* **URL consistency** - The same URL used across different guidelines **MUST** use identical citation keys and descriptions
-* **Citation references** - All ``:cite:`` references **MUST** have corresponding ``:bibentry:`` definitions
+**構文:** ``:cite:`gui_GUIDELINE_ID:CITATION-KEY```
 
-*****************************
-Citation Roles
-*****************************
-
-The documentation system provides two roles for managing citations: ``:cite:`` for referencing
-citations in text, and ``:bibentry:`` for defining citation anchors in bibliographies.
-
-``:cite:`` Role
-===============
-
-The ``:cite:`` role creates a clickable reference in the guideline text that links to the
-corresponding bibliography entry.
-
-**Syntax:** ``:cite:`gui_GUIDELINE_ID:CITATION-KEY```
-
-**Example:**
+**例:**
 
 ::
 
    As documented in :cite:`gui_7y0GAMmtMhch:FLS-INTEGER-TYPES`, integer types have
    specific behaviors during division operations.
 
-This renders as ``[FLS-INTEGER-TYPES]`` and links to the bibliography entry.
+これは ``[FLS-INTEGER-TYPES]`` として表示され、参考文献の項目にリンクします。
 
-The guideline ID prefix (``gui_7y0GAMmtMhch:``) **MUST** match the ID of the guideline
-containing the citation. This ensures citations are properly namespaced and validated
-during the build.
+ガイドライン ID の接頭辞（ ``gui_7y0GAMmtMhch:`` ）は、引用を含むガイドラインの ID と一致し
+**なければなりません（MUST）** 。これにより、引用は正しく名前空間で区切られ、ビルド時に検証されます。
 
-``:bibentry:`` Role
-===================
+``:bibentry:`` ロール
+=====================
 
-The ``:bibentry:`` role creates an anchor in the bibliography table that ``:cite:`` references
-can link to.
+``:bibentry:`` ロールは、参考文献の表の中に、 ``:cite:`` の参照がリンクできるアンカーを作ります。
 
-**Syntax:** ``:bibentry:`gui_GUIDELINE_ID:CITATION-KEY```
+**構文:** ``:bibentry:`gui_GUIDELINE_ID:CITATION-KEY```
 
-**Example:**
+**例:**
 
 ::
 
    * - :bibentry:`gui_7y0GAMmtMhch:FLS-INTEGER-TYPES`
      - The Rust FLS. "Types and Traits - Integer Types." https://rust-lang.github.io/fls/...
 
-This renders as ``[FLS-INTEGER-TYPES] ↩`` with a back-navigation button that returns
-the reader to the citation in the text.
+これは ``[FLS-INTEGER-TYPES] ↩`` として表示され、読者を本文中の引用箇所へ戻す
+戻るボタンが付きます。
 
-Citation Key Format
-===================
+引用キーの形式
+==============
 
-Citation keys **MUST** follow this format:
+引用キーは次の形式に従わ **なければなりません（MUST）** 。
 
-* Start with an uppercase letter
-* Contain only uppercase letters, numbers, and hyphens
-* End with an uppercase letter or number
-* Maximum 50 characters
+* 大文字で始まる
+* 大文字、数字、ハイフンのみを含む
+* 大文字または数字で終わる
+* 最大 50 文字
 
-**Valid examples:**
+**正しい例:**
 
 * ``FLS-INTEGER-TYPES``
 * ``RUST-REF-UNION``
 * ``CERT-C-INT34``
 * ``ISO-26262-2018``
 
-**Invalid examples:**
+**誤った例:**
 
-* ``fls-integer-types`` (lowercase)
-* ``123-KEY`` (starts with number)
-* ``KEY_WITH_UNDERSCORE`` (contains underscore)
+* ``fls-integer-types`` （小文字）
+* ``123-KEY`` （数字で始まる）
+* ``KEY_WITH_UNDERSCORE`` （アンダースコアを含む）
 
-*****************************
-The rust-example Directive
-*****************************
+******************************
+rust-example ディレクティブ
+******************************
 
-All Rust code examples in guidelines **MUST** use the ``.. rust-example::`` directive
-instead of ``.. code-block:: rust``. This directive provides:
+ガイドライン内のすべての Rust のコード例は、 ``.. code-block:: rust`` ではなく
+``.. rust-example::`` ディレクティブを使わ **なければなりません（MUST）** 。このディレクティブは次の機能を提供します。
 
-* Interactive execution via the Rust Playground
-* Copy-to-clipboard functionality
-* Miri integration for undefined behavior detection
-* Build-time validation of code examples
-* Support for hidden lines
+* Rust Playground による対話的な実行
+* クリップボードへのコピー機能
+* 未定義動作を検出するための Miri との統合
+* ビルド時のコード例の検証
+* 隠し行のサポート
 
-Basic Usage
-===========
+基本的な使い方
+==============
 
 ::
 
@@ -748,30 +737,30 @@ Basic Usage
           println!("Hello, world!");
       }
 
-This creates an interactive code block with copy, run, and toggle buttons.
+これにより、コピー、実行、切り替えのボタンが付いた対話的なコードブロックが作られます。
 
-Rustdoc Attributes
-==================
+rustdoc のアトリビュート
+========================
 
-The directive supports standard rustdoc attributes that control how examples are compiled and run.
+このディレクティブは、コード例のコンパイルや実行のしかたを制御する、標準の rustdoc のアトリビュートをサポートしています。
 
 ``:ignore:``
 ------------
 
-The example is not compiled or tested. Use for illustrative code that is intentionally incomplete.
+コード例はコンパイルもテストもされません。意図的に不完全にした説明用のコードに使います。
 
 ::
 
    .. rust-example::
       :ignore:
 
-      // This code is for illustration only
+      // このコードは説明用です
       fn hypothetical_feature() { ... }
 
 ``:compile_fail:``
 ------------------
 
-The example **SHOULD** fail to compile. Optionally specify an expected error code.
+コード例はコンパイルに失敗する **べきです（SHOULD）** 。必要に応じて、想定されるエラーコードを指定できます。
 
 ::
 
@@ -779,13 +768,13 @@ The example **SHOULD** fail to compile. Optionally specify an expected error cod
       :compile_fail: E0277
 
       fn example() {
-          let x: i32 = "string"; // Type mismatch
+          let x: i32 = "string"; // 型の不一致
       }
 
 ``:should_panic:``
 ------------------
 
-The example **SHOULD** compile but panic at runtime.
+コード例はコンパイルできるが、実行時にパニックする **べきです（SHOULD）** 。
 
 ::
 
@@ -799,8 +788,8 @@ The example **SHOULD** compile but panic at runtime.
 ``:no_run:``
 ------------
 
-The example is compiled but not executed. Use for code that requires specific
-runtime conditions or has side effects.
+コード例はコンパイルされますが、実行はされません。特定の実行時の条件を必要とするコードや、
+副作用のあるコードに使います。
 
 ::
 
@@ -811,16 +800,16 @@ runtime conditions or has side effects.
           std::process::exit(1);
       }
 
-Miri Integration
-================
+Miri との統合
+=============
 
-The ``:miri:`` option enables Miri checking for undefined behavior detection.
-Examples containing ``unsafe`` code **MUST** include a ``:miri:`` option.
+``:miri:`` オプションは、未定義動作を検出するための Miri によるチェックを有効にします。
+``unsafe`` なコードを含むコード例は、 ``:miri:`` オプションを含め **なければなりません（MUST）** 。
 
-``:miri:`` (default: check)
----------------------------
+``:miri:`` （デフォルト: check）
+--------------------------------
 
-Run Miri and expect no undefined behavior.
+Miri を実行し、未定義動作がないことを期待します。
 
 ::
 
@@ -831,15 +820,14 @@ Run Miri and expect no undefined behavior.
           unsafe {
               let x: i32 = 42;
               let ptr = &x as *const i32;
-              println!("{}", *ptr); // Safe: valid pointer
+              println!("{}", *ptr); // 安全: 有効なポインタ
           }
       }
 
 ``:miri: expect_ub``
 --------------------
 
-Run Miri and expect undefined behavior to be detected. Use when demonstrating
-what *not* to do.
+Miri を実行し、未定義動作が検出されることを期待します。 *してはいけない* ことを示すときに使います。
 
 ::
 
@@ -849,44 +837,44 @@ what *not* to do.
       fn main() {
           unsafe {
               let ptr: *const i32 = std::ptr::null();
-              let _ = *ptr; // UB: null pointer dereference
+              let _ = *ptr; // UB: ヌルポインタの参照外し
           }
       }
 
 ``:miri: skip``
 ---------------
 
-Skip Miri checking. Use when Miri does not support the operations in the example.
-The reason for skipping **SHOULD** be documented in the surrounding prose.
+Miri によるチェックをスキップします。コード例の中の操作を Miri がサポートしていない場合に使います。
+スキップする理由は、周りの文章に記載する **べきです（SHOULD）** 。
 
 ::
 
    .. rust-example::
       :miri: skip
 
-      // Miri doesn't support this FFI operation
+      // Miri はこの FFI 操作をサポートしていない
       fn main() {
-          unsafe { /* FFI call */ }
+          unsafe { /* FFI 呼び出し */ }
       }
 
-*Note:* ``:miri:`` cannot be combined with ``:ignore:``, ``:compile_fail:``, or ``:no_run:``
-because Miri requires code that compiles and runs.
+*注:* Miri にはコンパイルでき実行できるコードが必要なので、 ``:miri:`` は ``:ignore:`` 、 ``:compile_fail:`` 、
+``:no_run:`` と組み合わせることはできません。
 
-Warning Handling
-================
+警告の扱い
+==========
 
-The ``:warn:`` option controls how compiler warnings are treated.
+``:warn:`` オプションは、コンパイラの警告をどう扱うかを制御します。
 
-``:warn:`` or ``:warn: error``
-------------------------------
+``:warn:`` または ``:warn: error``
+----------------------------------
 
-Fail on compiler warnings. This is the default when ``rust_examples_fail_on_warnings = True``
-in the configuration.
+コンパイラの警告があると失敗にします。設定で ``rust_examples_fail_on_warnings = True`` の場合は、
+これがデフォルトです。
 
 ``:warn: allow``
 ----------------
 
-Allow compiler warnings without failing.
+コンパイラの警告を、失敗にせずに許可します。
 
 ::
 
@@ -894,28 +882,28 @@ Allow compiler warnings without failing.
       :warn: allow
 
       fn main() {
-          let x = 42; // Warning: unused variable (allowed)
+          let x = 42; // 警告: 使われていない変数（許可される）
       }
 
-Toolchain Options
-=================
+ツールチェーンのオプション
+==========================
 
 ``:edition:``
 -------------
 
-Specify the Rust edition. Default is ``2021``.
+Rust のエディションを指定します。デフォルトは ``2021`` です。
 
 ::
 
    .. rust-example::
       :edition: 2018
 
-      // Edition 2018 specific code
+      // エディション 2018 固有のコード
 
 ``:channel:``
 -------------
 
-Specify the release channel: ``stable``, ``beta``, or ``nightly``.
+リリースチャネルを指定します。 ``stable`` 、 ``beta`` 、 ``nightly`` のいずれかです。
 
 ::
 
@@ -927,8 +915,8 @@ Specify the release channel: ``stable``, ``beta``, or ``nightly``.
 ``:version:``
 -------------
 
-Specify a target Rust version. A badge appears if the version differs
-significantly from the configured default.
+対象とする Rust のバージョンを指定します。設定されたデフォルトとバージョンが大きく異なる場合は、
+バッジが表示されます。
 
 ::
 
@@ -938,15 +926,14 @@ significantly from the configured default.
       use std::num::NonZero;
 
       fn main() {
-          // Code using features from Rust 1.79
+          // Rust 1.79 のフィーチャを使うコード
       }
 
-Hidden Lines
-============
+隠し行
+======
 
-Lines prefixed with ``#`` followed by a space are hidden by default but included
-when compiling and running the code. This allows showing only the relevant
-parts of an example while maintaining compilability.
+``#`` とそれに続く空白で始まる行は、デフォルトでは隠されますが、コードのコンパイルと実行には含まれます。
+これにより、コンパイルできる状態を保ちながら、コード例の関係する部分だけを見せることができます。
 
 ::
 
@@ -958,38 +945,37 @@ parts of an example while maintaining compilability.
       map.insert("key", "value");
       # }
 
-The hidden lines can be revealed using the toggle button (eye icon) in the
-rendered output.
+隠し行は、表示された出力の切り替えボタン（目のアイコン）を使って表示できます。
 
-Hidden lines **SHOULD** be used for:
+隠し行は次のものに使う **べきです（SHOULD）** 。
 
-* Boilerplate imports
-* ``fn main() {}`` wrappers
-* Setup code that distracts from the example's purpose
-* ``#[allow(dead_code)]`` and similar attributes
+* 定型的なインポート
+* ``fn main() {}`` のラッパ
+* コード例の目的から注意をそらすセットアップのコード
+* ``#[allow(dead_code)]`` や、それに類するアトリビュート
 
-Display Options
-===============
+表示オプション
+==============
 
 ``:show_hidden:``
 -----------------
 
-Show hidden lines by default instead of hiding them.
+隠し行を隠さずに、デフォルトで表示します。
 
 ``:name:``
 ----------
 
-Assign a name to the example for reference purposes.
+参照用に、コード例に名前を付けます。
 
-*****************************
-Standard Library Links
-*****************************
+******************************
+標準ライブラリへのリンク
+******************************
 
-The ``:std:`` role creates links to Rust standard library documentation.
+``:std:`` ロールは、Rust の標準ライブラリのドキュメントへのリンクを作ります。
 
-**Syntax:** ``:std:`path::to::Item```
+**構文:** ``:std:`path::to::Item```
 
-**Examples:**
+**例:**
 
 ::
 
@@ -999,19 +985,19 @@ The ``:std:`` role creates links to Rust standard library documentation.
 
    Use :std:`std::num::NonZero` for guaranteed non-zero values.
 
-The role generates a link to the Rust documentation search with the provided path.
-This **SHOULD** be used instead of inline URLs to standard library documentation.
+このロールは、指定されたパスで Rust のドキュメントを検索するリンクを生成します。
+標準ライブラリのドキュメントへのインラインの URL の代わりに、これを使う **べきです（SHOULD）** 。
 
-*****************************
-Build-Time Validation
-*****************************
+******************************
+ビルド時の検証
+******************************
 
-The build system performs several validations to ensure guideline quality:
+ビルドシステムは、ガイドラインの品質を確保するため、いくつかの検証を行います。
 
-Required Fields
-===============
+必須のフィールド
+================
 
-Each guideline **MUST** have the following fields populated:
+各ガイドラインには、次のフィールドが記入されてい **なければなりません（MUST）** 。
 
 * ``category``
 * ``release``
@@ -1020,40 +1006,40 @@ Each guideline **MUST** have the following fields populated:
 * ``scope``
 * ``tags``
 
-Required Child Elements
-=======================
+必須の子要素
+============
 
-Each guideline **MUST** have the following child elements:
+各ガイドラインは、次の子要素を持た **なければなりません（MUST）** 。
 
 * ``rationale``
 * ``non_compliant_example``
 * ``compliant_example``
 
-The ``bibliography`` is **OPTIONAL** but **SHOULD** be included when external
-sources are referenced.
+``bibliography`` は **任意（OPTIONAL）** ですが、外部の出典を参照している場合は含める
+**べきです（SHOULD）** 。
 
-Inline URL Detection
-====================
+インラインの URL の検出
+=======================
 
-The build system detects inline URLs in guideline text and flags them as errors.
-URLs **MUST NOT** appear directly in guideline content. Instead:
+ビルドシステムは、ガイドラインの本文中のインラインの URL を検出し、エラーとして報告します。
+URL をガイドラインの内容に直接書いては **なりません（MUST NOT）** 。代わりに次のようにします。
 
-* For Rust standard library documentation, use the ``:std:`` role
-* For external references, add them to the ``bibliography`` and use ``:cite:``
+* Rust の標準ライブラリのドキュメントには、 ``:std:`` ロールを使う
+* 外部の参照は ``bibliography`` に追加し、 ``:cite:`` を使う
 
-**Non-compliant:**
+**不適合:**
 
 ::
 
    See https://doc.rust-lang.org/std/num/struct.Wrapping.html for details.
 
-**Compliant:**
+**適合:**
 
 ::
 
    See :std:`std::num::Wrapping` for details.
 
-Or for external sources:
+外部の出典の場合は次のようにします。
 
 ::
 

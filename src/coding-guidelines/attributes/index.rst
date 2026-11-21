@@ -3,8 +3,8 @@
 
 .. default-domain:: coding-guidelines
 
-Attributes
-==========
+アトリビュート
+==============
 
 .. toctree::
    :maxdepth: 1
