@@ -3,9 +3,9 @@
 
 .. default-domain:: coding-guidelines
 
-Introduction
+はじめに
 =====================================
 
-Welcome to the Safety-Critical Rust Coding Guidelines.
+セーフティクリティカル Rust コーディングガイドラインへようこそ。
 
 

@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Associated Items
+関連アイテム
 ================
 
 .. toctree::

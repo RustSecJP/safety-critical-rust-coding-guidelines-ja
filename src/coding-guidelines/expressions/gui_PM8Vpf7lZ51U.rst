@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-An integer shall not be converted to a pointer
-==============================================
+整数をポインタに変換してはならない
+==================================
 
-.. guideline:: An integer shall not be converted to a pointer
+.. guideline:: 整数をポインタに変換してはならない
    :id: gui_PM8Vpf7lZ51U
    :category: <TODO>
    :status: draft
@@ -16,58 +16,58 @@ An integer shall not be converted to a pointer
    :scope: module
    :tags: subset, undefined-behavior
 
-   The ``as`` operator shall not be used with an expression of numeric type as the left operand,
-   and any pointer type as the right operand.
+   ``as`` 演算子を、左オペランドが数値型の式で、右オペランドが何らかのポインタ型である形で
+   使ってはなりません。
 
-   :std:`std::mem::transmute` shall not be used with any numeric type (including floating point types)
-   as the argument to the ``Src`` parameter, and any pointer type as the argument to the ``Dst`` parameter.
+   :std:`std::mem::transmute` を、``Src`` パラメータの引数が (浮動小数点型を含む) 何らかの数値型で、
+   ``Dst`` パラメータの引数が何らかのポインタ型である形で使ってはなりません。
 
    .. rationale::
       :id: rat_YqhEiWTj9z6L
       :status: draft
 
-      A pointer created from an arbitrary arithmetic expression may designate an invalid address,
-      including an address that does not point to a valid object, an address that points to an
-      object of the wrong type, or an address that is not properly aligned. Use of such a pointer
-      to access memory will result in undefined behavior.
+      任意の算術式から作られたポインタは、無効なアドレスを指すことがあります。
+      たとえば、有効なオブジェクトを指していないアドレス、誤った型のオブジェクトを指すアドレス、
+      正しくアラインされていないアドレスなどです。そのようなポインタを使ってメモリにアクセスすると、
+      未定義動作になります。
 
-      The ``as`` operator also does not check that the size of the source operand is the same as
-      the size of a pointer, which may lead to unexpected results if the address computation was
-      originally performed in a differently-sized address space.
+      また、``as`` 演算子は、元のオペランドのサイズがポインタのサイズと同じであることを検査しません。
+      そのため、アドレスの計算がもともと異なるサイズのアドレス空間で行われていた場合には、
+      予期しない結果になることがあります。
 
-      While ``as`` can notionally be used to create a null pointer, the functions
-      :std:`core::ptr::null` and :std:`core::ptr::null_mut` are the more idiomatic way to do this.
+      ``as`` を使って概念上はヌルポインタを作れますが、
+      :std:`core::ptr::null` や :std:`core::ptr::null_mut` という関数を使うほうが慣用的です。
 
    .. non_compliant_example::
       :id: non_compl_ex_0ydPk7VENSrA
       :status: draft
 
-      Any use of ``as`` or ``transmute`` to create a pointer from an arithmetic address value
-      is non-compliant:
+      ``as`` や ``transmute`` を使って算術的なアドレスの値からポインタを作ることは、
+      どのような使い方でも不適合です。
 
       .. rust-example::
         :miri:
 
         #[allow(dead_code)]
         fn f1(x: u16, y: i32, z: u64, w: usize) {
-          let _p1 = x as * const u32;  // not compliant
-          let _p2 = y as * const u32;  // not compliant
-          let _p3 = z as * const u32;  // not compliant
-          let _p4 = w as * const u32;  // not compliant despite being the right size
+          let _p1 = x as * const u32;  // 不適合
+          let _p2 = y as * const u32;  // 不適合
+          let _p3 = z as * const u32;  // 不適合
+          let _p4 = w as * const u32;  // サイズは正しいが不適合
 
           let _f: f64 = 10.0;
-          // let p5 = f as * const u32;  // not valid
+          // let p5 = f as * const u32;  // 無効
 
           unsafe {
-            // let p5: * const u32 = std::mem::transmute(x);  // not valid
-            // let p6: * const u32 = std::mem::transmute(y);  // not valid
+            // let p5: * const u32 = std::mem::transmute(x);  // 無効
+            // let p6: * const u32 = std::mem::transmute(y);  // 無効
 
             #[allow(integer_to_ptr_transmutes)]
-            let _p7: * const u32 = std::mem::transmute(z); // not compliant
+            let _p7: * const u32 = std::mem::transmute(z); // 不適合
             #[allow(integer_to_ptr_transmutes)]
-            let _p8: * const u32 = std::mem::transmute(w); // not compliant
+            let _p8: * const u32 = std::mem::transmute(w); // 不適合
 
-            let _p9: * const u32 = std::mem::transmute(_f); // not compliant, and very strange
+            let _p9: * const u32 = std::mem::transmute(_f); // 不適合であり、とても奇妙
           }
         }
         #
@@ -77,4 +77,4 @@ An integer shall not be converted to a pointer
       :id: compl_ex_oneKuF52yzrx
       :status: draft
 
-      There is no compliant example of this operation.
+      この操作の適合例はありません。

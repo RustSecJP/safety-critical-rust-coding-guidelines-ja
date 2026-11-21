@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Macros
+マクロ
 ======
 
 .. toctree::

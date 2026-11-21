@@ -3,11 +3,11 @@
 
 .. default-domain:: coding-guidelines
 
-Avoid out-or-range shifts
-=========================
+範囲外のシフトを避ける
+======================
 
-.. guideline:: Avoid out-or-range shifts
-    :id: gui_LvmzGKdsAgI5 
+.. guideline:: 範囲外のシフトを避ける
+    :id: gui_LvmzGKdsAgI5
     :category: mandatory
     :status: draft
     :release: 1.0.0-latest
@@ -16,33 +16,33 @@ Avoid out-or-range shifts
     :scope: module
     :tags: numerics, surprising-behavior, defect
 
-    Shifting negative positions or a value greater than or equal to the width of the left operand
-    in shift left and shift right expressions :cite:`gui_LvmzGKdsAgI5:FLS-BIT-EXPRESSIONS`
-    are defined by this guideline to be *out-of-range shifts*.
-    The Rust FLS incorrectly describes this behavior as arithmetic overflow :cite:`gui_LvmzGKdsAgI5:FLS-ISSUE-632`.
+    左シフト式と右シフト式 :cite:`gui_LvmzGKdsAgI5:FLS-BIT-EXPRESSIONS` で、負の位置数、
+    または左オペランドの幅以上の値だけシフトすることを、
+    このガイドラインでは *範囲外のシフト* と定義します。
+    Rust FLS は、この振る舞いを誤って算術オーバーフローと説明しています :cite:`gui_LvmzGKdsAgI5:FLS-ISSUE-632`。
 
-    If the types of both operands are integer types,
-    the shift left expression ``lhs << rhs`` evaluates to the value of the left operand ``lhs`` whose bits are 
-    shifted left by the number of positions specified by the right operand ``rhs``.
-    Vacated bits are filled with zeros. 
-    The expression ``lhs << rhs`` evaluates to :math:`\mathrm{lhs} \times 2^{\mathrm{rhs}}`, 
-    cast to the type of the left operand.
-    If the value of the right operand is negative or greater than or equal to the width of the left operand,
-    then the operation results in an out-of-range shift.
+    両方のオペランドの型が整数型である場合、
+    左シフト式 ``lhs << rhs`` は、左オペランド ``lhs`` のビットを
+    右オペランド ``rhs`` で指定された位置数だけ左にシフトした値に評価されます。
+    空いたビットはゼロで埋められます。
+    式 ``lhs << rhs`` は、:math:`\mathrm{lhs} \times 2^{\mathrm{rhs}}` を
+    左オペランドの型にキャストしたものに評価されます。
+    右オペランドの値が負であるか、左オペランドの幅以上である場合、
+    その演算は範囲外のシフトになります。
 
-    If the types of both operands are integer types,
-    the shift right expression ``lhs >> rhs`` evaluates to the value of the left operand ``lhs`` 
-    whose bits are shifted right by the number of positions specified by the right operand ``rhs``.
-    If the type of the left operand is any signed integer type and is negative,
-    the vacated bits are filled with ones.
-    Otherwise, vacated bits are filled with zeros.
-    The expression ``lhs >> rhs`` evaluates to :math:`\mathrm{lhs} / 2^{\mathrm{rhs}}`,
-    cast to the type of the left operand.
-    If the value of the right operand is negative,
-    greater than or equal to the width of the left operand,
-    then the operation results in an out-of-range shift.
+    両方のオペランドの型が整数型である場合、
+    右シフト式 ``lhs >> rhs`` は、左オペランド ``lhs`` のビットを
+    右オペランド ``rhs`` で指定された位置数だけ右にシフトした値に評価されます。
+    左オペランドの型が符号付き整数型で、その値が負である場合、
+    空いたビットは 1 で埋められます。
+    それ以外の場合、空いたビットはゼロで埋められます。
+    式 ``lhs >> rhs`` は、:math:`\mathrm{lhs} / 2^{\mathrm{rhs}}` を
+    左オペランドの型にキャストしたものに評価されます。
+    右オペランドの値が負であるか、
+    左オペランドの幅以上である場合、
+    その演算は範囲外のシフトになります。
 
-    This rule applies to the following primitive types:
+    この規則は次のプリミティブ型に適用されます。
 
     * ``i8``
     * ``i16``
@@ -57,7 +57,7 @@ Avoid out-or-range shifts
     * ``usize``
     * ``isize``
 
-    Any type can support ``<<`` or ``>>`` if you implement the trait:
+    トレイトを実装すれば、どんな型でも ``<<`` や ``>>`` をサポートできます。
 
     .. rust-example::
 
@@ -72,31 +72,32 @@ Avoid out-or-range shifts
        #
        # fn main() {}
 
-    You may choose any type for the right operand (not just integers), because you control the implementation.
+    実装は自分で制御できるので、右オペランドには (整数に限らず) どんな型でも選べます。
 
-    This rule is a less strict but undecidable version of 
-    `Do not shift an expression by a negative number of bits or by greater than or equal to the number of bits that exist in the operand`.
-    All code that complies with that rule also complies with this rule.
+    この規則は、
+    `式を負のビット数、またはオペランドに存在するビット数以上だけシフトしない` を、
+    ゆるくしたうえで決定不能にしたものです。
+    その規則に適合するコードは、すべてこの規則にも適合します。
 
-    This rule is based on The CERT C Coding Standard Rule :cite:`gui_LvmzGKdsAgI5:CERT-C-INT34`.
+    この規則は、CERT C コーディングスタンダードの規則 :cite:`gui_LvmzGKdsAgI5:CERT-C-INT34` に基づいています。
 
-    .. rationale:: 
-        :id: rat_tVkDl6gOqz25 
+    .. rationale::
+        :id: rat_tVkDl6gOqz25
         :status: draft
 
-        Avoid out-of-range shifts in shift left and shift right expressions.
-        Shifting by a negative value, or by a value greater than or equal to the width of the left operand
-        are non-sensical expressions which typically indicate a logic error has occurred.
+        左シフト式と右シフト式では、範囲外のシフトを避けてください。
+        負の値だけシフトすることや、左オペランドの幅以上の値だけシフトすることは、
+        意味をなさない式であり、通常は論理エラーが起きていることを示します。
 
     .. non_compliant_example::
-        :id: non_compl_ex_KLiDMsCesLx7 
+        :id: non_compl_ex_KLiDMsCesLx7
         :status: draft
 
-        This noncompliant example shifts by a negative value (-1) and also by greater than or equal to the number of bits that exist in the left operand (40):.
+        この不適合例では、負の値 (-1) だけシフトし、さらに左オペランドに存在するビット数以上 (40) だけシフトしています。
 
         .. rust-example::
             :should_panic:
-            
+
             fn main() {
                 let bits : u32 = 61;
                 let shifts = vec![-1, 4, 40];
@@ -107,11 +108,11 @@ Avoid out-or-range shifts
             }
 
     .. compliant_example::
-        :id: compl_ex_Ux1WqHbGKV73 
+        :id: compl_ex_Ux1WqHbGKV73
         :status: draft
 
-        This compliant example test the value of ``sh`` to ensure the value of the right operand is negative or greater 
-        than or equal to the width of the left operand.
+        この適合例では、``sh`` の値を検査して、右オペランドの値が負であるか、
+        左オペランドの幅以上であることを確かめます。
 
         .. rust-example::
 
@@ -130,9 +131,9 @@ Avoid out-or-range shifts
         :id: compl_ex_Ux1WqHbGKV74
         :status: draft
 
-        The call to ``bits.overflowing_shl(sh)`` in this noncompliant shifts ``bits`` left by ``sh`` bits.
-        Returns a tuple of the shifted version of self along with a boolean indicating whether the shift value was larger than or equal to the number of bits.
-        If the shift value is too large, then value is masked (N-1) where N is the number of bits, and this value is used to perform the shift.
+        この不適合における ``bits.overflowing_shl(sh)`` の呼び出しは、``bits`` を ``sh`` ビットだけ左にシフトします。
+        シフトした self と、シフト量がビット数以上だったかどうかを示す真偽値とのタプルを返します。
+        シフト量が大きすぎる場合、値は (N-1) でマスクされ (N はビット数)、この値を使ってシフトが行われます。
 
           .. rust-example::
 

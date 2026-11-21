@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Names in a macro definition shall use a fully qualified path
-============================================================
+マクロ定義の中の名前には完全修飾パスを使わなければならない
+==========================================================
 
-.. guideline:: Names in a macro definition shall use a fully qualified path
+.. guideline:: マクロ定義の中の名前には完全修飾パスを使わなければならない
    :id: gui_SJMrWDYZ0dN4
    :category: required
    :status: draft
@@ -16,26 +16,24 @@ Names in a macro definition shall use a fully qualified path
    :scope: module
    :tags: reduce-human-error
 
-   Each name inside of the definition of a macro shall either use a global path or path prefixed with $crate.
+   マクロの定義の中の各名前には、グローバルパスか、$crate を前に付けたパスを使わなければなりません。
 
    .. rationale::
       :id: rat_VRNXaxmW1l2s
       :status: draft
 
-      Using a path that refers to an entity relatively inside of a macro subjects it to path resolution
-      results which may change depending on where the macro is used. The intended path to refer to an entity
-      can be shadowed when using a macro leading to unexpected behaviors. This could lead to developer confusion
-      about why a macro behaves differently in diffenent locations, or confusion about where entity in a macro
-      will resolve to.
+      マクロの中で実体を相対的に参照するパスを使うと、そのパスは、マクロが使われる場所によって変わりうる
+      パス解決の結果に左右されます。マクロを使うときに、実体を参照するための意図したパスがシャドーイングされ、
+      予期しない振る舞いにつながることがあります。これにより、マクロが場所によって異なる振る舞いをする理由や、
+      マクロの中の実体がどこに解決されるのかについて、開発者が混乱するおそれがあります。
 
    .. non_compliant_example::
       :id: non_compl_ex_m2XR1ihTbCQS
       :status: draft
 
-      The following is a macro which shows referring to a vector entity using a non-global path. Depending on
-      where the macro is used a different `Vec` could be used than is intended. If scope where this is used
-      defines a struct `Vec` which is not preset at the macro definition, the macro user might be intending to
-      use that in the macro.
+      次のマクロは、グローバルでないパスを使ってベクタの実体を参照する例です。マクロが使われる場所によっては、
+      意図したものとは異なる `Vec` が使われることがあります。これが使われるスコープで、マクロの定義時には
+      存在しない構造体 `Vec` が定義されていれば、マクロのユーザはマクロの中でそれを使うつもりなのかもしれません。
 
       .. rust-example::
 
@@ -43,7 +41,7 @@ Names in a macro definition shall use a fully qualified path
         macro_rules! my_vec {
             ( $( $x:expr ),* ) => {
                 {
-                    let mut temp_vec = Vec::new(); // non-global path
+                    let mut temp_vec = Vec::new(); // グローバルでないパス
                     $(
                         temp_vec.push($x);
                     )*
@@ -60,9 +58,8 @@ Names in a macro definition shall use a fully qualified path
       :id: compl_ex_xyaShvxL9JAM
       :status: draft
 
-      The following is a macro refers to Vec using a global path. Even if there is a different struct called
-      `Vec` defined in the scope of the macro usage, this macro will unambiguously use the `Vec` from the
-      Standard Library.
+      次のマクロは、グローバルパスを使って Vec を参照します。マクロを使うスコープで `Vec` という別の構造体が
+      定義されていても、このマクロは曖昧さなく標準ライブラリの `Vec` を使います。
 
       .. rust-example::
 
@@ -70,7 +67,7 @@ Names in a macro definition shall use a fully qualified path
         macro_rules! my_vec_global {
             ( $( $x:expr ),* ) => {
                 {
-                    let mut temp_vec = ::std::vec::Vec::new(); // global path
+                    let mut temp_vec = ::std::vec::Vec::new(); // グローバルパス
                     $(
                         temp_vec.push($x);
                     )*

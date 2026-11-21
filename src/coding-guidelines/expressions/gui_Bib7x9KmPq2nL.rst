@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Example guideline with bibliography (gui_Bib7x9KmPq2nL)
-=======================================================
+参考文献付きのガイドラインの例 (gui_Bib7x9KmPq2nL)
+=========================================================
 
-.. guideline:: Example guideline with bibliography
+.. guideline:: 参考文献付きのガイドラインの例
    :id: gui_Bib7x9KmPq2nL
    :category: advisory
    :status: draft
@@ -16,88 +16,88 @@ Example guideline with bibliography (gui_Bib7x9KmPq2nL)
    :scope: module
    :tags: safety, undefined-behavior
 
-   This is an example guideline demonstrating the bibliography feature.
+   これは、参考文献の機能を示すためのガイドラインの例です。
    
-   As documented in :cite:`gui_Bib7x9KmPq2nL:RUST-REF-UNION`, union types in Rust have specific safety requirements.
-   The CERT C Coding Standard :cite:`gui_Bib7x9KmPq2nL:CERT-C-INT34` provides guidance on avoiding undefined behavior
-   in shift operations, which applies to Rust as well.
+   :cite:`gui_Bib7x9KmPq2nL:RUST-REF-UNION` に記載されているとおり、Rust の共用体型には特有の安全性の要件があります。
+   CERT C コーディングスタンダード :cite:`gui_Bib7x9KmPq2nL:CERT-C-INT34` は、シフト演算で未定義動作を避けるための指針を示しており、
+   これは Rust にも当てはまります。
 
    .. rationale::
       :id: rat_Bib7x9KmPq2nL
       :status: draft
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      This guideline demonstrates how to include bibliographic references in coding guidelines.
-      References help users find authoritative sources for the recommendations made.
+      このガイドラインは、コーディングガイドラインに参考文献を含める方法を示します。
+      参考文献は、示された推奨事項の典拠となる情報源をユーザが見つけるのに役立ちます。
 
-      Refer to :cite:`gui_Bib7x9KmPq2nL:RUST-REF-UNION` for more details.
+      詳しくは :cite:`gui_Bib7x9KmPq2nL:RUST-REF-UNION` を参照してください。
 
    .. non_compliant_example::
       :id: non_compl_ex_Bib7x9KmPq2nL
       :status: draft
 
-      This example shows code that violates the guideline.
+      この例は、ガイドラインに違反するコードを示します。
 
       .. rust-example::
 
          fn main() {
-             // Non-compliant code example
+             // 不適合なコード例
              let x = 42;
              println!("{}", x);
          }
@@ -106,12 +106,12 @@ Example guideline with bibliography (gui_Bib7x9KmPq2nL)
       :id: compl_ex_Bib7x9KmPq2nL
       :status: draft
 
-      This example shows the correct way to follow the guideline.
+      この例は、ガイドラインに従う正しい方法を示します。
 
       .. rust-example::
 
          fn main() {
-             // Compliant code example
+             // 適合するコード例
              let x: i32 = 42;
              println!("{}", x);
          }

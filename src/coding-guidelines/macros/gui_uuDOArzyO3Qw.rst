@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Shall not write code that expands macros
+マクロを展開するコードを書いてはならない
 ========================================
 
-.. guideline:: Shall not write code that expands macros
+.. guideline:: マクロを展開するコードを書いてはならない
    :id: gui_uuDOArzyO3Qw
    :category: mandatory
    :status: draft
@@ -16,25 +16,25 @@ Shall not write code that expands macros
    :scope: system
    :tags: reduce-human-error
 
-   Description of the guideline goes here.
+   ここにガイドラインの説明を書きます。
 
    .. rationale::
       :id: rat_dNgSvC0SZ3JJ
       :status: draft
 
-      Explanation of why this guideline is important.
+      このガイドラインが重要である理由の説明。
 
    .. non_compliant_example::
       :id: non_compl_ex_g9j8shyGM2Rh
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Non-compliant implementation
+            // 不適合な実装
         }
         #
         # fn main() {}
@@ -43,13 +43,13 @@ Shall not write code that expands macros
       :id: compl_ex_cFPg6y7upNdl
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Compliant implementation
+            // 適合する実装
         }
         #
         # fn main() {}

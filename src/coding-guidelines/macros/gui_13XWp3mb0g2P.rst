@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Attribute macros shall not be used
-==================================
+アトリビュートマクロを使ってはならない
+======================================
 
-.. guideline:: Attribute macros shall not be used
+.. guideline:: アトリビュートマクロを使ってはならない
    :id: gui_13XWp3mb0g2P
    :category: required
    :status: draft
@@ -16,25 +16,25 @@ Attribute macros shall not be used
    :scope: system
    :tags: reduce-human-error
 
-   Attribute macros shall neither be declared nor invoked.
-   Prefer less powerful macros that only extend source code.
+   アトリビュートマクロを宣言してはならず、呼び出してもなりません。
+   ソースコードを拡張するだけの、より強力でないマクロを使ってください。
 
    .. rationale::
       :id: rat_X8uCF5yx7Mpo
       :status: draft
 
-      Attribute macros are able to rewrite items entirely or in other unexpected ways which can cause confusion and introduce errors.
+      アトリビュートマクロは、アイテムを丸ごと書き換えたり、その他の予期しない方法で書き換えたりできます。これは混乱を招き、エラーを持ち込むことがあります。
 
    .. non_compliant_example::
       :id: non_compl_ex_eW374waRPbeL
       :status: draft
 
-      The ``#[test]`` attribute macro transforms the function into a test harness entry point.
+      ``#[test]`` アトリビュートマクロは、関数をテストハーネスのエントリポイントに変換します。
 
       .. rust-example::
           :no_run:
 
-          #[test]  // non-compliant: attribute macro rewrites the item
+          #[test]  // 不適合: アトリビュートマクロがアイテムを書き換える
           fn example_test() {
               assert!(true);
           }
@@ -45,13 +45,13 @@ Attribute macros shall not be used
       :id: compl_ex_Mg8ePOgbGJeW
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Compliant implementation
+            // 適合する実装
         }
         #
         # fn main() {}

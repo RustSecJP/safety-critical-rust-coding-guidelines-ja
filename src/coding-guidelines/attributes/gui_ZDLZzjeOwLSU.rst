@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Assure visibility of ``unsafe`` keyword in unsafe code
-======================================================
+``unsafe`` なコードでは ``unsafe`` キーワードが見えるようにする
+===============================================================
 
-.. guideline:: Assure visibility of ``unsafe`` keyword in unsafe code
+.. guideline:: ``unsafe`` なコードでは ``unsafe`` キーワードが見えるようにする
    :id: gui_ZDLZzjeOwLSU
    :category: required
    :status: draft
@@ -16,76 +16,76 @@ Assure visibility of ``unsafe`` keyword in unsafe code
    :scope: crate
    :tags: readability, reduce-human-error
 
-   Mark all code that may violate safety guarantees with a visible ``unsafe`` keyword
-   :cite:`gui_ZDLZzjeOwLSU:RUST-REF-UNSAFE-KEYWORD`.
+   安全性の保証に違反するおそれのあるすべてのコードには、目に見える ``unsafe`` キーワードで印を付けてください
+   :cite:`gui_ZDLZzjeOwLSU:RUST-REF-UNSAFE-KEYWORD`。
 
-   The following constructs require explicit ``unsafe`` visibility:
+   次の構文では、``unsafe`` を明示的に見えるようにする必要があります。
 
-   * ``extern`` blocks must be declared as ``unsafe extern``
-   * The ``#[no_mangle]`` attribute must be written as ``#[unsafe(no_mangle)]``
-   * The ``#[export_name]`` attribute must be written as ``#[unsafe(export_name)]``
-   * The ``#[link_section]`` attribute must be written as ``#[unsafe(link_section)]``
+   * ``extern`` ブロックは ``unsafe extern`` として宣言しなければなりません
+   * ``#[no_mangle]`` アトリビュートは ``#[unsafe(no_mangle)]`` と書かなければなりません
+   * ``#[export_name]`` アトリビュートは ``#[unsafe(export_name)]`` と書かなければなりません
+   * ``#[link_section]`` アトリビュートは ``#[unsafe(link_section)]`` と書かなければなりません
 
    .. note::
 
-      Starting with Rust Edition 2024, the use of ``unsafe`` is required in these contexts.
-      The ``#[link]`` and ``#[link_ordinal]`` attributes are implicitly covered by the
-      ``unsafe extern`` requirement, as they must appear on ``extern`` blocks.
-      See rust-lang/rust#82499 for the tracking issue on unsafe attributes.
+      Rust 2024 エディションからは、これらの場面で ``unsafe`` の使用が必須です。
+      ``#[link]`` と ``#[link_ordinal]`` アトリビュートは ``extern`` ブロックに付ける必要があるので、
+      ``unsafe extern`` の要件によって暗黙のうちにカバーされます。
+      unsafe なアトリビュートに関するトラッキングイシューは rust-lang/rust#82499 を参照してください。
 
    .. rationale::
       :id: rat_eQV3s9ggNegr
       :status: draft
 
-      * Auditability and review
+      * 監査可能性とレビュー
 
-        * ``unsafe`` blocks create clear audit boundaries where reviewers can focus on code
-          that may violate Rust's safety guarantees :cite:`gui_ZDLZzjeOwLSU:RUSTNOMICON-MEET-SAFE`
-        * Safety-critical standards like ISO 26262 :cite:`gui_ZDLZzjeOwLSU:ISO-26262` and
-          DO-178C :cite:`gui_ZDLZzjeOwLSU:DO-178C` require traceability of hazardous operations
-        * Helps enumerate and document all places where safety requirements must be manually upheld
-        * Satisfies ISO 26262 Part 6, Table 1, objective 1c (use of language subsets)
-        * Satisfies DO-178C Section 6.3.4.f (source code traceability)
+        * ``unsafe`` ブロックは明確な監査の境界を作ります。レビュアは、Rust の安全性の保証に
+          違反するおそれのあるコードに集中できます :cite:`gui_ZDLZzjeOwLSU:RUSTNOMICON-MEET-SAFE`
+        * ISO 26262 :cite:`gui_ZDLZzjeOwLSU:ISO-26262` や
+          DO-178C :cite:`gui_ZDLZzjeOwLSU:DO-178C` のようなセーフティクリティカルな規格は、危険な操作のトレーサビリティを要求しています
+        * 安全性の要件を手作業で守らなければならない箇所をすべて列挙し、文書化するのに役立ちます
+        * ISO 26262 Part 6, Table 1, objective 1c（言語サブセットの使用）を満たします
+        * DO-178C Section 6.3.4.f（ソースコードのトレーサビリティ）を満たします
 
-      * Explicit acknowledgment of responsibility
+      * 責任の明示的な承認
 
-        * The ``unsafe`` keyword signals that the programmer is taking responsibility for
-          upholding invariants the compiler cannot verify
-        * Prevents accidental use of ``unsafe`` operations without conscious decision
-        * Aligns with the principle of defense in depth in safety-critical systems
+        * ``unsafe`` キーワードは、コンパイラが検証できない不変条件を守る責任を
+          プログラマが引き受けていることを示します
+        * 意識的な判断なしに ``unsafe`` な操作を誤って使うことを防ぎます
+        * セーフティクリティカルなシステムにおける多層防御の原則に沿っています
 
-      * Static analysis and tooling
+      * 静的解析とツール
 
-        * Tools like ``cargo-geiger`` :cite:`gui_ZDLZzjeOwLSU:CARGO-GEIGER`, ``unsafe-inspect``,
-          and custom linters can automatically locate and count unsafe blocks
-        * Enables metrics like "unsafe density" for safety assessments
-        * Supports qualification evidence required by certification standards
+        * ``cargo-geiger`` :cite:`gui_ZDLZzjeOwLSU:CARGO-GEIGER`、``unsafe-inspect``、
+          独自のリンタなどのツールで、unsafe ブロックを自動的に見つけて数えることができます
+        * 安全性評価のための「unsafe 密度」のような指標を使えるようにします
+        * 認証規格が要求する適格性確認のエビデンスを支えます
 
-      * Traceability for certification
+      * 認証のためのトレーサビリティ
 
-        * Safety-critical certifications require demonstrating that hazardous operations are
-          identified and controlled
-        * Visible ``unsafe`` tokens provide direct linkage to safety cases and hazard analyses
-        * Facilitates the required documentation that each unsafe operation has been reviewed
-          and justified
+        * セーフティクリティカルな認証では、危険な操作が特定され管理されていることを
+          示す必要があります
+        * 目に見える ``unsafe`` トークンは、セーフティケースやハザード分析と直接結びつきます
+        * 各 unsafe な操作がレビューされ正当化されたことを示す、必要な文書の作成を
+          容易にします
 
    .. non_compliant_example::
       :id: non_compl_ex_FdmuPXGZr4EP
       :status: draft
 
-      The ``#[no_mangle]`` attribute is unsafe because it can be used to declare a function
-      identifier that conflicts with an existing symbol. This noncompliant example declares an
-      unmangled function named ``convert`` that is missing the required unsafe wrapper in Rust 2024.
+      ``#[no_mangle]`` アトリビュートは unsafe です。既存のシンボルと衝突する関数の識別子を
+      宣言するのに使えてしまうからです。この不適合例は、``convert`` という名前のマングルされない関数を
+      宣言していますが、Rust 2024 で必要な unsafe のラッパがありません。
 
-      This noncompliant example requires Rust Edition 2021 or earlier to compile.
-      In Rust Edition 2024, missing ``unsafe`` wrappers cause compilation errors.
+      この不適合例をコンパイルするには、Rust 2021 エディション以前が必要です。
+      Rust 2024 エディションでは、``unsafe`` のラッパがないとコンパイルエラーになります。
 
       .. rust-example::
           :compile_fail:
           :edition: 2024
 
-          // Undefined behavior by the linker or loader is possible
-          // if another 'convert' function is defined.
+          // 別の 'convert' 関数が定義されていると、
+          // リンカやローダによる未定義動作が起こりうる。
           #[no_mangle]
           fn convert() {}
 
@@ -97,17 +97,17 @@ Assure visibility of ``unsafe`` keyword in unsafe code
       :id: compl_ex_wR1FEyLRKmrr
       :status: draft
 
-      Rust Edition 2024 enforces that the ``no_mangle`` attribute requires an ``unsafe`` keyword,
-      as shown in this compliant example.
+      この適合例に示すように、Rust 2024 エディションでは ``no_mangle`` アトリビュートに
+      ``unsafe`` キーワードが必須になります。
 
-      NOTE: This code can still have undefined behavior if the ``convert`` function symbol is
-      defined more than once.
+      注意: ``convert`` 関数のシンボルが複数回定義されている場合、このコードでも
+      未定義動作が起こりえます。
 
       .. rust-example::
           :miri: skip
           :edition: 2024
 
-          #[unsafe(no_mangle)] // compliant
+          #[unsafe(no_mangle)] // 適合
           fn convert() {}
 
           fn main() {
@@ -118,12 +118,12 @@ Assure visibility of ``unsafe`` keyword in unsafe code
       :id: non_compl_ex_FdmuPXGZr4EO
       :status: draft
 
-      This noncompliant example misdeclares the ``malloc`` function in an ``extern "C"`` block
-      by specifying the type of the ``size`` parameter as ``f32`` instead of ``usize``.
+      この不適合例は、``extern "C"`` ブロックの中で ``size`` パラメータの型を ``usize`` ではなく
+      ``f32`` と指定しており、``malloc`` 関数を誤って宣言しています。
 
-      An ``extern`` block is unsafe because undefined behavior can occur if types or functions are
-      misdeclared. This is true even if the declarations are not used. This noncompliant example
-      requires Rust Edition 2021 or earlier to compile.
+      ``extern`` ブロックは unsafe です。型や関数を誤って宣言すると、未定義動作が起こりうるからです。
+      これは宣言が使われていない場合でも当てはまります。この不適合例をコンパイルするには、
+      Rust 2021 エディション以前が必要です。
 
       .. rust-example::
           :compile_fail:
@@ -132,9 +132,9 @@ Assure visibility of ``unsafe`` keyword in unsafe code
           use std::ffi;
 
           extern "C" {
-              // If 'malloc' is otherwise defined with a 'usize' argument, the compiler
-              // may generate code for calls to this function using this incompatible declaration,
-              // resulting in undefined behavior.
+              // 'malloc' が別の場所で 'usize' の引数で定義されている場合、コンパイラは
+              // この互換性のない宣言を使ってこの関数の呼び出しのコードを生成することがあり、
+              // その結果、未定義動作になる。
               fn malloc(size: f32) -> *mut ffi::c_void;
           }
 
@@ -144,12 +144,12 @@ Assure visibility of ``unsafe`` keyword in unsafe code
       :id: compl_ex_wR1FEyLRKmrq
       :status: draft
 
-      Rust Edition 2024 enforces that ``extern "C"`` blocks require an ``unsafe`` keyword,
-      as shown in this compliant example.
+      この適合例に示すように、Rust 2024 エディションでは ``extern "C"`` ブロックに
+      ``unsafe`` キーワードが必須になります。
 
-      NOTE: This code can still have undefined behavior if the declared ``malloc`` function is
-      incompatible with the actual definition. To eliminate this undefined behavior, the
-      declaration for ``malloc`` used in this compliant example accepts one argument of type ``usize``.
+      注意: 宣言した ``malloc`` 関数が実際の定義と互換性がない場合、このコードでも
+      未定義動作が起こりえます。この未定義動作をなくすため、この適合例で使っている
+      ``malloc`` の宣言は ``usize`` 型の引数を 1 つ受け取ります。
 
       .. rust-example::
           :miri: skip
@@ -158,8 +158,8 @@ Assure visibility of ``unsafe`` keyword in unsafe code
           use std::ffi;
 
           unsafe extern "C" {
-              // Here the assumption is that malloc is the one defined by C's stdlib.h
-              // and that size_of::<usize>() == size_of::<size_t>()
+              // ここでは、malloc は C の stdlib.h で定義されたものであり、
+              // size_of::<usize>() == size_of::<size_t>() であると仮定している
               fn malloc(size: usize) -> *mut ffi::c_void;
               fn free(ptr: *mut ffi::c_void);
           }
@@ -177,32 +177,32 @@ Assure visibility of ``unsafe`` keyword in unsafe code
       :id: non_compl_ex_Hk3mNp5qRs7t
       :status: draft
 
-      The ``#[export_name]`` and ``#[link_section]`` attributes can cause undefined behavior if
-      misused, as they affect symbol resolution and memory layout at link time. Without the
-      ``unsafe`` keyword, these hazards are not visible to reviewers or tools.
+      ``#[export_name]`` と ``#[link_section]`` アトリビュートは、リンク時のシンボル解決と
+      メモリレイアウトに影響するため、誤って使うと未定義動作を引き起こすことがあります。
+      ``unsafe`` キーワードがなければ、これらの危険はレビュアやツールから見えません。
 
-      This noncompliant example has two separate problems. First, it uses an ``#[export_name]``
-      attribute without an unsafe wrapper. This attribute controls the symbol name used during
-      linking. If another symbol with the same name exists, it causes undefined behavior.
-      Rust 2024 requires it to be marked ``unsafe``.
+      この不適合例には、別々の問題が 2 つあります。1 つ目は、unsafe のラッパなしで ``#[export_name]``
+      アトリビュートを使っていることです。このアトリビュートは、リンク時に使われるシンボル名を
+      制御します。同じ名前の別のシンボルが存在すると、未定義動作を引き起こします。
+      Rust 2024 では、これに ``unsafe`` の印を付ける必要があります。
 
-      The second problem is that this noncompliant example uses a ``#[link_section]`` attribute
-      without an unsafe wrapper. This attribute places the item in a specific linker section.
-      Incorrect section placement can cause undefined behavior (e.g., placing mutable data in
-      read-only sections, or interfering with special sections like ``.init``).
+      2 つ目の問題は、この不適合例が unsafe のラッパなしで ``#[link_section]`` アトリビュートを
+      使っていることです。このアトリビュートは、アイテムを特定のリンカセクションに配置します。
+      セクションの配置を誤ると、未定義動作を引き起こすことがあります（例: 可変なデータを
+      読み取り専用セクションに置く、``.init`` のような特別なセクションに干渉する）。
 
-      This noncompliant example requires Rust Edition 2021 or earlier to compile.
+      この不適合例をコンパイルするには、Rust 2021 エディション以前が必要です。
 
       .. rust-example::
           :compile_fail:
           :edition: 2024
 
-          // Collides with the C library 'printf' function
-          #[export_name = "printf"]  // noncompliant
+          // C ライブラリの 'printf' 関数と衝突する
+          #[export_name = "printf"]  // 不適合
 
-          // Missing unsafe marker - noncompliant in Rust 2024
-          #[link_section = ".init_array"] // noncompliant
-          static DATA: u32 = 42;  // Corrupts initialization table!
+          // unsafe の印がない - Rust 2024 では不適合
+          #[link_section = ".init_array"] // 不適合
+          static DATA: u32 = 42;  // 初期化テーブルを壊す！
 
           fn main() {
               println!("DATA = {DATA}");
@@ -212,22 +212,22 @@ Assure visibility of ``unsafe`` keyword in unsafe code
       :id: compl_ex_xY2zAb3cDe4f
       :status: draft
 
-      The ``#[export_name]`` and ``#[link_section]`` attributes must use the ``unsafe()`` wrapper
-      to make their safety implications visible.
+      ``#[export_name]`` と ``#[link_section]`` アトリビュートは、安全性への影響が見えるように
+      ``unsafe()`` のラッパを使わなければなりません。
 
       .. rust-example::
           :miri: skip
           :edition: 2024
 
-          // SAFETY: 'custom_symbol' does not conflict with any other symbol
+          // SAFETY: 'custom_symbol' は他のどのシンボルとも衝突しない
           #[unsafe(export_name = "custom_symbol")]
           pub fn my_function() {}
 
-          // SAFETY: Placing data in a specific section for embedded systems
+          // SAFETY: 組み込みシステム向けに、データを特定のセクションに配置する
           #[unsafe(link_section = ".noinit")]
           static mut PERSISTENT_DATA: [u8; 256] = [0; 256];
 
-          // SAFETY: Custom section for shared memory
+          // SAFETY: 共有メモリ用の独自セクション
           #[unsafe(link_section = ".shared")]
           static SHARED_BUFFER: [u8; 4096] = [0; 4096];
 
@@ -237,32 +237,32 @@ Assure visibility of ``unsafe`` keyword in unsafe code
               unsafe { let _ = PERSISTENT_DATA[0]; }
           }
 
-   **Enforcement**
-   This guideline can be enforced through the following mechanisms:
+   **強制**
+   このガイドラインは、次の仕組みによって強制できます。
 
-   * **Rust Edition 2024**: Migrating to Rust Edition 2024 makes violations of this guideline
-     compilation errors for ``extern`` blocks and unsafe attributes.
+   * **Rust 2024 エディション**: Rust 2024 エディションに移行すると、``extern`` ブロックと
+     unsafe なアトリビュートについて、このガイドラインへの違反がコンパイルエラーになります。
 
-   * **Compiler Lints**: Enable the following lints:
+   * **コンパイラのリント**: 次のリントを有効にします。
 
-     * ``#![deny(unsafe_code)]`` - Denies all unsafe code (use ``#[allow(unsafe_code)]`` for justified exceptions)
-     * ``#![deny(unsafe_op_in_unsafe_fn)]`` - Requires explicit unsafe blocks within unsafe functions
-     * ``#![warn(unsafe_attr_outside_unsafe)]`` - Warns about unsafe attributes without the ``unsafe()`` wrapper (pre-2024)
+     * ``#![deny(unsafe_code)]`` - すべての unsafe なコードを拒否します（正当な例外には ``#[allow(unsafe_code)]`` を使います）
+     * ``#![deny(unsafe_op_in_unsafe_fn)]`` - unsafe な関数の中で明示的な unsafe ブロックを要求します
+     * ``#![warn(unsafe_attr_outside_unsafe)]`` - ``unsafe()`` のラッパのない unsafe なアトリビュートについて警告します（2024 より前）
 
-   * **Static Analysis Tools**:
+   * **静的解析ツール**:
 
-     * ``cargo-geiger`` - Counts and reports unsafe code usage
-     * ``cargo-audit`` - Checks for known vulnerabilities in dependencies
-     * Custom Clippy lints for project-specific requirements
+     * ``cargo-geiger`` - unsafe なコードの使用を数えて報告します
+     * ``cargo-audit`` - 依存関係にある既知の脆弱性を検査します
+     * プロジェクト固有の要件のための独自の Clippy リント
 
-   * **Code Review**: Manual review of all code containing ``unsafe`` tokens should be
-     part of the development process, with documented justification for each usage.
+   * **コードレビュー**: ``unsafe`` トークンを含むすべてのコードを手作業でレビューすることを
+     開発プロセスに組み込み、使用箇所ごとに正当化の理由を文書化するべきです。
 
-   **Related guidelines**
-   * Minimize the scope of unsafe blocks
-   * Document safety invariants for all unsafe code with ``// SAFETY:`` comments
-   * Prefer safe abstractions over raw unsafe code
-   * Use ``#![forbid(unsafe_code)]`` at crate level where possible, with explicit exceptions
+   **関連するガイドライン**
+   * unsafe ブロックのスコープを最小限にする
+   * すべての unsafe なコードについて、安全性の不変条件を ``// SAFETY:`` コメントで文書化する
+   * 生の unsafe なコードよりも安全な抽象化を優先する
+   * 可能な場合はクレートレベルで ``#![forbid(unsafe_code)]`` を使い、例外は明示する
 
    .. bibliography::
       :id: bib_n8YJHvQf4mWx

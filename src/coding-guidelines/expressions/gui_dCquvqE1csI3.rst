@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Ensure that integer operations do not result in arithmetic overflow
-===================================================================
+整数演算で算術オーバーフローが起こらないようにする
+====================================================================
 
-.. guideline:: Ensure that integer operations do not result in arithmetic overflow
+.. guideline:: 整数演算で算術オーバーフローが起こらないようにする
     :id: gui_dCquvqE1csI3
     :category: required
     :status: draft
@@ -16,10 +16,10 @@ Ensure that integer operations do not result in arithmetic overflow
     :scope: system
     :tags: security, performance, numerics
 
-    Eliminate arithmetic overflow :cite:`gui_dCquvqE1csI3:FLS-ARITHMETIC-OVERFLOW` of both signed and unsigned integer types. 
-    Any wraparound behavior must be explicitly specified to ensure the same behavior in both debug and release modes.
+    符号付き整数型と符号なし整数型の両方で、算術オーバーフロー :cite:`gui_dCquvqE1csI3:FLS-ARITHMETIC-OVERFLOW` をなくしてください。
+    デバッグモードとリリースモードの両方で同じ振る舞いになるように、ラップアラウンドの振る舞いはすべて明示的に指定しなければなりません。
 
-    This rule applies to the following primitive types:
+    この規則は次のプリミティブ型に適用されます。
 
     * ``i8``
     * ``i16``
@@ -38,17 +38,17 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: rat_LvrS1jTCXEOk
         :status: draft
 
-        Eliminate arithmetic overflow to avoid runtime panics and unexpected wraparound behavior.
-        Arithmetic overflow will panic in debug mode, but wraparound in release mode, resulting in inconsistent behavior.
-        Use explicit :std:`std::num::Wrapping` or
-        :std:`std::num::Saturating` semantics where these behaviors are intentional.
-        Range checking can be used to eliminate the possibility of arithmetic overflow.
+        実行時のパニックや予期しないラップアラウンドの振る舞いを避けるために、算術オーバーフローをなくしてください。
+        算術オーバーフローは、デバッグモードではパニックしますが、リリースモードではラップアラウンドするため、振る舞いが一貫しません。
+        これらの振る舞いが意図したものである場合は、明示的に :std:`std::num::Wrapping` や
+        :std:`std::num::Saturating` のセマンティクスを使ってください。
+        範囲の検査を使えば、算術オーバーフローの可能性をなくせます。
 
     .. non_compliant_example::
         :id: non_compl_ex_cCh2RQUXeH0N
         :status: draft
 
-        This noncompliant code example can result in arithmetic overflow during the addition of the signed operands ``si_a`` and ``si_b``:
+        この不適合なコード例では、符号付きのオペランド ``si_a`` と ``si_b`` の加算で算術オーバーフローが起こりえます。
 
         .. rust-example::
 
@@ -64,15 +64,15 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BgUHiRB4kc4b_1
         :status: draft
 
-        This compliant solution ensures that the addition operation cannot result in arithmetic overflow,
-        based on the maximum range of a signed 32-bit integer.
-        Functions such as 
-        :std:`u32::overflowing_add`,
-        :std:`u32::overflowing_sub`, and 
+        この適合する解決策では、符号付き 32 ビット整数の最大の範囲に基づいて、
+        加算の演算で算術オーバーフローが起こりえないことを保証します。
+        オーバーフローの検出には、
+        :std:`u32::overflowing_add`、
+        :std:`u32::overflowing_sub`、
         :std:`u32::overflowing_mul`
-        can also be used to detect overflow.
-        Code that invoked these functions would typically further restrict the range of possible values,
-        based on the anticipated range of the inputs.
+        などの関数も使えます。
+        これらの関数を呼び出すコードでは、通常、想定される入力の範囲に基づいて、
+        取りうる値の範囲をさらに制限することになるでしょう。
 
         .. rust-example::
 
@@ -107,7 +107,7 @@ Ensure that integer operations do not result in arithmetic overflow
                     return Ok(0);
                 }
 
-                // Detect overflow before performing multiplication
+                // 乗算を行う前にオーバーフローを検出する
                 if (si_a == -1 && si_b == i32::MIN) || (si_b == -1 && si_a == i32::MIN) {
                     Err(ArithmeticError::Overflow)
                 } else if (si_a > 0 && (si_b > i32::MAX / si_a || si_b < i32::MIN / si_a))
@@ -125,8 +125,8 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BgUHiRB4kc4c
         :status: draft
 
-        This compliant example uses safe checked addition instead of manual bounds checks.
-        Checked functions can reduce readability when complex arithmetic expressions are needed.
+        この適合例では、手作業での境界の検査の代わりに、安全な検査付き加算を使います。
+        複雑な算術式が必要な場合、検査付きの関数を使うと可読性が下がることがあります。
 
         .. rust-example::
 
@@ -155,7 +155,7 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BgUHiRB4kc4b
         :status: draft
 
-        Wrapping behavior must be explicitly requested. This compliant example uses wrapping functions.
+        ラップアラウンドの振る舞いは明示的に要求しなければなりません。この適合例では、ラップアラウンドする関数を使います。
 
         .. rust-example::
 
@@ -180,11 +180,11 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BhUHiRB4kc4b
         :status: draft
 
-        Wrapping behavior call also be achieved using the :std:`std::num::Wrapping` type as in this compliant solution.
-        The :std:`std::num::Wrapping` type is a ``struct`` found in the ``core::num`` module that explicitly enables two's complement
-        wrapping arithmetic for the inner type ``T`` (which must be an integer or ``usize/isize``). 
-        The :std:`std::num::Wrapping` type provides a consistent way to force wrapping behavior in all build modes,
-        which is useful in specific scenarios like implementing cryptography or hash functions where wrapping arithmetic is the intended behavior.
+        この適合する解決策のように、:std:`std::num::Wrapping` 型を使ってラップアラウンドの振る舞いを実現することもできます。
+        :std:`std::num::Wrapping` 型は ``core::num`` モジュールにある ``struct`` で、
+        内部の型 ``T`` (整数か ``usize/isize`` でなければなりません) に対して、2 の補数によるラップアラウンド算術を明示的に有効にします。
+        :std:`std::num::Wrapping` 型は、すべてのビルドモードでラップアラウンドの振る舞いを一貫して強制する方法を提供します。
+        これは、暗号やハッシュ関数の実装のように、ラップアラウンド算術が意図した振る舞いである特定の場面で役に立ちます。
 
         .. rust-example::
 
@@ -204,7 +204,7 @@ Ensure that integer operations do not result in arithmetic overflow
                 si_a * si_b
             }
 
-            fn main() {    
+            fn main() {
                 let si_a = Wrapping(i32::MAX);
                 let si_b = Wrapping(i32::MAX);
                 println!("{} + {} = {}", si_a, si_b, add(si_a, si_b))
@@ -214,14 +214,14 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BgUHiSB4kc4b
         :status: draft
 
-        Saturation semantics means that instead of wrapping around or resulting in an error,
-        any result that falls outside the valid range of the integer type is clamped:
+        飽和セマンティクスとは、ラップアラウンドしたりエラーになったりする代わりに、
+        整数型の有効な範囲から外れる結果を次のように切り詰めることです。
 
-        - To the maximum value, if the result were to be greater than the maximum value, or
-        - To the minimum value, if the result were to be smaller than the minimum,
+        - 結果が最大値より大きくなる場合は、最大値に。または
+        - 結果が最小値より小さくなる場合は、最小値に。
 
-        Saturation semantics always conform to this rule because they ensure that integer operations do not result in arithmetic overflow. 
-        This compliant solution shows how to use saturating functions to provide saturation semantics for some basic arithmetic operations.
+        飽和セマンティクスは、整数演算で算術オーバーフローが起こらないことを保証するので、常にこの規則に適合します。
+        この適合する解決策では、飽和する関数を使って、いくつかの基本的な算術演算に飽和セマンティクスを持たせる方法を示します。
 
         .. rust-example::
 
@@ -246,9 +246,9 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BgUHiSB4kd4b
         :status: draft
 
-        :std:`std::num::Saturating` is a wrapper type in Rust's ``core`` library that makes arithmetic operations on the wrapped value perform saturating arithmetic instead of wrapping, panicking, or overflowing.
-        :std:`std::num::Saturating` is useful when you have a section of code or a data type where all arithmetic must be saturating.
-        This compliant solution uses the :std:`std::num::Saturating` type to define several functions that perform basic integer operations using saturation semantics.
+        :std:`std::num::Saturating` は Rust の ``core`` ライブラリにあるラッパ型で、包んだ値に対する算術演算を、ラップアラウンドやパニック、オーバーフローの代わりに飽和算術で行わせます。
+        :std:`std::num::Saturating` は、すべての算術を飽和させなければならないコードの部分やデータ型があるときに役に立ちます。
+        この適合する解決策では、:std:`std::num::Saturating` 型を使って、飽和セマンティクスで基本的な整数演算を行う関数をいくつか定義します。
 
         .. rust-example::
 
@@ -268,7 +268,7 @@ Ensure that integer operations do not result in arithmetic overflow
                 si_a * si_b
             }
 
-            fn main() {    
+            fn main() {
                 let si_a = Saturating(i32::MAX);
                 let si_b = Saturating(i32::MAX);
                 println!("{} + {} = {}", si_a, si_b, add(si_a, si_b))
@@ -278,7 +278,7 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: non_compl_ex_cCh2RQUXeH0O
         :status: draft
 
-        This noncompliant code example example prevents divide-by-zero errors, but does not prevent arithmetic overflow.
+        この不適合なコード例は、ゼロ除算のエラーは防ぎますが、算術オーバーフローは防ぎません。
 
         .. rust-example::
 
@@ -301,7 +301,7 @@ Ensure that integer operations do not result in arithmetic overflow
         :id: compl_ex_BgUHiRB4kc4d
         :status: draft
 
-        This compliant solution eliminates the possibility of both divide-by-zero errors and arithmetic overflow:
+        この適合する解決策では、ゼロ除算のエラーと算術オーバーフローの両方の可能性をなくします。
 
         .. rust-example::
 

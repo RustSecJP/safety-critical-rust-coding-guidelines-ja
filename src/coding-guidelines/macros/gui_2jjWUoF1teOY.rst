@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-A macro should not be used in place of a function
-=================================================
+関数の代わりにマクロを使うべきではない
+======================================
 
-.. guideline:: A macro should not be used in place of a function
+.. guideline:: 関数の代わりにマクロを使うべきではない
    :id: gui_2jjWUoF1teOY
    :category: mandatory
    :status: draft
@@ -16,7 +16,7 @@ A macro should not be used in place of a function
    :scope: system
    :tags: reduce-human-error
 
-   Functions should always be preferred over macros, except when macros provide essential functionality that functions cannot, such as variadic interfaces, compile-time code generation, or syntax extensions via custom derive and attribute macros.
+   常にマクロより関数を優先すべきです。ただし、可変長引数のインターフェイス、コンパイル時のコード生成、カスタム derive やアトリビュートマクロによる構文の拡張など、関数では提供できない不可欠な機能をマクロが提供する場合は例外です。
 
    |
 
@@ -24,39 +24,39 @@ A macro should not be used in place of a function
       :id: rat_M9bp23ctkzQ7
       :status: draft
 
-      Although the compiler reports both the macro expansion and its invocation site, diagnostics originating within macros can be more difficult to interpret than those from ordinary function or type definitions. Complex or deeply nested macros may obscure intent and hinder static analysis, increasing the risk of misinterpretation or overlooked errors during code review.
+      コンパイラはマクロの展開とその呼び出し箇所の両方を報告しますが、マクロの中から生じる診断は、通常の関数や型の定義から生じる診断よりも解釈が難しいことがあります。複雑なマクロや深くネストしたマクロは、意図をわかりにくくし、静的解析を妨げることがあります。その結果、コードレビューで誤解したりエラーを見落としたりするリスクが高まります。
 
 
-      **Debugging Complexity**
+      **デバッグの複雑さ**
 
-      - Errors point to expanded code rather than source locations, making it difficult to trace compile-time errors back to the original macro invocation.
+      - エラーはソース上の位置ではなく展開されたコードを指すので、コンパイル時のエラーを元のマクロ呼び出しまでたどるのが難しくなります。
 
-      **Optimization**
+      **最適化**
 
-      - Macros may inhibit compiler optimizations that work better with functions.
-      - Macros act like ``#[inline(always)]`` functions, which can lead to code bloat.
-      - They don't benefit from the compiler's inlining heuristics, missing out on selective inlining where the compiler decides when inlining is beneficial.
+      - マクロは、関数のほうがうまく働くコンパイラの最適化を妨げることがあります。
+      - マクロは ``#[inline(always)]`` の関数のように振る舞うので、コードの肥大化につながることがあります。
+      - マクロはコンパイラのインライン化のヒューリスティクスの恩恵を受けられず、インライン化が有益な場合をコンパイラが判断する選択的なインライン化を活かせません。
 
-      **Functions provide**
+      **関数が提供するもの**
 
-      - Clear type signatures.
-      - Predictable behavior.
-      - Proper stack traces.
-      - Consistent optimization opportunities.
+      - 明確な型シグネチャ。
+      - 予測可能な振る舞い。
+      - 適切なスタックトレース。
+      - 一貫した最適化の機会。
 
 
    .. non_compliant_example::
       :id: non_compl_ex_TZgk2vG42t2r
       :status: draft
 
-      Using a macro where a simple function would suffice, leads to hidden mutation:
+      単純な関数で十分なところでマクロを使うと、隠れた変更につながります。
 
       .. rust-example::
 
         macro_rules! increment_and_double {
             ($x:expr) => {
                 {
-                    $x += 1; // mutation is implicit
+                    $x += 1; // 変更が暗黙的
                     $x * 2
                 }
             };
@@ -69,19 +69,19 @@ A macro should not be used in place of a function
             // Result: 12, Num: 6
         }
 
-      In this example, calling the macro both increments and returns the value in one go—without any clear indication in its "signature" that it mutates its argument. As a result, num is changed behind the scenes, which can surprise readers and make debugging more difficult.
+      この例では、マクロを呼び出すと、値のインクリメントと値を返すことが一度に行われます。しかも、引数を変更することがその「シグネチャ」のどこにも明示されていません。その結果、num は裏で変更され、読み手を驚かせたり、デバッグを難しくしたりすることがあります。
 
 
    .. compliant_example::
       :id: compl_ex_iPTgzrvO7qr3
       :status: draft
 
-      The same functionality, implemented as a function with explicit borrowing:
+      同じ機能を、明示的な借用を使う関数として実装したものです。
 
       .. rust-example::
 
         fn increment_and_double(x: &mut i32) -> i32 {
-            *x += 1; // mutation is explicit
+            *x += 1; // 変更が明示的
             *x * 2
         }
 
@@ -92,4 +92,4 @@ A macro should not be used in place of a function
             // Result: 12, Num: 6
         }
 
-      The function version makes the mutation and borrowing explicit in its signature, improving readability, safety, and debuggability.
+      関数版では、変更と借用がシグネチャに明示されるので、可読性、安全性、デバッグのしやすさが向上します。

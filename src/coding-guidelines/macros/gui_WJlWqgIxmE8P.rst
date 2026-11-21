@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Shall not use Function-like Macros
-==================================
+関数風マクロを使ってはならない
+==============================
 
-.. guideline:: Shall not use Function-like Macros
+.. guideline:: 関数風マクロを使ってはならない
    :id: gui_WJlWqgIxmE8P
    :category: mandatory
    :status: draft
@@ -16,25 +16,25 @@ Shall not use Function-like Macros
    :scope: system
    :tags: reduce-human-error
 
-   Description of the guideline goes here.
+   ここにガイドラインの説明を書きます。
 
    .. rationale::
       :id: rat_C8RRidiVzhRj
       :status: draft
 
-      Explanation of why this guideline is important.
+      このガイドラインが重要である理由の説明。
 
    .. non_compliant_example::
       :id: non_compl_ex_TjRiRkmBY6wG
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Non-compliant implementation
+            // 不適合な実装
         }
         #
         # fn main() {}
@@ -43,13 +43,13 @@ Shall not use Function-like Macros
       :id: compl_ex_AEKEOYhBWPMl
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Compliant implementation
+            // 適合する実装
         }
         #
         # fn main() {}

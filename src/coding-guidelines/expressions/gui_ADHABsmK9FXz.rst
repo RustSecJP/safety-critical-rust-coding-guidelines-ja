@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-The 'as' operator should not be used with numeric operands
-==========================================================
+'as' 演算子を数値のオペランドに使うべきではない
+================================================
 
-.. guideline:: The 'as' operator should not be used with numeric operands
+.. guideline:: 'as' 演算子を数値のオペランドに使うべきではない
    :id: gui_ADHABsmK9FXz
    :category: advisory
    :status: draft
@@ -16,71 +16,71 @@ The 'as' operator should not be used with numeric operands
    :scope: module
    :tags: subset, reduce-human-error
 
-   The binary operator ``as`` should not be used with:
+   二項演算子 ``as`` は、次のものと一緒に使うべきではありません。
 
-   * a numeric type, including all supported integer, floating, and machine-dependent arithmetic types; or
-   * ``bool``; or
+   * 数値型。サポートされるすべての整数型、浮動小数点型、マシン依存の算術型を含みます。または
+   * ``bool``。または
    * ``char``
 
-   as either the right operand or the type of the left operand.
+   これは、右オペランドとしても、左オペランドの型としても同様です。
 
-   **Exception:** ``as`` may be used with ``usize`` as the right operand and an expression of raw pointer
-   type as the left operand.
+   **例外:** 右オペランドが ``usize`` で、左オペランドが生ポインタ型の式であるときは、
+   ``as`` を使ってもかまいません。
 
    .. rationale::
       :id: rat_v56bjjcveLxQ
       :status: draft
 
-      Although the conversions performed by ``as`` between numeric types are all well-defined, ``as`` coerces
-      the value to fit in the destination type, which may result in unexpected data loss if the value needs to
-      be truncated, rounded, or produce a nearest possible non-equal value.
+      数値型の間で ``as`` が行う変換はすべて定義されていますが、``as`` は値を変換先の型に収まるように強制します。
+      そのため、値を切り詰めたり、丸めたり、等しくない最も近い値にしたりする必要がある場合には、
+      予期しないデータの損失が起こることがあります。
 
-      Although some conversions are lossless, others are not symmetrical. Instead of relying on either a defined
-      lossy behaviour or risking loss of precision, the code can communicate intent by using ``Into`` or ``From``
-      and ``TryInto`` or ``TryFrom`` to signal which conversions are intended to perfectly preserve the original
-      value, and which are intended to be fallible. The latter cannot be used from const functions, indicating
-      that these should avoid using fallible conversions.
+      損失のない変換もありますが、対称でない変換もあります。定義された損失のある振る舞いに頼ったり、
+      精度の損失を覚悟したりする代わりに、``Into`` や ``From``、``TryInto`` や ``TryFrom`` を使えば、
+      コードで意図を伝えられます。つまり、どの変換が元の値を完全に保つことを意図しており、
+      どの変換が失敗しうることを意図しているかを示せます。後者は const 関数からは使えません。
+      これは、const 関数では失敗しうる変換を避けるべきだということを示しています。
 
-      A pointer-to-address cast does not lose value, but will be truncated unless the destination type is large
-      enough to hold the address value. The ``usize`` type is guaranteed to be wide enough for this purpose.
+      ポインタからアドレスへのキャストは値を失いませんが、変換先の型がアドレスの値を保持できるほど
+      大きくない限り、切り詰められます。``usize`` 型は、この目的に十分な幅があることが保証されています。
 
-      A pointer-to-address cast is not symmetrical because the resulting pointer may not point to a valid object,
-      may not point to an object of the right type, or may not be properly aligned.
-      If a conversion in this direction is needed, :std:`std::mem::transmute` will communicate the intent to perform
-      an unsafe operation.
+      ポインタからアドレスへのキャストは対称ではありません。結果のポインタは、有効なオブジェクトを指していないかもしれず、
+      正しい型のオブジェクトを指していないかもしれず、正しくアラインされていないかもしれないからです。
+      この方向の変換が必要な場合は、:std:`std::mem::transmute` を使うと、
+      ``unsafe`` な操作を行う意図を伝えられます。
 
    .. non_compliant_example::
       :id: non_compl_ex_hzGUYoMnK59w
       :status: draft
 
-      ``as`` used here can change the value range or lose precision.
-      Even when it doesn't, nothing enforces the correct behaviour or communicates whether
-      we intend to allow lossy conversions, or only expect valid conversions.
+      ここで使われている ``as`` は、値の範囲を変えたり、精度を失ったりすることがあります。
+      そうならない場合でも、正しい振る舞いを強制するものは何もありません。また、損失のある変換を許すつもりなのか、
+      有効な変換だけを想定しているのかも伝わりません。
 
       .. rust-example::
 
          #[allow(dead_code)]
          fn f1(x: u16, y: i32, _z: u64, w: u8) {
-           let _a = w as char;           // non-compliant
-           let _b = y as u32;            // non-compliant - changes value range, converting negative values
-           let _c = x as i64;            // non-compliant - could use .into()
+           let _a = w as char;           // 不適合
+           let _b = y as u32;            // 不適合 - 値の範囲が変わり、負の値が変換される
+           let _c = x as i64;            // 不適合 - .into() を使える
 
-           let d = y as f32;            // non-compliant - lossy
-           let e = d as f64;            // non-compliant - could use .into()
-           let _f = e as f32;            // non-compliant - lossy
+           let d = y as f32;            // 不適合 - 損失がある
+           let e = d as f64;            // 不適合 - .into() を使える
+           let _f = e as f32;            // 不適合 - 損失がある
 
-           let _g = e as i64;            // non-compliant - lossy despite object size
+           let _g = e as i64;            // 不適合 - オブジェクトのサイズにかかわらず損失がある
 
            let b: u32 = 0;
            let p1: * const u32 = &b;
-           let _a1 = p1 as usize;        // compliant by exception
-           let _a2 = p1 as u16;          // non-compliant - may lose address range
-           let _a3 = p1 as u64;          // non-compliant - use usize to indicate intent
+           let _a1 = p1 as usize;        // 例外により適合
+           let _a2 = p1 as u16;          // 不適合 - アドレスの範囲を失うことがある
+           let _a3 = p1 as u64;          // 不適合 - 意図を示すには usize を使う
 
            let a1 = p1 as usize;
-           let _p2 = a1 as * const u32;  // non-compliant - prefer transmute
+           let _p2 = a1 as * const u32;  // 不適合 - transmute を使うほうがよい
            let a2 = p1 as u16;
-           let _p3 = a2 as * const u32;  // non-compliant (and most likely not in a valid address range)
+           let _p3 = a2 as * const u32;  // 不適合 (しかも、おそらく有効なアドレスの範囲にない)
          }
          #
          # fn main() {}
@@ -89,11 +89,11 @@ The 'as' operator should not be used with numeric operands
       :id: compl_ex_uilHTIOgxD37
       :status: draft
 
-      Valid conversions that are guaranteed to preserve exact values can be communicated
-      better with ``into()`` or ``from()``.
-      Valid conversions that risk losing value, where doing so would be an error, can
-      communicate this and include an error check, with ``try_into`` or ``try_from``.
-      Other forms of conversion may find ``transmute`` better communicates their intent.
+      正確な値を保つことが保証されている有効な変換は、``into()`` や ``from()`` を使うと、
+      よりよく伝えられます。
+      値を失うおそれがあり、それがエラーとなるような有効な変換では、``try_into`` や ``try_from`` を使うと、
+      そのことを伝え、エラーの検査も含められます。
+      それ以外の形の変換では、``transmute`` のほうが意図をよりよく伝えられる場合があります。
 
       .. rust-example::
          :miri:
@@ -103,23 +103,23 @@ The 'as' operator should not be used with numeric operands
          #[allow(dead_code)]
          fn f2(x: u16, y: i32, _z: u64, w: u8) {
            let _a: char            = w.into();
-           let _b: Result <u32, _> = y.try_into(); // produce an error on range clip
+           let _b: Result <u32, _> = y.try_into(); // 範囲外ならエラーを生成する
            let _c: i64             = x.into();
 
-           let d = f32::from(x);  // u16 is within range, u32 is not
+           let d = f32::from(x);  // u16 は範囲内だが、u32 はそうではない
            let _e = f64::from(d);
-           // let f = f32::from(e); // no From exists
+           // let f = f32::from(e); // From は存在しない
 
-           // let g = ...            // no From exists
+           // let g = ...            // From は存在しない
 
            let h: u32 = 0;
            let p1: * const u32 = &h;
-           let a1 = p1 as usize;     // (compliant)
+           let a1 = p1 as usize;     // (適合)
 
            unsafe {
              let _a2: usize = std::mem::transmute(p1);  // OK
-             let _a3: u64   = std::mem::transmute(p1);  // OK, size is checked
-             // let a3: u16   = std::mem::transmute(p1);  // invalid, different sizes
+             let _a3: u64   = std::mem::transmute(p1);  // OK、サイズが検査される
+             // let a3: u16   = std::mem::transmute(p1);  // 無効、サイズが異なる
 
              #[allow(integer_to_ptr_transmutes)]
              let _p2: * const u32 = std::mem::transmute(a1); // OK
@@ -128,9 +128,9 @@ The 'as' operator should not be used with numeric operands
            }
 
            unsafe {
-             // does something entirely different,
-             // reinterpreting the bits of z as the IEEE bit pattern of a double
-             // precision object, rather than converting the integer value
+             // まったく別のことをする。
+             // 整数の値を変換するのではなく、z のビットを
+             // 倍精度オブジェクトの IEEE ビットパターンとして再解釈する
              #[allow(unnecessary_transmutes)]
              let _f1: f64 = std::mem::transmute(_z);
            }

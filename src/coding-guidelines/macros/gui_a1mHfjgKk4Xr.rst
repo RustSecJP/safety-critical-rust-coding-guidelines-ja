@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Shall not invoke macros
-=======================
+マクロを呼び出してはならない
+============================
 
-.. guideline:: Shall not invoke macros
+.. guideline:: マクロを呼び出してはならない
    :id: gui_a1mHfjgKk4Xr
    :category: mandatory
    :status: draft
@@ -16,25 +16,25 @@ Shall not invoke macros
    :scope: system
    :tags: reduce-human-error
 
-   Description of the guideline goes here.
+   ここにガイドラインの説明を書きます。
 
    .. rationale::
       :id: rat_62mSorNF05kD
       :status: draft
 
-      Explanation of why this guideline is important.
+      このガイドラインが重要である理由の説明。
 
    .. non_compliant_example::
       :id: non_compl_ex_hP5KLhqQfDcd
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Non-compliant implementation
+            // 不適合な実装
         }
         #
         # fn main() {}
@@ -43,13 +43,13 @@ Shall not invoke macros
       :id: compl_ex_ti7GWHCOhUvT
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Compliant implementation
+            // 適合する実装
         }
         #
         # fn main() {}

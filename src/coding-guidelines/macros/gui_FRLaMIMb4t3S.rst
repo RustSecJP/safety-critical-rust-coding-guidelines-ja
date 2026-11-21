@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Do not hide unsafe blocks within macro expansions
-=================================================
+マクロ展開の中に unsafe ブロックを隠さない
+==========================================
 
-.. guideline:: Do not hide unsafe blocks within macro expansions
+.. guideline:: マクロ展開の中に unsafe ブロックを隠さない
    :id: gui_FRLaMIMb4t3S
    :category: required
    :status: draft
@@ -16,25 +16,25 @@ Do not hide unsafe blocks within macro expansions
    :scope: todo
    :tags: reduce-human-error
 
-   Description of the guideline goes here.
+   ここにガイドラインの説明を書きます。
 
    .. rationale::
       :id: rat_WJubG7KuUDLW
       :status: draft
 
-      Explanation of why this guideline is important.
+      このガイドラインが重要である理由の説明。
 
    .. non_compliant_example::
       :id: non_compl_ex_AyFnP0lJLHxi
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Non-compliant implementation
+            // 不適合な実装
         }
         #
         # fn main() {}
@@ -43,13 +43,13 @@ Do not hide unsafe blocks within macro expansions
       :id: compl_ex_pO5gP1aj2v4F
       :status: draft
 
-      Explanation of code example.
+      コード例の説明。
 
       .. rust-example::
 
         #[allow(dead_code)]
         fn example_function() {
-            // Compliant implementation
+            // 適合する実装
         }
         #
         # fn main() {}

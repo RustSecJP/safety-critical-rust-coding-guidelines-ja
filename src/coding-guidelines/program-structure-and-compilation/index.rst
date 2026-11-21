@@ -3,5 +3,5 @@
 
 .. default-domain:: coding-guidelines
 
-Program Structure And Compilation
+プログラム構造とコンパイル
 =================================

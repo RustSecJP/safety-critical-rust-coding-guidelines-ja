@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Do not divide by 0
-==================
+0 で割らない
+============
 
-.. guideline:: Do not divide by 0
+.. guideline:: 0 で割らない
    :id: gui_kMbiWbn8Z6g5
    :category: required
    :status: draft
@@ -16,13 +16,13 @@ Do not divide by 0
    :scope: system
    :tags: numerics, defect
 
-   Integer division by zero results in a panic.
-   This includes both division expressions :cite:`gui_kMbiWbn8Z6g5:FLS-DIVISION-EXPR` and remainder expressions :cite:`gui_kMbiWbn8Z6g5:FLS-REMAINDER-EXPR`.
+   整数のゼロによる除算はパニックになります。
+   これには、除算式 :cite:`gui_kMbiWbn8Z6g5:FLS-DIVISION-EXPR` と剰余式 :cite:`gui_kMbiWbn8Z6g5:FLS-REMAINDER-EXPR` の両方が含まれます。
 
-   Division and remainder expressions on signed integers are also susceptible to arithmetic overflow.
-   Overflow is covered in full by the guideline `Ensure that integer operations do not result in arithmetic overflow`.
+   符号付き整数に対する除算式と剰余式では、算術オーバーフローも起こりえます。
+   オーバーフローについては、ガイドライン `整数演算で算術オーバーフローが起こらないようにする` ですべて扱っています。
 
-   This rule applies to the following primitive integer types :cite:`gui_kMbiWbn8Z6g5:FLS-INTEGER-TYPES`:
+   この規則は、次のプリミティブな整数型 :cite:`gui_kMbiWbn8Z6g5:FLS-INTEGER-TYPES` に適用されます。
 
     * ``i8``
     * ``i16``
@@ -37,47 +37,47 @@ Do not divide by 0
     * ``usize``
     * ``isize``
 
-   This rule does not apply to evaluation of the :std:`core::ops::Div` trait on types other than integer types :cite:`gui_kMbiWbn8Z6g5:FLS-INTEGER-TYPES`.
+   この規則は、整数型 :cite:`gui_kMbiWbn8Z6g5:FLS-INTEGER-TYPES` 以外の型に対する :std:`core::ops::Div` トレイトの評価には適用されません。
 
-   This rule is a less strict version of `Do not use an integer type as a divisor during integer division`.
-   All code that complies with that rule also complies with this rule.
+   この規則は、`整数の除算で整数型を除数に使わない` をゆるくしたものです。
+   その規則に適合するコードは、すべてこの規則にも適合します。
 
    .. rationale::
       :id: rat_h84NjY2tLSBW
       :status: draft
 
-      Integer division by zero results in a panic; an abnormal program state that may terminate the process and must be avoided.
+      整数のゼロによる除算はパニックになります。パニックはプロセスを終了させることがある異常なプログラムの状態であり、避けなければなりません。
 
    .. non_compliant_example::
       :id: non_compl_ex_LLs3vY8aGz0F
       :status: draft
 
-      This non-compliant example panics when the right operand is zero for either the division or remainder operations.
+      この不適合例は、除算と剰余演算のどちらでも、右オペランドがゼロのときにパニックします。
 
       .. rust-example::
           :compile_fail:
 
           fn main() {
               let x = 0;
-              let _y = 5 / x; // Results in a panic.
-              let _z = 5 % x; // Also results in a panic.
+              let _y = 5 / x; // パニックになる。
+              let _z = 5 % x; // これもパニックになる。
           }
 
    .. compliant_example::
       :id: compl_ex_Ri9pP5Ch3kcc
       :status: draft
 
-      Compliant examples from `Do not use an integer type as a divisor during integer division` are also valid for this rule.
-      Additionally, the check for zero can be performed manually, as in this compliant example.
-      However, as the complexity of the control flow leading to the invariant increases,
-      it becomes increasingly harder for both programmers and static analysis tools to reason about it.
+      `整数の除算で整数型を除数に使わない` の適合例は、この規則でも有効です。
+      加えて、この適合例のように、ゼロの検査を手作業で行うこともできます。
+      ただし、その不変条件に至る制御フローが複雑になるほど、
+      プログラマにとっても静的解析ツールにとっても、それについて推論するのが難しくなっていきます。
 
-      Note that the test for arithmetic overflow is not necessary for unsigned integers.
+      なお、符号なし整数では算術オーバーフローの検査は必要ありません。
 
       .. rust-example::
 
          fn main() {
-             // Checking for zero by hand
+             // 手作業でゼロを検査する
              let x = 0u32;
              let _y = if x != 0u32 {
                  5u32 / x

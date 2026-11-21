@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Appendices
+付録
 ==========
 
 .. toctree::

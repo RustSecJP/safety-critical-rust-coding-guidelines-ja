@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Compliance Meaning
+準拠の意味
 ==================
 
-We follow MISRA Compliance 2020.
+私たちは MISRA Compliance 2020 に従います。

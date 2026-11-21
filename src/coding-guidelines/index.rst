@@ -3,8 +3,8 @@
 
 .. default-domain:: coding-guidelines
 
-Coding Guidelines
-=================
+コーディングガイドライン
+========================
 
 .. toctree::
    :maxdepth: 1

@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Procedural macros should not be used
-====================================
+手続き的マクロを使うべきではない
+================================
 
-.. guideline:: Procedural macros should not be used
+.. guideline:: 手続き的マクロを使うべきではない
    :id: gui_66FSqzD55VRZ
    :category: advisory
    :status: draft
@@ -16,23 +16,23 @@ Procedural macros should not be used
    :scope: crate
    :tags: readability, reduce-human-error
 
-   Macros should be expressed using declarative syntax
-   in preference to procedural syntax.
+   マクロは、手続き的な構文よりも
+   宣言的な構文を優先して表現すべきです。
 
    .. rationale::
       :id: rat_AmCavSymv3Ev
       :status: draft
 
-      Procedural macros are not restricted to pure transcription and can contain arbitrary Rust code.
-      This means they can be harder to understand, and cannot be as easily proved to work as intended.
-      Procedural macros can have arbitrary side effects, which can exhaust compiler resources or
-      expose a vulnerability for users of adopted code.
+      手続き的マクロは純粋な転写に限定されず、任意の Rust コードを含められます。
+      そのため、理解するのが難しくなることがあり、意図どおりに動作することを簡単には証明できません。
+      手続き的マクロは任意の副作用を持てるので、コンパイラの資源を使い果たしたり、
+      採用したコードのユーザに脆弱性をさらしたりすることがあります。
 
    .. non_compliant_example::
       :id: non_compl_ex_pJhVZW6a1HP9
       :status: draft
 
-      (example of a simple expansion using a proc-macro)
+      (手続き的マクロを使った単純な展開の例)
 
       .. rust-example::
 
@@ -43,7 +43,7 @@ Procedural macros should not be used
       :id: compl_ex_4VFyucETB7C3
       :status: draft
 
-      (example of the same simple expansion using a declarative macro)
+      (同じ単純な展開を宣言的マクロで行う例)
 
       .. rust-example::
 

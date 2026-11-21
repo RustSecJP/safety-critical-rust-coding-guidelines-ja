@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Overview
+概要
 ========
 
 .. toctree::

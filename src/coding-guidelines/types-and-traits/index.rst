@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Types and Traits
+型とトレイト
 ================
 
 .. toctree::

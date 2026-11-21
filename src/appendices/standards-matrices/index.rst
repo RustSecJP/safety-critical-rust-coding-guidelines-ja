@@ -3,7 +3,7 @@
 
 .. default-domain:: coding-guidelines
 
-Standards Matrices
+規格対応表
 ==================
 
 .. toctree::

@@ -3,10 +3,10 @@
 
 .. default-domain:: coding-guidelines
 
-Do not use an integer type as a divisor during integer division
-===============================================================
+整数の除算で整数型を除数に使わない
+==================================
 
-.. guideline:: Do not use an integer type as a divisor during integer division
+.. guideline:: 整数の除算で整数型を除数に使わない
    :id: gui_7y0GAMmtMhch
    :category: advisory
    :status: draft
@@ -16,10 +16,10 @@ Do not use an integer type as a divisor during integer division
    :scope: module
    :tags: numerics, subset
 
-   Do not provide a right operand of integer type :cite:`gui_7y0GAMmtMhch:FLS-INTEGER-TYPES`
-   during a division expression :cite:`gui_7y0GAMmtMhch:FLS-DIVISION-EXPR` or remainder expression :cite:`gui_7y0GAMmtMhch:FLS-REMAINDER-EXPR` when the left operand also has integer type.
+   除算式 :cite:`gui_7y0GAMmtMhch:FLS-DIVISION-EXPR` または剰余式 :cite:`gui_7y0GAMmtMhch:FLS-REMAINDER-EXPR` で、左オペランドも整数型であるときは、
+   整数型 :cite:`gui_7y0GAMmtMhch:FLS-INTEGER-TYPES` の右オペランドを与えてはいけません。
 
-    This rule applies to the following primitive integer types:
+    この規則は次のプリミティブな整数型に適用されます。
 
     * ``i8``
     * ``i16``
@@ -38,43 +38,43 @@ Do not use an integer type as a divisor during integer division
       :id: rat_vLFlPWSCHRje
       :status: draft
 
-      Integer division and integer remainder division both panic when the right operand has a value of zero.
-      Division by zero is undefined in mathematics because it leads to contradictions and there is no consistent value that can be assigned as its result.
+      整数の除算と整数の剰余演算は、どちらも右オペランドの値がゼロのときにパニックします。
+      ゼロによる除算は数学では定義されていません。矛盾を生じ、その結果として割り当てられる一貫した値が存在しないからです。
 
    .. non_compliant_example::
       :id: non_compl_ex_0XeioBrgfh5z
       :status: draft
 
-      Both the division and remainder operations in this non-compliant example will panic if evaluated because the right operand is zero.
+      この不適合例では、右オペランドがゼロなので、除算と剰余演算のどちらも評価されるとパニックします。
 
       .. rust-example::
           :compile_fail:
 
           fn main() {
               let x = 0;
-              let _y = 5 / x; // This line will panic.
-              let _z = 5 % x; // This line would also panic.
+              let _y = 5 / x; // この行はパニックする。
+              let _z = 5 % x; // この行もパニックするだろう。
           }
 
    .. compliant_example::
       :id: compl_ex_k1CD6xoZxhXb
       :status: draft
 
-      Checked division prevents division by zero from occurring.
-      The programmer can then handle the returned :std:`std::option::Option`.
-      Using checked division and remainder is particularly important in the signed integer case,
-      where arithmetic overflow can also occur when dividing the minimum representable value by -1.
+      検査付き除算を使うと、ゼロによる除算が起こるのを防げます。
+      プログラマはそのうえで、返された :std:`std::option::Option` を処理できます。
+      検査付きの除算と剰余を使うことは、符号付き整数の場合に特に重要です。
+      符号付き整数では、表現できる最小の値を -1 で割ったときに算術オーバーフローも起こりうるからです。
 
       .. rust-example::
 
          fn main() {
-             // Using the checked division API
+             // 検査付き除算の API を使う
              let _y = match 5i32.checked_div(0) {
                  None => 0,
                  Some(r) => r,
              };
 
-             // Using the checked remainder API
+             // 検査付き剰余の API を使う
              let _z = match 5i32.checked_rem(0) {
                  None => 0,
                  Some(r) => r,
@@ -85,13 +85,13 @@ Do not use an integer type as a divisor during integer division
       :id: compl_ex_k1CD6xoZxhXc
       :status: draft
 
-      This compliant solution creates a divisor using :std:`std::num::NonZero`.
-      :std:`std::num::NonZero` is a wrapper around primitive integer types that guarantees the contained value is never zero.
-      :std:`std::num::NonZero::new` creates a new binding that represents a value that is known not to be zero.
-      This ensures that functions operating on its value can correctly assume that they are not being given zero as their input. 
+      この適合例では、:std:`std::num::NonZero` を使って除数を作ります。
+      :std:`std::num::NonZero` はプリミティブな整数型のラッパで、中の値が決してゼロにならないことを保証します。
+      :std:`std::num::NonZero::new` は、ゼロでないことがわかっている値を表す新しい束縛を作ります。
+      これにより、その値を扱う関数は、入力としてゼロが与えられないと正しく仮定できます。
 
-      Note that the test for arithmetic overflow that occurs when dividing the minimum representable value by -1 is unnecessary
-      in this compliant example because the result of the division expression is an unsigned integer type.
+      なお、この適合例では、表現できる最小の値を -1 で割ったときに起こる算術オーバーフローの検査は不要です。
+      除算式の結果が符号なし整数型だからです。
 
       .. rust-example::
          :version: 1.79

@@ -1,27 +1,26 @@
-Rust Cross Reference with MISRA C 2025
+MISRA C 2025 と Rust の相互参照
 =======================================
 
-The following tables provide a cross reference between the MISRA C 2025 guidelines and their applicability to Rust. The
-first table covers guidelines that are applicable to Rust in general, while the second table covers additional
-guidelines that are applicable in the presence of unsafe code. The third table lists guidelines that are not applicable
-to Rust.
+以下の表は、MISRA C 2025 のガイドラインと、それらが Rust に当てはまるかどうかの相互参照を示します。
+1 つ目の表は Rust 全般に当てはまるガイドラインを扱い、2 つ目の表は ``unsafe`` なコードがある場合に
+追加で当てはまるガイドラインを扱います。3 つ目の表は Rust に当てはまらないガイドラインの一覧です。
 
-The origin of this assessment can be found at `MISRA C:2025 Addendum 6`_.
+この評価の出典は `MISRA C:2025 Addendum 6`_ にあります。
 
 
-Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code present)
+表 1 – Rust 全般に当てはまるガイドライン（安全な Rust、unsafe なコードがない場合）
 --------------------------------------------------------------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Guideline
-     - Category
-     - Safety critical Rust rule
-     - Category
-     - Comment
-   * - **Directives**
+   * - ガイドライン
+     - カテゴリ
+     - セーフティクリティカル Rust ルール
+     - カテゴリ
+     - コメント
+   * - **ディレクティブ**
      -
      -
      -
@@ -35,7 +34,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Advisory
      -
      -
-     - intended to apply to experimental and unstable features, forcing full documentation
+     - 実験的なフィーチャや不安定なフィーチャに適用し、完全な文書化を強制することを意図している
    * - D.2.1
      - Required
      -
@@ -50,22 +49,22 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - often in the form of panics
+     - 多くの場合パニックの形をとる
    * - D.4.4
      - Advisory
      -
      -
-     - conditional compilation is provided by the cfg attribute
+     - 条件付きコンパイルは cfg アトリビュートで提供される
    * - D.4.5
      - Advisory
      -
      -
-     - "ambiguity" is determined by the project
+     - 「曖昧さ」はプロジェクトが判断する
    * - D.4.7
      - Required
      -
      -
-     - prefer Option, Result, etc. over in-band error values
+     - 帯域内のエラー値よりも Option や Result などを優先する
    * - D.4.9
      - Advisory
      -
@@ -85,7 +84,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Advisory
      -
      -
-     - many Rust APIs use the type system to enforce ordering
+     - Rust の多くの API は、型システムを使って順序を強制する
    * - D.4.14
      - Required
      -
@@ -95,7 +94,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - Rust implements IEEE-754
+     - Rust は IEEE-754 を実装している
    * - D.5.2
      - Required
      -
@@ -106,7 +105,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      -
      -
      -
-   * - **Rules**
+   * - **ルール**
      -
      -
      -
@@ -120,7 +119,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - this applies to deprecated APIs
+     - 非推奨の API に適用される
    * - R.2.1
      - Required
      -
@@ -160,27 +159,27 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - nested comments are fully supported
+     - 入れ子のコメントは完全にサポートされている
    * - R.5.2
      - Required
      -
      -
-     - no character limit, but one can be applied; has name spaces
+     - 文字数の制限はないが、制限を適用することはできる。名前空間がある
    * - R.5.3
      - Required
      - :need:`gui_SJMrWDYZ0dN4`
      - Required
-     - this also applies to macro names
+     - マクロ名にも適用される
    * - R.5.6
      - Required
      -
      -
-     - the proper module system makes surprise name conflicts much less likely
+     - きちんとしたモジュールシステムにより、予期しない名前の衝突はずっと起こりにくい
    * - R.5.8
      - Required
      -
      -
-     - the proper module system makes surprise name conflicts much less likely
+     - きちんとしたモジュールシステムにより、予期しない名前の衝突はずっと起こりにくい
    * - R.5.9
      - Advisory
      -
@@ -190,17 +189,17 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - Rust octals have a distinct prefix from decimals
+     - Rust の 8 進数には 10 進数とは異なる接頭辞がある
    * - R.7.2
      - Required
      -
      -
-     - this is an error by default but can be enabled. Note that suffixes also make the size explicit
+     - デフォルトではエラーだが、有効にできる。なお、接尾辞によってサイズも明示される
    * - R.8.7
      - Advisory
      -
      -
-     - items should not be declared pub if referenced in only one module
+     - 1 つのモジュールでしか参照されない要素は pub と宣言すべきでない
    * - R.8.9
      - Advisory
      -
@@ -210,17 +209,17 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Advisory
      -
      -
-     - ``mut`` should be avoided unless necessary
+     - 必要でない限り ``mut`` は避けるべき
    * - R.9.1
      - Mandatory
      -
      -
-     - enforced by rustc but can be bypassed by unsafe
+     - rustc によって強制されるが、unsafe によって回避できる
    * - R.9.4
      - Required
      -
      -
-     - enforced by rustc
+     - rustc によって強制される
    * - R.11.3
      - Required
      -
@@ -235,7 +234,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Advisory
      -
      -
-     - enforced by rustc
+     - rustc によって強制される
    * - R.12.1
      - Advisory
      -
@@ -245,7 +244,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - order of evaluation is strict in Rust
+     - Rust では評価順序が厳密に決まっている
    * - R.13.5
      - Required
      -
@@ -260,7 +259,7 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - enforced by rustc
+     - rustc によって強制される
    * - R.15.4
      - Advisory
      -
@@ -285,17 +284,17 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      - Required
      -
      -
-     - ``must_use`` can help indicate where this is important, but does not affect applicability
+     - ``must_use`` はこれが重要な箇所を示すのに役立つが、適用可能性には影響しない
    * - R.17.8
      - Advisory
      -
      -
-     - this cannot be done accidentally without declaring parameters ``mut``
+     - パラメータを ``mut`` と宣言しない限り、うっかりこれを行うことはできない
    * - R.17.11
      - Advisory
      -
      -
-     - a non-returning function can be declared to return a value type
+     - 返らない関数を、値の型を返すように宣言できる
    * - R.18.3
      - Required
      -
@@ -338,21 +337,21 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
      -
 
 
-Table 2 – Guidelines applicable to Rust in the presence of unsafe code
+表 2 – unsafe なコードがある場合に Rust に当てはまるガイドライン
 -----------------------------------------------------------------------
 
-In addition to the rules from Table 1, these are the additional guidelines that need to be covered:
+表 1 のルールに加えて、扱う必要がある追加のガイドラインは次のとおりです。
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Guideline
-     - Category
-     - Safety critical Rust rule
-     - Category
-     - Comment
-   * - **Directives**
+   * - ガイドライン
+     - カテゴリ
+     - セーフティクリティカル Rust ルール
+     - カテゴリ
+     - コメント
+   * - **ディレクティブ**
      -
      -
      -
@@ -371,8 +370,8 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      - Required
      -
      -
-     - not all safe Rust types are race-free
-   * - **Rules**
+     - 安全な Rust の型がすべて競合しないわけではない
+   * - **ルール**
      -
      -
      -
@@ -386,42 +385,42 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      - Required
      -
      -
-     - no character limit, except in extern "C", but one can be set by project
+     - extern "C" 以外では文字数の制限はないが、プロジェクトで制限を設定できる
    * - R.5.5
      - Required
      -
      -
-     - macros and functions use different syntax
+     - マクロと関数は異なる構文を使う
    * - R.5.10
      - Required
      -
      -
-     - only possible in some cases. Previously Rule 21.2
+     - 一部の場合にのみ可能。以前の Rule 21.2
    * - R.8.3
      - Required
      -
      -
-     - an extern declaration shall have a type compatible with the C declaration
+     - extern 宣言は C の宣言と互換性のある型を持たなければならない
    * - R.8.5
      - Required
      -
      -
-     - may affect extern "C" declarations
+     - extern "C" の宣言に影響することがある
    * - R.8.6
      - Required
      -
      -
-     - may affect extern "C" declarations
+     - extern "C" の宣言に影響することがある
    * - R.8.15
      - Required
      -
      -
-     - may affect extern "C" declarations
+     - extern "C" の宣言に影響することがある
    * - R.8.17
      - Advisory
      -
      -
-     - alignment applies to types, not objects
+     - アラインメントはオブジェクトではなく型に適用される
    * - R.9.7
      - Mandatory
      -
@@ -431,17 +430,17 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      - Advisory
      - :need:`gui_ADHABsmK9FXz`
      - Advisory
-     - includes both safe ``as`` and unsafe ``transmute`` operations
+     - 安全な ``as`` と unsafe な ``transmute`` の操作の両方を含む
    * - R.10.8
      - Required
      - :need:`gui_HDnAZ7EZ4z6G`
      - Required
-     - includes both safe ``as`` and unsafe ``transmute`` operations
+     - 安全な ``as`` と unsafe な ``transmute`` の操作の両方を含む
    * - R.11.1
      - Required
      -
      -
-     - includes both safe ``as`` and unsafe ``transmute`` operations
+     - 安全な ``as`` と unsafe な ``transmute`` の操作の両方を含む
    * - R.11.2
      - Required
      -
@@ -471,32 +470,32 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      - Advisory
      -
      -
-     - this is either well-defined or will not occur
+     - これは明確に定義されているか、起こらないかのどちらか
    * - R.14.1
      - Required
      -
      -
-     - applies to while loops only
+     - while ループにのみ適用される
    * - R.17.9
      - Mandatory
      -
      -
-     - this is expressed with the ``!`` (Never) type, and enforced by rustc
+     - これは ``!`` （Never）型で表され、rustc によって強制される
    * - R.18.1
      - Required
      -
      -
-     - by unsafe API
+     - unsafe な API による
    * - R.18.2
      - Required
      -
      -
-     - by unsafe API
+     - unsafe な API による
    * - R.18.4
      - Advisory
      -
      -
-     - applies to use of the unsafe API
+     - unsafe な API の使用に適用される
    * - R.18.6
      - Required
      -
@@ -511,162 +510,162 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      - Required
      -
      -
-     - possible with raw identifiers but the compiler prevents visual conflicts
+     - 生識別子を使えば可能だが、コンパイラが見た目の衝突を防ぐ
    * - R.20.7
      - Required
      -
      -
-     - possible to express with procedural macros only, not ``macro_rules``
+     - ``macro_rules`` ではなく、手続き的マクロでのみ表現できる
    * - R.21.3
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.4
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.5
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.6
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.7
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.8
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.9
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.10
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.12
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.13
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.14
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.15
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.16
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.17
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.18
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.19
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.20
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.21
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.24
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.21.26
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.1
      - Required
      -
      -
-     - applies to resources acquired through FFI only
+     - FFI を通じて取得したリソースにのみ適用される
    * - R.22.2
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.3
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.4
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.5
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.6
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.7
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.8
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.9
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.10
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.11
      - Required
      -
@@ -676,27 +675,27 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      - Mandatory
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.14
      - Mandatory
      -
      -
-     - applies to creating synchronization objects before threads that use them
+     - 同期オブジェクトを、それを使うスレッドより前に生成することに適用される
    * - R.22.15
      - Required
      -
      -
-     - applies to releasing synchronization objects after threads that use them
+     - 同期オブジェクトを、それを使うスレッドより後に解放することに適用される
    * - R.22.16
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.17
      - Required
      -
      -
-     - only accessible through unsafe extern "C"
+     - unsafe な extern "C" を通じてのみアクセスできる
    * - R.22.20
      - Mandatory
      -
@@ -704,37 +703,37 @@ In addition to the rules from Table 1, these are the additional guidelines that 
      -
 
 
-Table 3 – Guideline rules that are not applicable to Rust
+表 3 – Rust に当てはまらないガイドラインのルール
 ---------------------------------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Guideline
-     - Category
-     - Comment
-   * - **Directives**
+   * - ガイドライン
+     - カテゴリ
+     - コメント
+   * - **ディレクティブ**
      -
      -
    * - D.4.6
      - Advisory
-     - all primitive types already fulfil this
+     - すべてのプリミティブ型がすでにこれを満たしている
    * - D.4.8
      - Advisory
      -
    * - D.4.10
      - Required
      -
-   * - **Rules**
+   * - **ルール**
      -
      -
    * - R.1.4
      - Required
-     - this is specific to C versioning
+     - これは C のバージョニングに固有のもの
    * - R.2.4
      - Advisory
-     - no separate tag name space in Rust
+     - Rust には独立したタグの名前空間がない
    * - R.3.2
      - Required
      -
@@ -749,10 +748,10 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.5.7
      - Required
-     - no separate tag name space in Rust
+     - Rust には独立したタグの名前空間がない
    * - R.6.1
      - Required
-     - only provided as a library feature
+     - ライブラリの機能としてのみ提供される
    * - R.6.2
      - Required
      -
@@ -797,7 +796,7 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.8.16
      - Advisory
-     - cannot be explicitly specified. Only ZSTs have this alignment
+     - 明示的には指定できない。このアラインメントを持つのは ZST のみ
    * - R.8.18
      - Required
      -
@@ -836,7 +835,7 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.11.9
      - Required
-     - Rust does not have a null pointer constant (specific concept to C)
+     - Rust にはヌルポインタ定数がない（C に固有の概念）
    * - R.11.10
      - Required
      -
@@ -851,16 +850,16 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.13.2
      - Required
-     - order of evaluation is strict in Rust
+     - Rust では評価順序が厳密に決まっている
    * - R.13.3
      - Advisory
      -
    * - R.13.4
      - Advisory
-     - result has unit type and order of evaluation is strict in Rust
+     - Rust では結果はユニット型であり、評価順序が厳密に決まっている
    * - R.13.6
      - Required
-     - this is not an expression operator in Rust
+     - Rust ではこれは式の演算子ではない
    * - R.14.2
      - Required
      -
@@ -887,10 +886,10 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.16.4
      - Required
-     - a corresponding match expression must be complete
+     - 対応する match 式は網羅的でなければならない
    * - R.16.5
      - Required
-     - irrefutable pattern causes a subsequent refutable one to be unreachable
+     - 論駁不可能なパターンは、後続の論駁可能なパターンを到達不能にする
    * - R.16.6
      - Required
      -
@@ -905,7 +904,7 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.17.4
      - Mandatory
-     - the return keyword is not needed to return a value in Rust, only to exit
+     - Rust では値を返すのに return キーワードは不要であり、抜けるためだけに使う
    * - R.17.5
      - Required
      -
@@ -932,7 +931,7 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.20.1
      - Advisory
-     - rules specific to the C preprocessor do not apply to Rust
+     - C のプリプロセッサに固有のルールは Rust には当てはまらない
    * - R.20.2
      - Required
      -
@@ -971,13 +970,13 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
    * - R.21.11
      - Advisory
-     - no external interface
+     - 外部インタフェースがない
    * - R.21.22
      - Mandatory
-     - no external interface
+     - 外部インタフェースがない
    * - R.21.23
      - Required
-     - no external interface
+     - 外部インタフェースがない
    * - R.23.1
      - Advisory
      -
@@ -1004,32 +1003,32 @@ Table 3 – Guideline rules that are not applicable to Rust
      -
 
 
-Glossary
+用語集
 --------
 
-Category
+カテゴリ
 ........
 
-Each MISRA C guideline is assigned a category, as follows:
+MISRA C の各ガイドラインには、次のようにカテゴリが割り当てられています。
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Category
-     - Interpretation
+   * - カテゴリ
+     - 解釈
    * - Mandatory
-     - Code shall always comply with this guideline. Formal deviation is not permitted
+     - コードは常にこのガイドラインに準拠しなければならない。正式な逸脱は認められない
    * - Required
-     - Code shall comply with this guideline, with a formal deviation required where this is not the case
+     - コードはこのガイドラインに準拠しなければならない。準拠しない場合は正式な逸脱が必要
    * - Advisory
-     - These are recommendations which should be followed as far as is reasonably practical. Formal deviation is not necessary for advisory guidelines but, if the formal deviation process is not followed, alternative arrangements should be made for documenting non-compliances
+     - 合理的に実行可能な限り従うべき推奨事項。advisory のガイドラインには正式な逸脱は必要ないが、正式な逸脱プロセスに従わない場合は、不遵守を文書化するための代わりの手立てを講じるべき
 
 
-Footnotes
+脚注
 .........
 
-.. rubric:: Footnotes
+.. rubric:: 脚注
 
 .. _MISRA C\:2025 Addendum 6: https://misra.org.uk/app/uploads/2025/03/MISRA-C-2025-ADD6.pdf
 

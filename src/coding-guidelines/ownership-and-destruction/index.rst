@@ -3,5 +3,5 @@
 
 .. default-domain:: coding-guidelines
 
-Ownership And Destruction
+所有権と破棄
 =========================

@@ -3,12 +3,12 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Safety-Critical Rust Coding Guidelines
-======================================
+セーフティクリティカル Rust コーディングガイドライン
+====================================================
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: 目次:
 
    README
    overview/index
@@ -18,8 +18,8 @@ Safety-Critical Rust Coding Guidelines
    appendices/index
    retired-guidelines/index
 
-Indices and tables
-==================
+索引と表
+========
 
 * :ref:`genindex`
 * :ref:`search`

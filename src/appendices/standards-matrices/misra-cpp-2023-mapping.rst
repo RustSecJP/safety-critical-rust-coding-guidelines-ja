@@ -1,110 +1,109 @@
-Rust Cross Reference with MISRA C++ 2023
+MISRA C++ 2023 と Rust の相互参照
 ==========================================
 
-The following tables provide a cross reference between the MISRA C++ 2023 guidelines and their applicability to
-Rust. The first table covers guidelines that are applicable to Rust in general, while the second table covers
-additional guidelines that are applicable in the presence of unsafe code. The third table lists guidelines that
-are not currently applicable to Rust.
+以下の表は、MISRA C++ 2023 のガイドラインと、それらの Rust への適用可能性との相互参照を示します。
+1 つ目の表は Rust 全般に適用されるガイドラインを扱います。2 つ目の表は、unsafe なコードが存在する場合に追加で
+適用されるガイドラインを扱います。3 つ目の表は、現時点で Rust に適用されないガイドラインを挙げます。
 
-This assessment covers all 179 MISRA C++ 2023 guidelines.
+この評価は、MISRA C++ 2023 の全 179 ガイドラインを対象としています。
 
-In cases where the rust std does not provide functionality that is provided by the C++ std or platform APIs the
-use of FFI to access this functionality is not considered in this mapping.
-The use of C++ APIs via FFI needs to consider the C++ guidelines.
+C++ の std やプラットフォーム API が提供する機能を Rust の std が提供していない場合、その機能にアクセスするために
+FFI を使うことは、このマッピングでは考慮していません。
+FFI 経由で C++ の API を使う場合は、C++ のガイドラインを考慮する必要があります。
 
 
-Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code present)
---------------------------------------------------------------------------------------
+表 1 – Rust 全般に適用されるガイドライン（安全な Rust、unsafe なコードが存在しない場合）
+--------------------------------------------------------------------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Guideline
-     - Related MISRA C 2025 guideline
-     - Safety-critical Rust rule
-     - Category
-     - Comment
+   * - ガイドライン
+     - 関連する MISRA C 2025 ガイドライン
+     - セーフティクリティカル Rust ルール
+     - カテゴリ
+     - コメント
    * - Rule 0.0.1
      - Rule 2.1
      -
      -
-     - MISRA C mapping
+     - MISRA C のマッピング
    * - Rule 0.0.2
      - Rule 14.3
      -
      -
-     - MISRA C mapping
+     - MISRA C のマッピング
    * - Rule 0.1.1
-     - Rule 2.2 is similar
+     - Rule 2.2 と類似
      -
      -
-     - Maps to rust completely. The `unused-assignments lint <https://doc.rust-lang.org/rustc/lints/listing/warn-by-default.html#unused-assignments>`_ can be used to catch violations.
+     - Rust に完全に対応します。違反の検出には `unused-assignments lint <https://doc.rust-lang.org/rustc/lints/listing/warn-by-default.html#unused-assignments>`_ を使えます。
    * - Rule 0.1.2
      - Rule 17.7
      -
      -
-     - While must\_use can assist, it is not active by default for all (non-unit returning) functions
+     - must\_use が役立つこともありますが、すべての（ユニット以外を返す）関数でデフォルトで有効になっているわけではありません
    * - Rule 0.2.1
-     - Rule 2.8 is similar
+     - Rule 2.8 と類似
      -
      -
-     - Maps to rust. Similar to C++ a variable is considered used if it (recursively) has a user written destructor. Exception 1 maps to the ``#[allow(unused_...)]`` annotation. Exception 2 does not map to rust.
+     - Rust に対応します。C++ と同様に、変数が（再帰的に）ユーザ定義のデストラクタを持つ場合、その変数は使用されているとみなされます。例外 1 は ``#[allow(unused_...)]`` 注釈に対応します。例外 2 は Rust には対応しません。
    * - Rule 0.2.2
      - Rule 2.7
      -
      -
-     - MISRA C mapping
+     - MISRA C のマッピング
    * - Rule 0.2.3
      - Rule 2.3
      -
      -
-     - MISRA C mapping
+     - MISRA C のマッピング
    * - Rule 0.2.4
-     - Rule 8.7 (tangential)
+     - Rule 8.7（間接的）
      -
      -
-     - Rationale of 0.2.4 applies the same to functions that are local to a crate (or module)
+     - 0.2.4 の根拠は、クレート（またはモジュール）にローカルな関数にもそのまま当てはまります
    * - Dir 0.3.1
      - ``-``
      -
      -
-     - Rationale of 0.3.1 is language independent and floats work the same in C++ and Rust
+     - 0.3.1 の根拠は言語に依存せず、浮動小数点数は C++ と Rust で同じように動作します
    * - Dir 0.3.2
      - ``-``
      -
      -
-     - Rationale mentions "unexpected results" and "undefined behavior" as risks -> both could apply to Rust the same as to C++
+     - 根拠ではリスクとして「予期しない結果」と「未定義動作」を挙げています -> どちらも C++ と同様に Rust にも当てはまり得ます
    * - Rule 4.1.1
      - ``-``
      -
      -
-     - While the C++ standard is obviously not relevant, the general principle applies to analogous Specifications (e.g. FLS). However, in the safe Rust subset all syntactically programs not rejected by the compiler should be in compliance (otherwise its a bug in the compiler) Unsafe Rust, must be free of UB in order to conform. Rust does not quite have language extensions, but unstable features are similar and should be avoided.
+     - C++ 標準そのものはもちろん関係ありませんが、一般原則は類似の仕様（例: FLS）に当てはまります。ただし、安全な Rust のサブセットでは、構文上コンパイラに拒否されないプログラムはすべて適合しているはずです（そうでなければコンパイラのバグです）。Unsafe Rust は、適合するためには未定義動作（UB）がない必要があります。Rust には言語拡張と呼べるものはありませんが、unstable なフィーチャはそれに近く、避けるべきです。
    * - Rule 4.1.2
      - ``-``
      -
      -
-     - The rationale applies about features being superseded by safer or better alternatives, applies to Rust.
+     - より安全な、またはより良い代替手段によって置き換えられたフィーチャに関する根拠は、Rust にも当てはまります。
    * - Rule 4.1.3
      - Rule 1.3
      -
      -
-     - For safe rust only "critical unspecified behaviour" is an issue, not undefined behaviour. Examples are drop order of closure captures and arithmetic precision of floating point operations. This maps fully to unsafe rust.
+     - 安全な Rust で問題になるのは「重大な未規定の動作」だけであり、未定義動作ではありません。例として、クロージャのキャプチャのドロップ順序や、浮動小数点演算の演算精度があります。これは unsafe Rust には完全に対応します。
    * - Rule 5.7.1
      - Rule 3.1
      -
      -
-     - MISRA C mapping, While Rust does support nesting block comments, it is still, or even especially, likely to accidentally comment out code sections unintentionally.
+     - MISRA C のマッピング。Rust はブロックコメントのネストをサポートしていますが、それでも、あるいはだからこそ、意図せずコードの一部をコメントアウトしてしまう可能性は高いままです。
    * - Dir 5.7.2
      - Dir 4.4
      -
      -
-     - MISRA C mapping, ``#if 0`` is C/C++ equivalent to ``#[cfg(false)]`` and should also be considered commented out code. It is idiomatic rust to provide code examples in doc comments (also called doctest). This should not be considered commented out code.
+     - MISRA C のマッピング。 ``#if 0`` は ``#[cfg(false)]`` に相当する C/C++ の記法であり、これもコメントアウトされたコードとみなすべきです。ドキュメンテーションコメントの中にコード例（doctest とも呼ばれます）を書くのは Rust の慣用的な書き方です。これはコメントアウトされたコードとみなすべきではありません。
    * - Rule 6.0.4
      -
      -
      -
-     - While ``main`` is a reserved entry point for executable Rust programs, it can still be defined inside of modules or as part of a struct's ``impl`` and the program will compile; when defining it in a module it is possible to use it inside the ``main`` that references the entry point, but only when the full namespace name is used:
+     - ``main`` は実行可能な Rust プログラムのために予約されたエントリポイントですが、モジュールの中や構造体の ``impl`` の一部として定義することもでき、その場合もプログラムはコンパイルできます。モジュールの中で定義した場合、エントリポイントを指す ``main`` の中からそれを使うことができますが、それは完全な名前空間名を使った場合に限られます:
 
        .. code-block:: rust
 
@@ -118,210 +117,210 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
               self::foo::main();
           }
 
-       If we use the notation of ``use self::foo::main;`` at the beginning, the compiler will let us know there are multiple definitions of ``main``
+       先頭で ``use self::foo::main;`` という記法を使うと、コンパイラは ``main`` の定義が複数あることを教えてくれます
    * - Rule 6.4.1
      - Rule 5.3
      -
      -
-     - MISRA C mapping
+     - MISRA C のマッピング
    * - Rule 6.7.1
      - ``-``
      -
      -
-     - Translates to ``static`` variables in Rust, as those can also be declared in functions. In safe Rust the risk is developer confusion when mutating a static variable with interior mutability. For unsafe Rust the use of ``static mut`` is likely to result in UB.
+     - Rust の ``static`` 変数に当てはまります。これも関数の中で宣言できるからです。安全な Rust では、内部可変性を持つ static 変数を変更するときに開発者が混乱することがリスクです。unsafe Rust では、 ``static mut`` を使うと UB になる可能性が高くなります。
    * - Rule 6.7.2
      -
      -
      -
-     - Same reasoning as for Rule 6.7.1
+     - Rule 6.7.1 と同じ理由です
    * - Rule 7.0.1
      - ``-``
      -
      -
-     - The rule is mainly concerned with "integral promotion" and its interaction with conversions from bool, which does not apply to Rust since "integral promotion" does not exist here.
+     - このルールは主に「整数拡張」と、それと bool からの変換との相互作用に関するものです。Rust には「整数拡張」が存在しないため、この点は Rust には当てはまりません。
 
-       However, the following other minor points can apply to Rust:
+       ただし、以下のその他の細かい点は Rust にも当てはまり得ます:
 
-       * Confusion caused using &, \|, ~ operators with bool instead of the usual &&, \|\|, ! operators -> The only difference in Rust being the lazy evaluation of their operands
+       * 通常の &&、\|\|、! 演算子の代わりに、bool に対して &、\|、~ 演算子を使うことによる混乱 -> Rust での唯一の違いは、オペランドが遅延評価されるかどうかです
 
-       * When casting a bool to an integral type, its clearer to explicitly name the numerical values that are assigned for each boolean value.
+       * bool を整数型にキャストする場合、それぞれの真偽値に割り当てられる数値を明示的に書いたほうが分かりやすくなります。
 
-       Depending on whether either or both of these aspects are considered important enough to be mapped to our rules, the classification of Rule 7.0.1 is either both "yes" or both "no".
+       これらの観点のどちらか、または両方を、私たちのルールに対応させるほど重要とみなすかどうかによって、Rule 7.0.1 の分類は両方とも「yes」か、両方とも「no」のどちらかになります。
    * - Rule 7.0.4
      -
      - :need:`gui_RHvQj8BHlz9b`
      - Advisory
-     - While bit-shifting in rust can't cause undefined behaviour, panics could be caused.
+     - Rust のビットシフトは未定義動作を引き起こしませんが、パニックを引き起こす可能性はあります。
    * - Rule 7.11.1
      -
      -
      -
-     - Rust doesn't have overloaded functions, so the issues regarding overload selection don't apply. Rust also doesn't have a "NULL" macro. While "0" doesn't implicitly coerces to a pointer type explicit syntax (as casting) can be used to create a null pointer, therefore this maps to safe rust. ``nullptr`` maps to ``ptr::null()`` and ``ptr::null_mut()`` in rust. Only these functions should be used to create null pointers in rust.
+     - Rust にはオーバーロードされた関数がないため、オーバーロードの選択に関する問題は当てはまりません。また、Rust には「NULL」マクロもありません。「0」が暗黙にポインタ型へ型強制されることはありませんが、明示的な構文（キャストなど）を使ってヌルポインタを作ることはできるため、これは安全な Rust に対応します。 ``nullptr`` は Rust の ``ptr::null()`` と ``ptr::null_mut()`` に対応します。Rust でヌルポインタを作るときは、これらの関数だけを使うべきです。
    * - Rule 8.0.1
      -
      -
      -
-     - Rust and Cpp have similar a number of operators and while some footguns are less of a problem (assignment returns (), < and > return bool, which can't be directly compared to integers) it is still possible to write unclear code using operator precedence. There is a warn by default clippy lint about this: https://rust-lang.github.io/rust-clippy/master/#precedence
+     - Rust と C++ は似たような数の演算子を持っています。一部の落とし穴はそれほど問題になりませんが（代入は () を返し、< と > は bool を返し、bool は整数と直接比較できません）、それでも演算子の優先順位によって分かりにくいコードを書くことはできます。これについては、デフォルトで警告を出す clippy のリントがあります: https://rust-lang.github.io/rust-clippy/master/#precedence
    * - Rule 8.2.2
      -
      - :need:`gui_ADHABsmK9FXz`
      - Advisory
-     - Point 2 of the rationale about missing intent applies to rust "as" casts. specific functions should be used instead.
+     - 意図が欠けていることに関する根拠のポイント 2 は、Rust の「as」キャストに当てはまります。代わりに専用の関数を使うべきです。
    * - Rule 8.2.8
      -
      -
      -
-     - "uintptr\_t" and "intptr\_t" map to "usize" and "isize" in rust. This is marked as applicable to safe rust, because information loss can be important for safe rust as well.
+     - 「uintptr\_t」と「intptr\_t」は、Rust の「usize」と「isize」に対応します。情報の損失は安全な Rust でも重要になり得るため、これは安全な Rust に適用されるものとしています。
    * - Rule 8.2.10
      -
      - :need:`gui_ot2Zt3dd6of1`
      - Required
-     - The same issues regarding stack usage apply to rust. clippy has a lint against unconditional recursion. In safety critical even conditional recursion should be used carefully
+     - スタック使用量に関する同じ問題が Rust にも当てはまります。clippy には無条件の再帰に対するリントがあります。セーフティクリティカルな場面では、条件付きの再帰であっても慎重に使うべきです
    * - Rule 8.9.1
      -
      -
      -
-     - This can also lead to "surprising or unspecified behaviour" in rust. See discussion: https://rust-lang.zulipchat.com/#narrow/channel/136281-t-opsem/topic/.E2.9C.94.20Eq.20and.20Ord.20in.20raw.20pointers
+     - これは Rust でも「驚くような、または未規定の動作」につながり得ます。議論を参照してください: https://rust-lang.zulipchat.com/#narrow/channel/136281-t-opsem/topic/.E2.9C.94.20Eq.20and.20Ord.20in.20raw.20pointers
    * - Rule 8.14.1
      -
      -
      -
-     - In rust the evaluation of the "&&" operator is also short-circuiting, so evaluation of the right-hand side depends on the value of the left-hand side.
+     - Rust でも「&&」演算子の評価は短絡評価であり、右辺が評価されるかどうかは左辺の値によって決まります。
    * - Rule 8.20.1
      -
      -
      -
-     - Arithmetic overflow in constant evaluation is a compile error if runtime overflow checking is enabled.(https://play.rust-lang.org/?version=stable&mode=release&edition=2024&gist=15b1f64f02b76e6aff6af79730bae8dc difference between debug and release build). It shouldn't happen even if runtime checks are disabled. In some cases (like ``const A: u8 = 200 + 200``) compilation always errors.
+     - 実行時のオーバーフローチェックが有効な場合、定数評価中の算術オーバーフローはコンパイルエラーになります。（https://play.rust-lang.org/?version=stable&mode=release&edition=2024&gist=15b1f64f02b76e6aff6af79730bae8dc デバッグビルドとリリースビルドの違い）。実行時チェックが無効でも、これは起こるべきではありません。場合によっては（ ``const A: u8 = 200 + 200`` のように）常にコンパイルエラーになります。
    * - Rule 9.4.1
      -
      -
      -
-     - Same rationale as in C++ applies. Clippy has a lint that recommends the opposite (clippy::needless\_else) it would have to be disabled.
+     - C++ と同じ根拠が当てはまります。Clippy には逆のことを推奨するリント（clippy::needless\_else）があるため、それを無効にする必要があります。
    * - Rule 9.4.2
      -
      -
      -
-     - This rule includes multiple sub-rules some of which map to rust and some don’t:
+     - このルールには複数のサブルールが含まれており、Rust に対応するものと対応しないものがあります:
 
-       1. Maps to rust. Should maybe be forbidden completely (also for if, for and while). https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=04d632b9ed40d0526f6392eaab391ada
+       1. Rust に対応します。（if、for、while についても）完全に禁止すべきかもしれません。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=04d632b9ed40d0526f6392eaab391ada
 
-       2. Does not map
+       2. 対応しません
 
-       3. Does not map
+       3. 対応しません
 
-       4. Does not map
+       4. 対応しません
 
-       5. Does not map
+       5. 対応しません
 
-       6. Maps to rust (there should maybe be an exception for match statements with zero branches to allow conversion from an uninhabited type)
+       6. Rust に対応します（非居住型からの変換を許すために、分岐が 0 個の match 文には例外を設けるべきかもしれません）
 
-       7. Does not map to rust, as it is checked by the compiler that match statements are always exhaustive. Placement of the default does map to rust as it even influences which branch is taken (unreachable pattern warning)
+       7. match 文が常に網羅的であることはコンパイラによってチェックされるため、Rust には対応しません。default の配置は Rust に対応します。どの分岐が選ばれるかに影響するからです（到達不能パターンの警告）
    * - Rule 9.5.1
      -
      -
      -
-     - While Rust does not have C-style for loops, the idea of using iterators instead of manual loops applies to Rust. Especially when using ``while`` loops where the index is modified in the loop body it is easy to write a loop which does not conform to this rule in rust.
+     - Rust には C スタイルの for ループはありませんが、手動のループの代わりにイテレータを使うという考え方は Rust にも当てはまります。特に、ループ本体の中でインデックスを変更する ``while`` ループを使う場合、Rust でもこのルールに適合しないループを簡単に書けてしまいます。
    * - Rule 10.1.1
      -
      -
      -
-     - The rationale of only taking mutable references as function parameters if it is actually necessary also applies to rust. It might also make sense to create an exception for trait definitions where const might be enough for a specific implementation (like it is done in the C++ rule for templates and virtual functions).
+     - 本当に必要な場合にだけ可変参照を関数のパラメータとして受け取る、という根拠は Rust にも当てはまります。また、特定の実装では const で十分な場合があるトレイト定義については、例外を設けることも理にかなっているかもしれません（C++ のルールでテンプレートと仮想関数について行われているのと同様です）。
    * - Rule 10.2.1
      -
      -
      -
-     - The rationale of making the size of the enum explicit also applies to rust. There should be an exception for enums where at least one variant holds data (which is very common in rust) as there using the repr(uN) specifier stops the compiler from optimizing the enum layout, which might pessimize performance. https://doc.rust-lang.org/nomicon/other-reprs.html#repru-repri
+     - 列挙型のサイズを明示するという根拠は Rust にも当てはまります。少なくとも 1 つのバリアントがデータを持つ列挙型（Rust ではとても一般的です）については例外を設けるべきです。そのような場合に repr(uN) 指定子を使うと、コンパイラが列挙型のレイアウトを最適化できなくなり、性能が悪化する可能性があるからです。 https://doc.rust-lang.org/nomicon/other-reprs.html#repru-repri
    * - Rule 10.2.3
      -
      -
      -
-     - In rust this rule only maps to fieldless and unit-only enums as only those can be ``as`` casted to integers. An enum without a specified ``repr`` is stored as an ``isize`` or as a smaller type (`Reference <https://doc.rust-lang.org/reference/items/enumerations.html#r-items.enum.discriminant.repr-rust>`__).
-       Therefore for enums without a specified ``repr`` only casting ``isize`` or to types larger than ``isize`` is allowed. For enums with a specified ``repr`` casting is only allowed to that type or types larger than that type.
+     - Rust では、このルールはフィールドを持たない列挙型とユニットのみの列挙型にだけ対応します。整数に ``as`` でキャストできるのはそれらだけだからです。 ``repr`` が指定されていない列挙型は、 ``isize`` として、またはより小さな型として格納されます（ `Reference <https://doc.rust-lang.org/reference/items/enumerations.html#r-items.enum.discriminant.repr-rust>`__ ）。
+       したがって、 ``repr`` が指定されていない列挙型については、 ``isize`` へのキャスト、または ``isize`` より大きな型へのキャストだけが許されます。 ``repr`` が指定された列挙型については、その型、またはその型より大きな型へのキャストだけが許されます。
    * - Rule 10.4.1
      -
      -
      -
-     - The rationale that inline assembly or naked functions should be avoided in favor of language intrinsics applies to rust. Both ``asm`` and ``naked_asm`` require unsafe to use, but ``global_asm`` doesn't, so this rule applies to safe rust.
+     - インラインアセンブリやネイキッド関数を避けて言語の組み込み関数を使うべきだ、という根拠は Rust にも当てはまります。 ``asm`` と ``naked_asm`` はどちらも使うのに unsafe が必要ですが、 ``global_asm`` は必要ないため、このルールは安全な Rust に適用されます。
    * - Rule 11.3.2
      -
      -
      -
-     - The rationale fully applies to rust. The impact on understandability of the code isn't reduced by the use of references instead of pointers, so it also maps to safe rust.
+     - 根拠は Rust に完全に当てはまります。ポインタの代わりに参照を使っても、コードの理解しやすさへの影響は小さくならないため、これは安全な Rust にも対応します。
    * - Rule 13.3.3
      -
      -
      -
-     - In Rust it is possible to use different parameter names for a trait definition and the trait implementation. This maps to overriding a function in C++. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=b9fefe14582277f2a79019bd4a26a279 There is a clippy lint against this: https://rust-lang.github.io/rust-clippy/master/#renamed_function_params
+     - Rust では、トレイト定義とトレイト実装とで異なるパラメータ名を使うことができます。これは C++ での関数のオーバーライドに対応します。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=b9fefe14582277f2a79019bd4a26a279 これに対する clippy のリントがあります: https://rust-lang.github.io/rust-clippy/master/#renamed_function_params
    * - Rule 13.3.4
      -
      -
      -
-     - In Rust every comparison between functions pointers is unspecified, not only for virtual member pointers. Therefore this rule needs to be extended to cover function pointer/vtable pointer comparisons in general. See https://github.com/rust-lang/unsafe-code-guidelines/issues/589 and https://github.com/Safety-Critical-Rust-Consortium/safety-critical-rust-coding-guidelines/pull/256
+     - Rust では、仮想メンバポインタに限らず、関数ポインタ同士のあらゆる比較が未規定です。したがって、このルールは関数ポインタ/vtable ポインタの比較全般を対象とするよう拡張する必要があります。 https://github.com/rust-lang/unsafe-code-guidelines/issues/589 と https://github.com/Safety-Critical-Rust-Consortium/safety-critical-rust-coding-guidelines/pull/256 を参照してください
    * - Rule 14.1.1
      -
      -
      -
-     - rationale applies fully to rust. Rust also has private and public members of structs. Confusion about the possible states of the object therefore also apply to rust.
+     - 根拠は Rust に完全に当てはまります。Rust にも構造体のプライベートなメンバとパブリックなメンバがあります。そのため、オブジェクトが取り得る状態についての混乱も Rust に当てはまります。
    * - Rule 15.0.1
      -
      -
      -
-     - The requirements of customized destructor and customized copy constructor apply to rust. Rust defaults the destructor by dropping all fields and can create a default copy constructor using "derive(Clone)". Customization can be done by implementing the Clone or Drop trait manually. Even though this is most often used for memory management which requires unsafe code the problem is in general not specific to unsafe rust and therefore this rule also applies to safe rust. In rust this rule would be something like "if the clone trait is implemented (unless it is derived) the drop trait should also be implemented. If the drop trait is implemented the clone trait should not be derived. It should either be implemented manually or not implemented at all."
+     - カスタマイズされたデストラクタとカスタマイズされたコピーコンストラクタに関する要件は Rust に当てはまります。Rust はデフォルトで、すべてのフィールドをドロップするデストラクタを用意し、「derive(Clone)」を使ってデフォルトのコピーコンストラクタを作ることができます。カスタマイズは Clone トレイトや Drop トレイトを手動で実装することで行えます。これは unsafe なコードを必要とするメモリ管理に使われることが最も多いですが、問題自体は一般に unsafe Rust に特有のものではないため、このルールは安全な Rust にも適用されます。Rust では、このルールは次のようなものになるでしょう: 「（derive による場合を除き）clone トレイトを実装するなら、drop トレイトも実装すべきである。drop トレイトを実装するなら、clone トレイトを derive すべきではない。手動で実装するか、まったく実装しないかのどちらかにすべきである。」
    * - Rule 18.4.1
      -
      -
      -
-     - The rationale that for certain purposes only non-panicking functions should be used, applies to rust. This is especially the case for Drop implementations as panics in those can easily lead to double-panics which abort the program and extern "C" functions, which aren't allowed to unwind. In rust it is not possible to mark a function as "noexcept".
+     - 特定の目的にはパニックしない関数だけを使うべきだ、という根拠は Rust にも当てはまります。これは特に Drop の実装に当てはまります。Drop の実装の中でパニックすると、簡単に二重パニックにつながり、プログラムがアボートするからです。また、巻き戻しが許されていない extern "C" 関数にも当てはまります。Rust では、関数を「noexcept」とマークすることはできません。
    * - Rule 18.5.1
      -
      -
      -
-     - Rust does not have "noexcept" functions, but extern "C" functions behave similar to them. If a function with this ABI is written in rust the compiler inserts panic guards that abort the program if a panic would exit such a function. Therefore the rationale applies to these functions. A panic exiting such a function is UB.
+     - Rust には「noexcept」関数はありませんが、extern "C" 関数はそれと似た動作をします。この ABI を持つ関数を Rust で書くと、コンパイラはパニックガードを挿入し、パニックがその関数を抜けようとした場合にプログラムをアボートさせます。したがって、根拠はこれらの関数に当てはまります。パニックがそのような関数を抜けることは UB です。
 
        .. code-block:: rust
 
           fn main() {
-              test(); // program abort
+              test(); // プログラムがアボートする
               let tu: extern "C" fn() = unsafe { std::mem::transmute(test_unwind as extern "C-unwind" fn()) };
               tu(); // UB
           }
-          
+
           extern "C" fn test() {
-              // compiler inserted panic abort guard
+              // コンパイラが挿入したパニック時のアボートガード
               panic!("test");
           }
-          
+
           extern "C-unwind" fn test_unwind() {
               panic!("test2");
           }
 
-       In this example the compiler inserts a abort guard in the ``test`` function, but not in the ``test_unwind`` function. Calling the ``test`` function therefore aborts the program. Calling the ``test_unwind`` function with the "C" ABI is UB, since a panic exits the function.
+       この例では、コンパイラは ``test`` 関数にはアボートガードを挿入しますが、 ``test_unwind`` 関数には挿入しません。そのため、 ``test`` 関数を呼び出すとプログラムはアボートします。 ``test_unwind`` 関数を「C」ABI で呼び出すことは UB です。パニックが関数を抜けるからです。
    * - Rule 18.5.2
      -
      -
      -
-     - Rationale applies fully to rust.
+     - 根拠は Rust に完全に当てはまります。
    * - Rule 19.0.2
      -
      -
      -
-     - Similar rationale applies to rust. The list of exceptions would maybe need to be modified to also include variadic functions as those can only be done using a macro in rust currently.
+     - 同様の根拠が Rust にも当てはまります。現在の Rust では可変長引数関数はマクロを使わないと実現できないため、例外のリストを修正して、それも含める必要があるかもしれません。
    * - Rule 19.0.3
      -
      -
      -
-     - As this rule is at least partially concerned with readability it applies to rust (in a reduced category). In rust there is no risk of UB. In rust there should be an additional exception for crate/file attributes as they have to be at the top of the file. This rule also applies to the use of the include macro which does textual inclusion, although in a more limited form (braces must match and syntax must be valid before expanding). This macro should maybe have a rule that forbids it.
+     - このルールは少なくとも部分的に可読性に関するものなので、Rust にも（低いカテゴリで）適用されます。Rust では UB のリスクはありません。Rust では、クレート/ファイルのアトリビュートはファイルの先頭に置かなければならないため、それらについての追加の例外を設けるべきです。このルールは、テキストとしての取り込みを行う include マクロの使用にも適用されます。ただし、その形はより限定的です（展開前に括弧の対応が取れていて、構文が正しくなければなりません）。このマクロについては、それを禁止するルールを設けるべきかもしれません。
    * - Rule 19.2.1
      -
      -
      -
-     - As rust code should use the module system and not the include macro to import files, the risk of this issue is not severe in rust. It is also not possible to create UB due to conflicting definitions. But it is possible to accidentally override items in outer scopes by redeclaring them in inner scopes, which is made easier when using the include macro as the code is not visible inline.
+     - Rust のコードはファイルを取り込むのに include マクロではなくモジュールシステムを使うべきなので、Rust ではこの問題のリスクは深刻ではありません。また、定義の衝突によって UB を引き起こすこともできません。しかし、内側のスコープで再宣言することで、外側のスコープのアイテムを誤って上書きしてしまうことはあり得ます。include マクロを使うと、コードがその場に見えないため、これが起こりやすくなります。
    * - Rule 19.3.4
      -
      -
      -
-     - In declarative macros, non-tt metavariables as arguments (e.g. ``expr``) are inserted as AST nodes and cannot be broken up. -> does not apply Using tt-metavariables it is possible, since they are simply inserted as tokens -> applies Since proc macros also operate on streams of token trees, it applies the same.
-      
+     - 宣言的マクロでは、引数としての tt 以外のメタ変数（例: ``expr`` ）は AST ノードとして挿入され、分解できません。 -> 当てはまりません。tt メタ変数を使うと、単にトークンとして挿入されるため、分解が可能です。 -> 当てはまります。手続き的マクロもトークン木のストリームを操作するため、同様に当てはまります。
+
        .. code-block:: rust
 
           macro_rules! mtt {
@@ -330,76 +329,76 @@ Table 1 – Guidelines applicable to Rust in general (safe Rust, no unsafe code 
           macro_rules! mexpr {
               ($x:expr) => ( $x * 3 );
           }
-          
+
           fn main() {
               dbg!(mexpr!(1 + 2));
               dbg!(mtt!(1 + 2));
           }
 
-       In this example the first macro call evaluates to 9 and the second one to 7.
+       この例では、1 つ目のマクロ呼び出しは 9 に、2 つ目は 7 に評価されます。
    * - Rule 21.2.3
      -
      -
      -
-     - Rust provides the ``Command``-API in its standard library that provide similar features. This API has better support for escaping arguments than the C++ equivalent. The issues of platform specific path search and program behaviour still apply fully.
+     - Rust は標準ライブラリで、同様の機能を提供する ``Command`` API を提供しています。この API は、C++ の同等の機能よりも引数のエスケープをよくサポートしています。プラットフォーム固有のパス検索とプログラムの動作に関する問題は、依然として完全に当てはまります。
    * - Rule 21.6.1
      -
      -
      -
-     - Rationale applies fully to Rust
+     - 根拠は Rust に完全に当てはまります
    * - Rule 21.6.2
      -
      -
      -
-     - In safe rust allocating memory without freeing is allowed (by creating a box and calling "into\_raw"), therefore memory leaks could still happen if manual memory management is attempted. In unsafe rust the rule fully applies. This rule also applies to usage of ManuallyDrop, as it disables the automatic memory management of smart pointers.
+     - 安全な Rust でも、メモリを確保して解放しないことは許されています（Box を作って「into\_raw」を呼び出すことで）。そのため、手動でメモリ管理をしようとすると、メモリリークは依然として起こり得ます。unsafe Rust では、このルールは完全に当てはまります。このルールは ManuallyDrop の使用にも当てはまります。ManuallyDrop はスマートポインタの自動メモリ管理を無効にするからです。
    * - Rule 22.3.1
      -
      -
      -
-     - Same reasoning applies (except for disabling at build time). Applies to every macro of the assert family (debug\_, \_eq). static\_assert maps to const { assert!(expr) }
+     - 同じ理由が当てはまります（ビルド時に無効にする点を除く）。assert ファミリのすべてのマクロ（debug\_、\_eq）に当てはまります。static\_assert は const { assert!(expr) } に対応します
    * - Rule 28.3.1
      -
      -
      -
-     - Rationale applies mostly. Copying of the predicate is not possible (i don't think a single predicate in the std has a Clone bound) or well behaved (using the Clone impl), but the other issues still remain.
+     - 根拠はおおむね当てはまります。述語のコピーはできない（std の述語で Clone 境界を持つものは 1 つもないと思います）か、問題なく動作します（Clone の実装を使う場合）が、その他の問題は依然として残ります。
    * - Rule 28.6.1
      -
      -
      -
-     - This rule maps to functions that are generic and take a type as an argument that can be converted to a container from a reference to the content of the container. If these functions are called with the owning container they don't copy, but if they are called with the non-owning container they do copy. In the std this applies to the Into and From traits and the collections types including Box. The corresponding rust rule should probably disallow using the Into and From traits for these purposes and require the caller to do the copy themselves, if necessary. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=dd9595f92d8a0538379e71c7b5dbf7fb
+     - このルールは、ジェネリックで、コンテナの中身への参照からコンテナに変換できる型を引数として受け取る関数に対応します。そのような関数を所有権を持つコンテナで呼び出すとコピーは行われませんが、所有権を持たないコンテナで呼び出すとコピーが行われます。std では、これは Into トレイトと From トレイト、および Box を含むコレクション型に当てはまります。対応する Rust のルールでは、おそらく、こうした目的で Into トレイトと From トレイトを使うことを禁止し、必要であれば呼び出し側が自分でコピーするよう求めるべきです。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=dd9595f92d8a0538379e71c7b5dbf7fb
 
-Table 2 – Guidelines additionally applicable in the presence of unsafe code
+表 2 – unsafe なコードが存在する場合に追加で適用されるガイドライン
 ---------------------------------------------------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Guideline
-     - Related MISRA C 2025 guideline
-     - Safety-critical Rust rule
-     - Category
-     - Comment
+   * - ガイドライン
+     - 関連する MISRA C 2025 ガイドライン
+     - セーフティクリティカル Rust ルール
+     - カテゴリ
+     - コメント
    * - Rule 6.0.3
      - ``-``
      -
      -
-     - In Rust, Items are always part of their crates namespace. -> The majority of this rule is covered out of the box Functions and variables that are declared ``#[unsafe(no_mangle)]`` can lead to issues.
+     - Rust では、アイテムは常にそのクレートの名前空間の一部です。 -> このルールの大部分は最初から満たされています。 ``#[unsafe(no_mangle)]`` と宣言された関数や変数は問題を引き起こす可能性があります。
    * - Rule 6.2.1
      -
      -
      -
-     - The module and crate systems of Rust make this practically impossible; if you were to define two types with the same names in different files, when calling them you'd still need to do something like ``let x = foo1::Struct`` and ``let y = foo2::Struct``, otherwise the compiler wouldn't allow a more "global" call of ``use foo1::Struct; use foo2::Struct`` due to ambiguity. HOWEVER, in the case of unsafe Rust/FFI, ``#[unsafe(no_mangle)]`` or ``extern`` can lead to potential issues.
+     - Rust のモジュールとクレートの仕組みにより、これは事実上不可能です。異なるファイルで同じ名前の型を 2 つ定義した場合でも、それらを呼び出すときには ``let x = foo1::Struct`` や ``let y = foo2::Struct`` のように書く必要があります。そうしないと、曖昧さのために、コンパイラは ``use foo1::Struct; use foo2::Struct`` のような、より「グローバル」な呼び出しを許しません。ただし、unsafe Rust/FFI の場合は、 ``#[unsafe(no_mangle)]`` や ``extern`` が問題を引き起こす可能性があります。
    * - Rule 6.2.2
-     - Rule 8.3 (closely related)
+     - Rule 8.3（密接に関連）
      -
      -
-     - MISRA C mapping, FFI: an extern declaration shall have a type compatible with the C declaration. Besides that Rust does not separate declaration and definition of functions
+     - MISRA C のマッピング。FFI: extern 宣言は、C の宣言と互換性のある型を持たなければなりません。それ以外については、Rust は関数の宣言と定義を分けていません
    * - Rule 6.8.1
      -
      -
      -
-     - While in safe Rust the borrow checker guarantees that no reference outlives the object it points to, in unsafe Rust one can create raw pointers and dereference them after the pointee has been dropped
+     - 安全な Rust では、参照が指す先のオブジェクトより長く生存しないことを借用チェッカが保証しますが、unsafe Rust では生ポインタを作成し、指す先がドロップされた後でそれを参照外しすることができます
 
        .. code-block:: rust
 
@@ -408,10 +407,10 @@ Table 2 – Guidelines additionally applicable in the presence of unsafe code
               let x = 42;
               p = &x as *const i32;
           }
-          // x is dropped, p is dangling
-          unsafe { println!("{}", *p); }  // undefined behaviour
+          // x はドロップされ、p はダングリングしている
+          unsafe { println!("{}", *p); }  // 未定義動作
 
-       In cases like this, an user COULD potentially get a program that runs and compiles correctly due to the memory not being overwritten yet; however, using a tool like Miri gives us the following result:
+       このような場合、メモリがまだ上書きされていないために、コンパイルも実行も正しくできているように見えるプログラムが得られてしまう可能性があります。しかし、Miri のようなツールを使うと、次の結果が得られます:
 
        .. code-block:: text
 
@@ -431,7 +430,7 @@ Table 2 – Guidelines additionally applicable in the presence of unsafe code
      -
      -
      -
-     - In safe Rust, we'd get [E0106] if we tried to do the following:
+     - 安全な Rust では、次のようなことをしようとすると [E0106] が出ます:
 
        .. code-block:: rust
 
@@ -440,21 +439,21 @@ Table 2 – Guidelines additionally applicable in the presence of unsafe code
               &x  // error[E0106]: missing lifetime specifier
           }
 
-       However, in unsafe Rust:
+       しかし、unsafe Rust では:
 
        .. code-block:: rust
 
           fn f1() -> *const i32 {
               let x = 99;
-              &x as *const i32  // dangling pointer after return
+              &x as *const i32  // リターン後にダングリングポインタになる
           }
 
           fn main() {
               let p = f1();
-              unsafe { println!("{}", *p); }  // UB: "x" is long gone
+              unsafe { println!("{}", *p); }  // UB: 「x」はとっくに消えている
           }
 
-       If we run this normally, we could potentially have the program compile and run just fine, but when using Miri:
+       これを普通に実行すると、プログラムは問題なくコンパイルされ実行される可能性がありますが、Miri を使うと次のようになります:
 
        .. code-block:: rust
 
@@ -470,91 +469,91 @@ Table 2 – Guidelines additionally applicable in the presence of unsafe code
      -
      -
      -
-     - In safe Rust, Error E0597 is emitted: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=596fdb2179c4c79b494afb51aaa8b40a In unsafe Rust this is possible using raw pointers. (similar to Rule 6.8.2)
+     - 安全な Rust では、エラー E0597 が出ます: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=596fdb2179c4c79b494afb51aaa8b40a unsafe Rust では、生ポインタを使うことでこれが可能になります。（Rule 6.8.2 と同様）
    * - Rule 6.8.4
      -
      -
      -
-     - In safe rust returning references to temporary objects is prohibited by the borrow checker: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=10ef1e93de723525be2c60b2aa964be8 In unsafe rust issues can happen either by returning a raw pointer or by extending the lifetime of a reference incorrectly.
+     - 安全な Rust では、一時オブジェクトへの参照を返すことは借用チェッカによって禁止されています: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=10ef1e93de723525be2c60b2aa964be8 unsafe Rust では、生ポインタを返すか、参照のライフタイムを誤って延長することで問題が起こり得ます。
    * - Rule 7.0.2
      - ``-``
      -
      -
-     - "Contextual Conversions" to bool do not exist in Rust. The cases listed in the rule all require a value of boolean type in Rust.
+     - bool への「文脈的変換」は Rust には存在しません。ルールに挙げられているケースはすべて、Rust では真偽値型の値を必要とします。
 
-       The ``as`` operator cannot convert into bool. Conversions via the ``TryInto``/``TryFrom`` traits correspond with ``explicit operator bool`` and are exempted by the Rule.
+       ``as`` 演算子で bool へ変換することはできません。 ``TryInto`` / ``TryFrom`` トレイトによる変換は ``explicit operator bool`` に相当し、このルールの対象外です。
 
-       For unsafe Rust, one should also consider ``transmute``\ ing into bool where the safety invariant of bool must be ensured. However, this is already part of the general unsafe Rust rules.
+       unsafe Rust では、bool へ ``transmute`` することも考慮すべきです。その場合、bool の安全性不変条件を保証しなければなりません。ただし、これはすでに unsafe Rust の一般的なルールの一部です。
    * - Rule 8.1.2
      -
      -
      -
-     - Rust doesn't allow explicitly specifying the variables captured by a closure. Issues arising from this are also caught by the borrow checker. (similar caveat to Rule 8.1.1 applies here). Capturing raw pointers is not checked, but using them in the closure requires unsafe code, therefore this does map to unsafe rust.
+     - Rust では、クロージャがキャプチャする変数を明示的に指定することはできません。これに起因する問題も借用チェッカによって検出されます。（Rule 8.1.1 と同様の注意点がここにも当てはまります）。生ポインタのキャプチャはチェックされませんが、クロージャの中でそれを使うには unsafe なコードが必要なので、これは unsafe Rust に対応します。
    * - Rule 8.2.1
      -
      -
      -
-     - The exact case doesn't map as rust doesn't have class hierarchies like C++ does, but the general issue can occur in unsafe code with trait objects. Casting trait objects to a concrete type should use the "Any" trait, which checks that the conversion is correct (similar to "dynamic\_cast" in C++).
+     - Rust には C++ のようなクラス階層がないため、このケースそのものは対応しません。しかし、一般的な問題は、トレイトオブジェクトを使う unsafe なコードで起こり得ます。トレイトオブジェクトを具体的な型にキャストするときは「Any」トレイトを使うべきです。これは変換が正しいことをチェックします（C++ の「dynamic\_cast」と同様です）。
    * - Rule 8.2.3
      -
      -
      -
-     - Creating a mutable reference from a constant reference isn't possible in safe code. On raw pointers removing (or adding) constness is possible in safe code, but this can only cause UB in the presence of unsafe code. This guideline applies to unsafe code as the mutation permissions of a pointer need to be taken into account when writing unsafe code. (discussion on zulip about safe rust status: https://rust-lang.zulipchat.com/#narrow/channel/579369-safety-critical-consortium.2Fcoding-guidelines/topic/MISRA.20C.2B.2B.20Mapping.20Interest/near/599857174)
+     - 安全なコードでは、定数参照から可変参照を作ることはできません。生ポインタでは、安全なコードでも const 性を取り除く（または付け加える）ことができますが、これが UB を引き起こすのは unsafe なコードが存在する場合だけです。unsafe なコードを書くときはポインタの変更許可を考慮する必要があるため、このガイドラインは unsafe なコードに適用されます。（安全な Rust での扱いに関する zulip での議論: https://rust-lang.zulipchat.com/#narrow/channel/579369-safety-critical-consortium.2Fcoding-guidelines/topic/MISRA.20C.2B.2B.20Mapping.20Interest/near/599857174 ）
    * - Rule 8.2.4
      -
      -
      -
-     - Casting of pointer types (including function pointers) by itself can't cause UB. creating function pointers in safe code is only possible by taking the address of a function, not by casting from a pointer. In unsafe code care must be taken to only call valid function pointers and to not cast a function pointer to a reference to a struct/enum (which can easily lead to UB).
+     - ポインタ型（関数ポインタを含む）のキャストそれ自体は UB を引き起こしません。安全なコードで関数ポインタを作るには、関数のアドレスを取るしかなく、ポインタからキャストして作ることはできません。unsafe なコードでは、有効な関数ポインタだけを呼び出すこと、そして関数ポインタを構造体/列挙型への参照にキャストしないこと（簡単に UB につながります）に注意しなければなりません。
    * - Rule 8.2.5
      -
      -
      -
-     - "reinterpret\_cast" maps to "transmute" in Rust and it is similarly dangerous. In Rust one additional exception might be added in regards to "repr(transparent" types. "transmute" is a unsafe function so safe code isn't affected.
+     - 「reinterpret\_cast」は Rust の「transmute」に対応し、同様に危険です。Rust では、「repr(transparent」型に関する例外を 1 つ追加してもよいかもしれません。「transmute」は unsafe な関数なので、安全なコードは影響を受けません。
    * - Rule 8.2.6
      -
      -
      -
-     - Just like in C++ roundtripping pointers through pointers to void (union) is allowed, therefore the rationale fully applies. Casting from integer to pointer requires additional care to not create a pointer without provenance. While casting from integers or pointers to void (union in rust) to pointers is allowed in safe rust, using these pointers requires unsafe. In a program using only safe rust these operations can't cause issues, therefore this only maps to unsafe rust.
+     - C++ と同様に、ポインタを void（共用体）へのポインタを経由して往復させることは許されているため、根拠は完全に当てはまります。整数からポインタへのキャストでは、プロヴェナンスを持たないポインタを作らないよう、追加の注意が必要です。整数や void（Rust では共用体）へのポインタからポインタへキャストすることは安全な Rust でも許されていますが、それらのポインタを使うには unsafe が必要です。安全な Rust だけを使うプログラムでは、これらの操作は問題を引き起こさないため、これは unsafe Rust にだけ対応します。
    * - Rule 8.2.7
      -
      -
      -
-     - While casting between pointers and integers is allowed in safe rust, it can't cause issues because the created pointers can't be used. Similar rationale also applies to precision loss in pointer tracking tools (like miri in rust), which is not a problem if the pointer is not used. Therefore this does not apply to safe rust.
+     - ポインタと整数の間のキャストは安全な Rust でも許されていますが、作成されたポインタを使えないため、問題を引き起こすことはありません。同様の根拠は、ポインタ追跡ツール（Rust では miri など）での精度の損失にも当てはまりますが、ポインタを使わなければ問題にはなりません。したがって、これは安全な Rust には当てはまりません。
    * - Rule 8.2.11
      -
      -
      -
-     - Rust can unsafely call variadic functions. As this is interop the C/C++ rules apply directly.
+     - Rust は unsafe に可変長引数関数を呼び出すことができます。これは相互運用なので、C/C++ のルールが直接当てはまります。
    * - Rule 8.7.1
      -
      -
      -
-     - This applies to the unsafe "add" and similar functions on pointers. Creating invalid pointers using these functions is UB. The "wrapping\_add" family of functions doesn't create UB when an invalid pointer is created and are callable from safe code. This rule doesn't apply to safe code as the dereferencing of such pointers is supposed to be covered by rule 4.1.3 and UB can only happen when using the unsafe functions.
+     - これは、ポインタに対する unsafe な「add」や同様の関数に当てはまります。これらの関数を使って無効なポインタを作ることは UB です。「wrapping\_add」ファミリの関数は、無効なポインタが作られても UB を生じず、安全なコードから呼び出せます。そのようなポインタの参照外しは rule 4.1.3 で扱われることになっており、UB が起こり得るのは unsafe な関数を使う場合だけなので、このルールは安全なコードには当てはまりません。
    * - Rule 8.7.2
      -
      -
      -
-     - The "-" operator isn't available on pointers in rust. This maps to the "offset\_from" family of methods on raw pointers. These are unsafe and introduce UB if used on pointers to different allocations.  Casting pointers to integers and doing arithmetic on them will produce unspecified results if the pointers belong to different allocations and is possible in safe code, but this rule is explicitly concerned with UB and therefore does not apply to safe code.
+     - Rust では、ポインタに対して「-」演算子は使えません。これは、生ポインタに対する「offset\_from」ファミリのメソッドに対応します。これらは unsafe であり、異なるアロケーションへのポインタに対して使うと UB を生じます。ポインタを整数にキャストして算術演算を行うと、ポインタが異なるアロケーションに属する場合は未規定の結果になり、これは安全なコードでも可能です。しかし、このルールは明示的に UB に関するものなので、安全なコードには当てはまりません。
    * - Rule 8.18.1
      -
      -
      -
-     - Union access is not possible in safe rust. Similar it is not possible in safe rust to create a mut reference to a memory location while also holding another reference to it, which would be required to read and write from the same memory location at once. memmove and memcopy map to unsafe rust functions, this part of the rule does apply to unsafe rust. The union part of this rule doesn't apply to rust. The right side of the assignment statement is a "value" expression, not a "place" expression (rust reference). Miri does not report UB in this code: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=6bafaaf6ac8f638c0f67b3a4d9ad5f4b
+     - 安全な Rust では、共用体へのアクセスはできません。同様に、安全な Rust では、あるメモリ位置への別の参照を保持したまま、そのメモリ位置への mut 参照を作ることはできません。同じメモリ位置に対して同時に読み書きするには、それが必要になります。memmove と memcopy は unsafe Rust の関数に対応し、ルールのこの部分は unsafe Rust に当てはまります。このルールの共用体に関する部分は Rust には当てはまりません。代入文の右辺は「値」式であり、「場所」式ではありません（Rust リファレンス）。Miri はこのコードで UB を報告しません: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=6bafaaf6ac8f638c0f67b3a4d9ad5f4b
    * - Rule 10.1.2
      -
      -
      -
-     - The issue of using volatile memory operations correctly maps to rust, as rust has volatile operations. This does not map to safe rust as using volatile operations requires unsafe code. Incorrectly deciding to use non-volatile operations, where volatile operations would be necessary is a problem, but it does not apply to safe rust as accessing MMIO requires unsafe somewhere.
+     - Rust には volatile 操作があるため、volatile なメモリ操作を正しく使うという問題は Rust に対応します。volatile 操作を使うには unsafe なコードが必要なので、これは安全な Rust には対応しません。volatile 操作が必要な場面で誤って非 volatile 操作を使うことにしてしまうのは問題ですが、MMIO にアクセスするにはどこかで unsafe が必要になるため、安全な Rust には当てはまりません。
    * - Rule 11.6.1
      -
      -
      -
-     - In safe rust the compiler enforces that a variable is initialized when used. While declarations without initialization are possible the compiler checks that it is initialized before it can be used. Since the value cannot be read it is not a "state" that increases complexity. It can even reduce complexity as it may allow removing a "mut" annotation from a variable. In unsafe rust MaybeUninit can be used to delay initialization of variables without the compiler checking correct usage. Here the rule fully applies.
+     - 安全な Rust では、変数が使われるときに初期化されていることをコンパイラが強制します。初期化なしの宣言は可能ですが、使われる前に初期化されていることをコンパイラがチェックします。値を読み取れないので、それは複雑さを増す「状態」ではありません。変数から「mut」注釈を取り除けるようになることもあるため、むしろ複雑さを減らすことさえあります。unsafe Rust では、MaybeUninit を使うことで、正しい使い方をコンパイラにチェックさせずに変数の初期化を遅らせることができます。この場合、ルールは完全に当てはまります。
    * - Rule 11.6.2
      -
      -
      -
-     - Catching the use of unset variables for operations is done by the Rust compiler after performing definite assignment analysis. The following snippet will give us an error:
+     - 未設定の変数を演算に使うことは、Rust コンパイラが確実な代入の解析を行ったうえで検出します。次のコード片はエラーになります:
 
        .. code-block:: rust
 
@@ -563,382 +562,382 @@ Table 2 – Guidelines additionally applicable in the presence of unsafe code
               let y: i32 = x + 1;
           }
 
-       Diagnostics: used binding ``x`` isn't initialized ``x`` used here but it isn't initialized [E0381]
+       診断: used binding ``x`` isn't initialized ``x`` used here but it isn't initialized [E0381]
 
-       In unsafe Rust, there is a chance we read a value from uninit memory and it behaves as UB, not necessarily leading to a program crash/panic.
-       This especially applies to code using MaybeUninit or doing manual memory management, as new allocations are uninitialized by default.
+       unsafe Rust では、未初期化メモリから値を読み取ってしまい、それが UB として振る舞う可能性があります。必ずしもプログラムのクラッシュ/パニックにつながるとは限りません。
+       新しいアロケーションはデフォルトで未初期化なので、これは特に MaybeUninit を使うコードや手動でメモリ管理を行うコードに当てはまります。
    * - Rule 12.3.1
      -
      -
      -
-     - It is not possible to create UB with unions in safe rust, because reading from them is not allowed. Issues with memory leaks because of ManuallyDrop (which often is required for unions in rust) are covered by rule 21.6.2 and therefore don't make this rule apply to safe code. In regards to unions rust has less UB than C++, because rust has untyped memory. For example casting between an integer and float of the same size is fully defined in rust. The rule still applies to unsafe code, because causing UB is easily possible. Since this rule is about union declarations it applies to every union that is accessible from unsafe code.
+     - 安全な Rust では、共用体から読み取ることが許されていないため、共用体で UB を引き起こすことはできません。ManuallyDrop（Rust で共用体を使うときにしばしば必要になります）によるメモリリークの問題は rule 21.6.2 で扱われるため、それによってこのルールが安全なコードに適用されることにはなりません。Rust のメモリは型を持たないため、共用体に関しては Rust のほうが C++ よりも UB が少なくなっています。たとえば、同じサイズの整数と浮動小数点数の間のキャストは、Rust では完全に定義されています。UB を引き起こすことは容易に可能なため、このルールは依然として unsafe なコードに当てはまります。このルールは共用体の宣言に関するものなので、unsafe なコードからアクセスできるすべての共用体に適用されます。
    * - Rule 15.1.4
      -
      -
      -
-     - In safe rust the compiler checks that every member of a struct, enum, tuple or array is initialized when it is created. In unsafe rust (especially using MaybeUninit) this rule applies.
+     - 安全な Rust では、構造体、列挙型、タプル、配列のすべてのメンバが、作成時に初期化されていることをコンパイラがチェックします。unsafe Rust では（特に MaybeUninit を使う場合）、このルールが当てはまります。
    * - Rule 18.1.1
      -
      -
      -
-     - In Rust custom panic payloads can be thrown with the function "std::panic::panic\_any". Using this with raw pointers leads to unclear ownership semantics, just like in C++ which should be avoided. Smartpointers or 'static references are exceptions as the ownership semantics are clear. Using custom panic types requires coordination between the panic handler and the panic locations. With only safe code in the panic handler misuse of raw pointer is not possible, therefore it does not map to safe rust.
+     - Rust では、関数「std::panic::panic\_any」でカスタムのパニックペイロードを投げることができます。これを生ポインタとともに使うと、C++ と同様に所有権の意味論が不明確になるため、避けるべきです。スマートポインタや 'static 参照は、所有権の意味論が明確なので例外です。カスタムのパニック型を使うには、パニックハンドラとパニックが起こる場所との間で調整が必要です。パニックハンドラが安全なコードだけで書かれていれば、生ポインタを誤用することはできないため、これは安全な Rust には対応しません。
    * - Rule 21.6.3
      -
      -
      -
-     - explicitly calling a destructor maps to ``drop_in_place``, which is unsafe. A constructor or destructor in C++ receives a pointer to the location of the object. Such a constructor or destructor is not possible to write in safe rust. This rule is concerned with UB and does not map to safe rust. It needs adaption to unsafe rust idioms (handling of Pin, MaybeUninit, ManuallyDrop, ...)
+     - デストラクタを明示的に呼び出すことは ``drop_in_place`` に対応し、これは unsafe です。C++ のコンストラクタやデストラクタは、オブジェクトの位置を指すポインタを受け取ります。そのようなコンストラクタやデストラクタを安全な Rust で書くことはできません。このルールは UB に関するものであり、安全な Rust には対応しません。unsafe Rust のイディオム（Pin、MaybeUninit、ManuallyDrop などの扱い）に合わせた調整が必要です
    * - Rule 21.10.1
      -
      -
      -
-     - Rust supports C-Variadic function in the same way C does. Using the arguments is only possible in unsafe, therefore it only applies to unsafe rust. In rust this maps to the ``VaList`` object of the standard library.
+     - Rust は C と同じ方法で C の可変長引数関数をサポートしています。引数を使えるのは unsafe の中だけなので、これは unsafe Rust にだけ当てはまります。Rust では、これは標準ライブラリの ``VaList`` オブジェクトに対応します。
    * - Rule 23.11.1
      -
      -
      -
-     - This maps to the standard library functions "from\_raw" on smart pointers and containers in rust. These functions are unsafe, therefore the rule is not applicable to safe Rust
+     - これは、Rust のスマートポインタやコンテナに対する標準ライブラリの関数「from\_raw」に対応します。これらの関数は unsafe なので、このルールは安全な Rust には適用されません
    * - Rule 24.5.2
      -
      -
      -
-     - "memmove" and "memcpy" map to "std::ptr::copy" and "std::ptr::copy\_nonoverlapping" in rust. Both are unsafe. Non-trivially copyable types match to rust types that are !Unpin. "memcmp" is not provided by the rust std, but can be implemented by casting to a u8 slice. This has additional risk of UB if there is uninit memory in the buffer, which isn't mentioned in the Rule (only "unspecified" behaviour).
+     - 「memmove」と「memcpy」は、Rust の「std::ptr::copy」と「std::ptr::copy\_nonoverlapping」に対応します。どちらも unsafe です。トリビアルにコピー可能でない型は、!Unpin である Rust の型に対応します。「memcmp」は Rust の std では提供されていませんが、u8 のスライスにキャストすることで実装できます。この場合、バッファに未初期化メモリがあると UB になるという追加のリスクがありますが、これはルールでは触れられていません（「未規定」の動作だけが挙げられています）。
    * - Rule 25.5.1
      -
      -
      -
-     - The rust std doesn't provide any locale support. FFI is required to interact with the OS or C APIs therefore maps to unsafe.
+     - Rust の std はロケールのサポートを一切提供していません。OS や C の API とやり取りするには FFI が必要なので、unsafe に対応します。
    * - Rule 25.5.2
      -
      -
      -
-     - Rust std has no locale support. If this is required unsafe has to be used and this rule applies. std::env::var (getenv) returns a string, which is owned and can therefore be modified. errno can be checked from safe rust using std::io::Error::last\_os\_error. The std::io::Error struct implements display and can therefore be turned into a string. The rule doesn't apply to this. If the exact OS error string is required FFI and unsafe rust has to be used and this rule applies.
+     - Rust の std にはロケールのサポートがありません。それが必要な場合は unsafe を使わなければならず、このルールが当てはまります。std::env::var（getenv）は文字列を返しますが、これは所有されているので変更できます。errno は、安全な Rust から std::io::Error::last\_os\_error を使ってチェックできます。std::io::Error 構造体は display を実装しているので、文字列に変換できます。このルールはこれには当てはまりません。OS のエラー文字列そのものが必要な場合は、FFI と unsafe Rust を使わなければならず、このルールが当てはまります。
    * - Rule 25.5.3
      -
      -
      -
-     - Only getenv (std::env::var) is accessible from rust. It returns an owned string, therefore this part of the rule does not apply. For the other functions no equivalents are provided in the rust std. As they access system information (time zone, locale, errno) FFI and unsafe are required for use and the rules map to unsafe rust.
+     - Rust からアクセスできるのは getenv（std::env::var）だけです。これは所有された文字列を返すため、ルールのこの部分は当てはまりません。その他の関数については、Rust の std に同等のものはありません。それらはシステム情報（タイムゾーン、ロケール、errno）にアクセスするため、使うには FFI と unsafe が必要であり、ルールは unsafe Rust に対応します。
    * - Rule 28.6.3
      -
      -
      -
-     - Rust uses destructive moves, which don't allow access to moved from objects in safe code. Unsafe code could circumvent this by keeping a pointer to the location.
+     - Rust は破壊的なムーブを使うため、安全なコードではムーブ元のオブジェクトにアクセスできません。unsafe なコードでは、その位置へのポインタを保持しておくことで、これを回避できてしまいます。
 
-Table 3 – Guidelines not currently applicable to Rust
+表 3 – 現時点で Rust に適用されないガイドライン
 -----------------------------------------------------
 
 .. list-table::
    :header-rows: 1
    :widths: auto
 
-   * - Guideline
-     - Related MISRA C 2025 guideline
-     - Comment
+   * - ガイドライン
+     - 関連する MISRA C 2025 ガイドライン
+     - コメント
    * - Rule 4.6.1
      - ``-``
-     - The evaluation order of expressions in Rust is well defined
+     - Rust では式の評価順序は明確に定義されています
    * - Rule 5.0.1
      - ``-``
-     - Rust does not have trigraph sequences or similar token alternatives
+     - Rust には三文字表記（trigraph）や、それに類する代替トークンはありません
    * - Rule 5.7.3
      - Rule 3.2
-     - MISRA C mapping. Rust has no line splicing.
+     - MISRA C のマッピング。Rust には行の連結（line splicing）はありません。
    * - Rule 5.10.1
      -
-     - The rust compiler already requires subrules 1 and 2. It also normalizes to NFC, which makes subrule 3 unnecessary. Subrule 4 is not necessary as collisions with std identifiers are not possible due to the module system. Identifiers starting with an "_" are used in rust to disable unused variable warnings. Rust has no user defined literal suffixes. (See `Identifiers (Reference) <https://doc.rust-lang.org/reference/identifiers.html>`__)
+     - Rust コンパイラはすでにサブルール 1 と 2 を要求しています。また NFC への正規化も行うため、サブルール 3 は不要です。モジュールシステムによって std の識別子との衝突は起こり得ないため、サブルール 4 も不要です。Rust では、「_」で始まる識別子は未使用変数の警告を無効にするために使われます。Rust にはユーザ定義のリテラル接尾辞はありません。（ `Identifiers (Reference) <https://doc.rust-lang.org/reference/identifiers.html>`__ を参照してください）
    * - Rule 5.13.1
      -
-     - The compiler itself already prevents this even in ``unsafe`` blocks; the only way to "bypass" this is by using, of course, raw strings (``r"<TEXT>"``).
+     - コンパイラ自体が、 ``unsafe`` ブロックの中でさえ、これをすでに防いでいます。これを「回避」する唯一の方法は、もちろん、生文字列（ ``r"<TEXT>"`` ）を使うことです。
    * - Rule 5.13.2
      -
-     - For Unicode, Rust uses the notation of ``\u{...}`` with a maximum of 6 characters allowed inside of the braces; in the case of the hex ``\x``, it will always take the two hex digits that follow it, yielding a compiling result for something like ``\x41g``. Octal escapes are not supported and ``\0`` is always null.
+     - Unicode については、Rust は ``\u{...}`` という記法を使い、波括弧の中には最大 6 文字まで書けます。16 進数の ``\x`` の場合は、常にその後に続く 2 桁の 16 進数を取るため、 ``\x41g`` のようなものもコンパイルできます。8 進数のエスケープはサポートされておらず、 ``\0`` は常にヌルです。
    * - Rule 5.13.3
      -
-     - Rust manages octal prefixes differently (``0o``), making it unambiguous for the user
+     - Rust は 8 進数の接頭辞を異なる方法（ ``0o`` ）で扱っており、ユーザにとって曖昧さがありません
    * - Rule 5.13.4
      -
-     - If the type hasn't been specified (ie. ``42u16``, ``42i32``) and the type cannot be inferred from the context, Rust always fallbacks to ``i32``. The issue of fallback differing between platforms doesn't exist in rust. As this is the main motivation for this rule, it doesn't map to rust.
+     - 型が指定されておらず（つまり ``42u16`` 、 ``42i32`` のようになっておらず）、文脈から型を推論できない場合、Rust は常に ``i32`` にフォールバックします。フォールバック先がプラットフォームによって異なるという問題は Rust には存在しません。これがこのルールの主な動機なので、Rust には対応しません。
    * - Rule 5.13.5
      -
-     - The "L" and "l" suffixes do not exist in Rust
+     - 「L」と「l」の接尾辞は Rust には存在しません
    * - Rule 5.13.6
      -
-     - Same rationale as for Rule 5.13.5; ``long long`` and the aforementioned suffixes do not exist in Rust. Additionally, the C++ style concatenating does not exist in Rust either; we do have ``concat!()`` but it relies only on whatever expression is used as the argument (calls ``core::stringify`` when needed which yields a ``&'static str``
+     - Rule 5.13.5 と同じ根拠です。 ``long long`` と前述の接尾辞は Rust には存在しません。さらに、C++ スタイルの連結も Rust には存在しません。 ``concat!()`` はありますが、これは引数として使われる式だけに依存します（必要に応じて ``core::stringify`` を呼び出し、 ``&'static str`` を生成します
    * - Rule 5.13.7
      -
-     - Rust string literals are always UTF-8, no way to encode them with prefixes such as ``u8`` or ``u``
+     - Rust の文字列リテラルは常に UTF-8 であり、 ``u8`` や ``u`` のような接頭辞でエンコーディングを指定する方法はありません
    * - Rule 6.0.1
      - ``-``
-     - In Rust, function, variable and const declarations are clearly visually distinguishable.
+     - Rust では、関数、変数、const の宣言は見た目ではっきり区別できます。
    * - Rule 6.0.2
      - Rule 8.11
-     - MISRA C mapping. Rust requires the size of the array even in extern static declarations.
+     - MISRA C のマッピング。Rust では、extern static の宣言であっても配列のサイズが必要です。
    * - Rule 6.2.3
      -
-     - Rust's module system makes duplicate definitions structurally impossible; the compiler would give you the according errors as well ([E0252])
+     - Rust のモジュールシステムでは、重複した定義は構造的に不可能です。コンパイラも該当するエラー（[E0252]）を出します
    * - Rule 6.2.4
      -
-     - Rust does not have a header file mechanism or C++-esque external linkage; Using ``no_mangle`` or ``extern`` is covered by the more general Rule 6.2.1
+     - Rust にはヘッダファイルの仕組みや C++ のような外部リンケージはありません。 ``no_mangle`` や ``extern`` の使用は、より一般的な Rule 6.2.1 で扱われます
    * - Rule 6.4.2
      - ``-``
-     - **Applicability:** Not currently applicable to safe or unsafe Rust; applicable to both upon stabilization.
+     - **適用可能性:** 現時点では安全な Rust にも unsafe Rust にも適用されません。安定化された時点で両方に適用されます。
 
-       While Rust does not support C++-style classes, its trait system does support a more limited kind of inheritance. Here, it is possible to have a subtrait relationship where both traits define a function of the same name. However, when a function name is ambiguous Rust will report an error and require disambiguation.
+       Rust は C++ スタイルのクラスをサポートしていませんが、トレイトシステムはより限定的な種類の継承をサポートしています。ここでは、両方のトレイトが同じ名前の関数を定義するサブトレイト関係を持つことができます。しかし、関数名が曖昧な場合、Rust はエラーを報告し、曖昧さの解消を要求します。
 
-       With the stabilization of https://github.com/rust-lang/rust/pull/148605 it is possible to shadow function in a trait hierarchy as described by this rule
+       https://github.com/rust-lang/rust/pull/148605 が安定化されると、このルールで説明されているように、トレイト階層の中で関数をシャドーイングできるようになります
    * - Rule 6.4.3
      - ``-``
-     - This rule is highly specific to the C++ class and template system and does not translate to Rust
+     - このルールは C++ のクラスとテンプレートのシステムに強く特化しており、Rust には当てはまりません
    * - Rule 6.5.1
      -
-     - Rust does not have header files. Which parts of the code are public interface is specified using the module system. There is no special place to put ``extern`` definitions.
+     - Rust にはヘッダファイルがありません。コードのどの部分が公開インターフェイスであるかは、モジュールシステムを使って指定します。 ``extern`` 定義を置くための特別な場所はありません。
    * - Rule 6.5.2
      -
-     - In rust items that are public using their symbol need to be annotated using ``no_mangle`` or ``link_name`` or placed in an ``extern`` block. It is therefore not necessary to explicitly limit the linkage of items in rust.
+     - Rust では、シンボルを使って公開されるアイテムは、 ``no_mangle`` や ``link_name`` で注釈を付けるか、 ``extern`` ブロックの中に置く必要があります。そのため、Rust ではアイテムのリンケージを明示的に制限する必要はありません。
    * - Rule 6.9.1
      -
-     - In rust functions can not be redeclared in general. In traits and their implementation the declaration is written two times, but this is not a redeclaration and the types of arguments or the return type cannot be changed. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=ffda211af1767cb708e5bf2c7acd48f1
+     - Rust では、一般に関数を再宣言することはできません。トレイトとその実装では宣言が 2 回書かれますが、これは再宣言ではなく、引数の型や戻り値の型を変えることはできません。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=ffda211af1767cb708e5bf2c7acd48f1
    * - Rule 6.9.2
      -
-     - In Rust the size of the integer and floating point types is defined. The rule doesn't apply to the C++ types intptr\_t and uintptr\_t, so it shouldn't apply to usize and isize in Rust.
+     - Rust では、整数型と浮動小数点型のサイズは定義されています。このルールは C++ の型 intptr\_t と uintptr\_t には適用されないので、Rust の usize と isize にも適用されるべきではありません。
    * - Rule 7.0.3
      -
-     - In Rust the ``char`` type isn't comparable or assignable to an integer or bool type. It can only be explicitly converted to and from ``u32`` which matches the recommendation of using explicit conversion functions.
+     - Rust では、 ``char`` 型は整数型や bool 型と比較したり代入したりできません。明示的に ``u32`` との間で変換することしかできず、これは明示的な変換関数を使うという推奨に合致しています。
    * - Rule 7.0.5
      -
-     - Rust doesn't have integer promotion or implicit conversion. "as" casting isn't affected by this Rule as it is an explicit cast.
+     - Rust には整数拡張や暗黙の変換はありません。「as」によるキャストは明示的なキャストなので、このルールの影響を受けません。
    * - Rule 7.0.6
      -
-     - Rust doesn't have implicit integral promotion or overload sets, so the rationale doesn't apply.
+     - Rust には暗黙の整数拡張やオーバーロード集合がないため、根拠は当てはまりません。
    * - Rule 7.11.2
      -
-     - In Rust arrays don't decay to pointers. Slices contain both the pointer and the length, so no bound information is lost by converting to a slice.
+     - Rust では、配列はポインタに縮退しません。スライスはポインタと長さの両方を持つため、スライスに変換しても境界の情報は失われません。
    * - Rule 7.11.3
      -
-     - Rust doesn't automatically convert a function pointer to a regular pointer, explicit "as" casts have to be used. The use of such a cast complies with the requirement that the taking of the address should be explicit. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=ca80b6738d968336e473ec38cc9405aa
+     - Rust は関数ポインタを通常のポインタに自動的に変換しません。明示的な「as」キャストを使う必要があります。そのようなキャストを使うことは、アドレスの取得を明示的に行うべきだという要件に適合します。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=ca80b6738d968336e473ec38cc9405aa
    * - Rule 8.1.1
      -
-     - The borrow checker catches attempts to capture shortlived references in closures. Rust also doesn't have implicit ``this``, so in the closure ``self`` has to be used, which makes it obvious which object is being captured. Closure capture behaves the same in an unsafe block, so this isn't affected by unsafe code. (this mapping depends on a rule about using unsafe to extend the lifetime of references, if such a rule does not exist this would apply to unsafe rust)
+     - 短命な参照をクロージャでキャプチャしようとすると、借用チェッカがそれを検出します。また、Rust には暗黙の ``this`` がないため、クロージャの中では ``self`` を使う必要があり、どのオブジェクトがキャプチャされているかが明らかになります。クロージャのキャプチャは unsafe ブロックの中でも同じように振る舞うため、unsafe なコードの影響は受けません。（このマッピングは、unsafe を使って参照のライフタイムを延長することに関するルールに依存します。そのようなルールが存在しない場合、これは unsafe Rust に当てはまります）
    * - Rule 8.2.9
      -
-     - Rust has type\_id and type\_name functions that are always evaluated at compile time, even if they maybe take an argument (std::any::{type\_name, type\_name\_of\_val, TypeId::of}). Because they are never evaluated at runtime this rule does not apply. Rust also has a type\_id function that is evaluated at runtime (std::any::Any::type\_id). Because it just takes a self reference and is always evaluated at runtime there is no confusion about potential sideeffects happening at runtime. This function also does not panic.
+     - Rust には type\_id 関数と type\_name 関数があり、引数を取ることがあっても常にコンパイル時に評価されます（std::any::{type\_name, type\_name\_of\_val, TypeId::of}）。実行時に評価されることはないため、このルールは当てはまりません。Rust には実行時に評価される type\_id 関数（std::any::Any::type\_id）もあります。これは self への参照を受け取るだけで、常に実行時に評価されるため、実行時に起こり得る副作用について混乱することはありません。この関数はパニックもしません。
    * - Rule 8.3.1
      -
-     - Rust doesn't allow applying the "-" operator to unsigned number types. Error code E0600 is emitted: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=df15120669953ba24471999fafc25c8c
+     - Rust では、符号なしの数値型に「-」演算子を適用することはできません。エラーコード E0600 が出ます: https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=df15120669953ba24471999fafc25c8c
    * - Rule 8.3.2
      -
-     - Rust doesn't have a unary "+" operator. https://doc.rust-lang.org/reference/expressions/operator-expr.html
+     - Rust には単項の「+」演算子はありません。 https://doc.rust-lang.org/reference/expressions/operator-expr.html
    * - Rule 8.18.2
      -
-     - In Rust assignment always returns the unit type, so it is not possible to use the return type.
+     - Rust では、代入は常にユニット型を返すため、戻り値の型を使うことはできません。
    * - Rule 8.19.1
      -
-     - The comma operator maps to the rust code: "{a; b}", which discards the result of expression a and evaluates to the result of expression b. This syntax is not confusing like the comma operator is in C++.
+     - コンマ演算子は Rust のコード「{a; b}」に対応します。これは式 a の結果を捨てて、式 b の結果に評価されます。この構文は、C++ のコンマ演算子のように紛らわしくはありません。
    * - Rule 9.2.1
      -
-     - variable declarations in rust use the "let" keyword, so confusion is not possible.
+     - Rust の変数宣言は「let」キーワードを使うため、混乱は起こり得ません。
    * - Rule 9.3.1
      -
-     - loop and selection statements in rust always require braces, confusion due to indentation is not possible.
+     - Rust のループ文と選択文は常に波括弧を必要とするため、インデントによる混乱は起こり得ません。
    * - Rule 9.5.2
      -
-     - The mentioned lifetime issues are resolved by the borrow checker. Using multiple iterator combinators in a for loop is considered idiomatic in Rust. The rust reference explicitly specifies that temporary values in the iterator expression aren't dropped before the loop is finished https://doc.rust-lang.org/nightly/reference/expressions/loop-expr.html#r-expr.loop.for. This is different from the C++ behaviour and another reason for this rule not to map.
+     - 挙げられているライフタイムの問題は、借用チェッカによって解決されます。for ループで複数のイテレータコンビネータを使うのは、Rust では慣用的とされています。Rust リファレンスは、イテレータ式の中の一時的な値がループの終了前にドロップされないことを明示しています https://doc.rust-lang.org/nightly/reference/expressions/loop-expr.html#r-expr.loop.for 。これは C++ の振る舞いとは異なり、このルールが対応しないもう 1 つの理由です。
    * - Rule 9.6.1
      -
-     - Rust doesn't have a ``goto`` statement
+     - Rust には ``goto`` 文はありません
    * - Rule 9.6.2
      -
-     - Rust doesn't have a ``goto`` statement.
+     - Rust には ``goto`` 文はありません。
    * - Rule 9.6.3
      -
-     - Rust doesn't have a ``goto`` statement
+     - Rust には ``goto`` 文はありません
    * - Rule 9.6.4
      -
-     - In Rust the equivalent of a ``noreturn`` function is a function returning the never type ``!``. That the return type of a function is correct is checked by the type system. There are no special considerations for the never type.
+     - Rust では、 ``noreturn`` 関数に相当するのは never 型 ``!`` を返す関数です。関数の戻り値の型が正しいことは、型システムによってチェックされます。never 型について特別に考慮すべきことはありません。
    * - Rule 9.6.5
      -
-     - Similar to Rule 9.6.4 the type systems checks that the return type of functions is correct
+     - Rule 9.6.4 と同様に、関数の戻り値の型が正しいことは型システムがチェックします
    * - Rule 10.0.1
      -
-     - Declarations in rust can't introduce more than one variable. Destructuring or pattern matching (structured bindings in C++) are explicitly allowed, so should be allowed in Rust as well.
+     - Rust の宣言では、1 つの宣言で複数の変数を導入することはできません。分配や（C++ の構造化束縛にあたる）パターンマッチは明示的に許されているので、Rust でも許されるべきです。
    * - Rule 10.2.2
      -
-     - In Rust enums don't implicitly coerce to integers. Overlap of enum and constant names can happen in rust if the enum variant is imported, but an explicit typecast is required. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=ab590204a83054e6a47d6f479f471b13 This rule could be mapped to "don't import enum variants" or "don't shadow other imports", but this feels like it should be a distinct rule as the main issue of implicit coercion doesn't exist in rust.
+     - Rust では、列挙型は暗黙に整数へ型強制されません。Rust でも列挙型のバリアントをインポートすると、列挙型と定数の名前が重なることがありますが、明示的な型キャストが必要です。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=ab590204a83054e6a47d6f479f471b13 このルールを「列挙型のバリアントをインポートしない」や「他のインポートをシャドーイングしない」に対応させることもできますが、暗黙の型強制という主な問題は Rust には存在しないため、これは別のルールにすべきだと感じます。
    * - Rule 10.3.1
      -
-     - specific to C++ header files, which don't exist in rust.
+     - Rust には存在しない、C++ のヘッダファイルに特有のものです。
    * - Rule 11.3.1
      -
-     - In Rust the array type behaves like the C++ type "std::array" in that it has value semantics and the size stays known. As "std::array" is recommended as a compliant alternative, the Rust array type is compliant and this rule doesn't map.
+     - Rust の配列型は、値の意味論を持ち、サイズが分かったままであるという点で、C++ の型「std::array」のように振る舞います。「std::array」は適合する代替手段として推奨されているので、Rust の配列型は適合しており、このルールは対応しません。
    * - Rule 11.6.3
      -
-     - Rust doesn't allow assigning two enum variants the same value, even when done explicitly. Error E0081 is emitted. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=6c72cfac7ae776bf605e7d7f1135a5e6
+     - Rust では、明示的に指定したとしても、2 つの列挙型のバリアントに同じ値を割り当てることはできません。エラー E0081 が出ます。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=6c72cfac7ae776bf605e7d7f1135a5e6
    * - Rule 12.2.1
      -
-     - The rust language doesn't support bitfields. If these guidelines start covering libraries one would have to look at the behaviour of the specific library.
+     - Rust 言語はビットフィールドをサポートしていません。これらのガイドラインがライブラリも対象とするようになったら、個々のライブラリの振る舞いを調べる必要があるでしょう。
    * - Rule 12.2.2
      -
-     - See Rule 12.2.1
+     - Rule 12.2.1 を参照してください
    * - Rule 12.2.3
      -
-     - See Rule 12.2.1
+     - Rule 12.2.1 を参照してください
    * - Rule 13.1.1
      -
-     - The standard way of implementing class hierarchies in Rust (storing parent Classes in the Child classes) is always non-virtual, therefore there are no issues about initialization. A diamond can be created using traits, but functions with the same name on parent and child traits need to be disambiguated, therefore there are no issues about call resolution. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=d44a300af1adda1b0b36be11b6bf071b
+     - Rust でクラス階層を実装する標準的な方法（親クラスを子クラスの中に格納する）は常に非仮想なので、初期化に関する問題はありません。トレイトを使うとダイヤモンド型を作れますが、親トレイトと子トレイトに同じ名前の関数がある場合は曖昧さを解消する必要があるため、呼び出しの解決に関する問題はありません。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=d44a300af1adda1b0b36be11b6bf071b
    * - Rule 13.1.2
      -
-     - Rust does not have virtual hierarchies. There also is not a feature that deduplicates struct fields.
+     - Rust には仮想的な階層はありません。また、構造体のフィールドを重複排除するフィーチャもありません。
    * - Rule 13.3.1
      -
-     - Function overriding can be done in Rust with trait default functions. Default functions can always be overridden, no keyword necessary. Overriding also requires no keyword. As this rule is about using the keywords correctly and not doing overrides correctly this does not map to rust. In trait hierarchies ambiguous functions have to be disambiguated at call sites, therefore it is not really function overriding. (https://github.com/rust-lang/rust/pull/148605 would change that, the exact semantics need to be looked at after stabilisation)
+     - Rust では、トレイトのデフォルト関数を使って関数のオーバーライドを行えます。デフォルト関数は常にオーバーライドでき、キーワードは必要ありません。オーバーライドする側もキーワードを必要としません。このルールはオーバーライドを正しく行うことではなく、キーワードを正しく使うことに関するものなので、Rust には対応しません。トレイト階層では、曖昧な関数は呼び出し箇所で曖昧さを解消しなければならないため、実際には関数のオーバーライドではありません。（ https://github.com/rust-lang/rust/pull/148605 によってこれが変わるため、安定化後に正確な意味論を確認する必要があります）
    * - Rule 13.3.2
      -
-     - Rust does not allow default arguments.
+     - Rust ではデフォルト引数は使えません。
    * - Rule 15.0.2
      -
-     - Rust doesn't have move constructors. The signature of the Clone trait (copy constructor) is defined by the trait and deviations from it are a compile error.
+     - Rust にはムーブコンストラクタはありません。Clone トレイト（コピーコンストラクタ）のシグネチャはトレイトによって定義されており、それと異なるとコンパイルエラーになります。
    * - Rule 15.1.1
      -
-     - Rust does not store V-Tables inline, but always behind a pointer. Creating dyn pointers is done in one operation, an "unsized coercion". It is therefore not possible to observe half constructed V-Tables or RTTI.
+     - Rust は V-Table をインラインで格納せず、常にポインタの先に置きます。dyn ポインタの作成は 1 つの操作、つまり「サイズ不定型への型強制（unsized coercion）」で行われます。そのため、構築途中の V-Table や RTTI を観測することはできません。
    * - Rule 15.1.2
      -
-     - This rule is specific to C++ class hierarchies and does not apply to rust, as Rust doesn't have inheritance. The way this usecase is often done in rust (storing the "superclass" as a struct member) guarantees initialization of that object in the same way that struct initialization regularly works (See rule 15.1.4).
+     - このルールは C++ のクラス階層に特有のものであり、Rust には継承がないため、Rust には当てはまりません。Rust でこのユースケースによく使われる方法（「スーパークラス」を構造体のメンバとして格納する）では、構造体の初期化が通常行われるのと同じ方法で、そのオブジェクトの初期化が保証されます（rule 15.1.4 を参照してください）。
    * - Rule 15.1.3
      -
-     - Rust does not implicitly convert between types in this way.
+     - Rust は、このような形で型の間を暗黙に変換することはありません。
    * - Rule 15.1.5
      -
-     - Rust has neither initializer lists nor overloaded functions.
+     - Rust には、初期化子リストもオーバーロードされた関数もありません。
    * - Dir 15.8.1
      -
-     - Rust does not allow customizing the behaviour of move or assignment. Simulating move constructors using Pin is not a language or std construct and out of scope of these guidelines.
+     - Rust では、ムーブや代入の振る舞いをカスタマイズすることはできません。Pin を使ってムーブコンストラクタを模倣することは、言語や std の構成要素ではなく、これらのガイドラインの範囲外です。
    * - Rule 16.5.1
      -
-     - In rust only the binary OR and AND operators can be customized, not the logical ones.
+     - Rust でカスタマイズできるのは二項の OR 演算子と AND 演算子だけで、論理演算子はカスタマイズできません。
    * - Rule 16.5.2
      -
-     - Rust does not have a customizable addressof operator.
+     - Rust には、カスタマイズ可能なアドレス取得演算子はありません。
    * - Rule 16.6.1
      -
-     - While it is possible in rust to call different implementations of symmetric operators depending on the order of the parameters, this issue is mostly concerned with implicit conversions. Since rust does not have such implicit conversions this rule does not map to rust.
+     - Rust では、パラメータの順序によって対称な演算子の異なる実装を呼び出すことは可能ですが、この問題は主に暗黙の変換に関するものです。Rust にはそのような暗黙の変換がないため、このルールは Rust には対応しません。
    * - Rule 17.8.1
      -
-     - Rust does not support specialization or overloaded functions.
+     - Rust は特殊化もオーバーロードされた関数もサポートしていません。
    * - Rule 18.1.2
      -
-     - In rust panics can be rethrown using ``std::panic::resume_unwind``. This is a regular function that takes the panic payload as an argument. It is therefore not possible to rethrow without a panic payload.
+     - Rust では、 ``std::panic::resume_unwind`` を使ってパニックを再送出できます。これはパニックペイロードを引数として受け取る通常の関数です。そのため、パニックペイロードなしで再送出することはできません。
    * - Rule 18.3.1
      -
-     - In Rust there is no need to have a panic catcher in order to use unwinding. The global panic handler controls the behaviour of panics (for example if it unwinds or not). When the std is used a panic handler is provided, whose behaviour can be configures using compiler flags.
+     - Rust では、巻き戻しを使うためにパニックを捕捉する仕組みを用意する必要はありません。パニックの振る舞い（たとえば巻き戻すかどうか）は、グローバルなパニックハンドラが制御します。std を使う場合はパニックハンドラが提供され、その振る舞いはコンパイラのフラグで設定できます。
    * - Rule 18.3.2
      -
-     - When panics are caught in rust they are returned as the Any trait (see catch\_unwind, JoinHandle::join, PanicHookInfo::payload). This is then downcasted into the expected payload type using the Any trait. For a downcast to work the types need to match exactly. Even otherwise implicit coercions (for example from concrete type to trait object) aren't performed during the downcast. https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=7cfacafd069f8ca6da20e3a265b21f0b Therefore the issue of catching a base class (trait object) doesn't apply to rust, as downcasting to a base class isn't successful if it wasn't already thrown as that base class. This does mean that downcasting to a trait object (for example dyn Debug) is unlikely to be successful as the std panics with payloads of type String on recent editions (https://doc.rust-lang.org/std/macro.panic.html#editions). This issue does not map to this rule, as this rule is concerned with information loss, which does not occur (failing downcasts always need to be handled). The issue of data races is solved in Rust by requiring the panic payload to implement the Send trait (https://doc.rust-lang.org/std/panic/fn.panic_any.html).
+     - Rust でパニックを捕捉すると、それは Any トレイトとして返されます（catch\_unwind、JoinHandle::join、PanicHookInfo::payload を参照してください）。その後、Any トレイトを使って、期待するペイロードの型にダウンキャストします。ダウンキャストが成功するには、型が完全に一致する必要があります。他の場面では行われる暗黙の型強制（たとえば具体的な型からトレイトオブジェクトへの型強制）も、ダウンキャストの際には行われません。 https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=7cfacafd069f8ca6da20e3a265b21f0b したがって、基底クラス（トレイトオブジェクト）を捕捉するという問題は Rust には当てはまりません。最初からその基底クラスとして送出されていなければ、基底クラスへのダウンキャストは成功しないからです。これは、トレイトオブジェクト（たとえば dyn Debug）へのダウンキャストはおそらく成功しない、ということでもあります。最近のエディションでは、std は String 型のペイロードでパニックするからです（ https://doc.rust-lang.org/std/macro.panic.html#editions ）。この問題はこのルールには対応しません。このルールは情報の損失に関するものであり、それは起こらないからです（失敗したダウンキャストは常に処理する必要があります）。データ競合の問題は、Rust ではパニックペイロードに Send トレイトの実装を求めることで解決されています（ https://doc.rust-lang.org/std/panic/fn.panic_any.html ）。
    * - Rule 18.3.3
      -
-     - In rust there are no function level try-catch blocks. As in normal C++ try-catch blocks care must be taken to avoid accessing objects that are left in an invalid state due to the panic, but this is a more general rule and is covered by rule 18.4.1.
+     - Rust には、関数レベルの try-catch ブロックはありません。通常の C++ の try-catch ブロックと同様に、パニックによって無効な状態のまま残されたオブジェクトにアクセスしないよう注意しなければなりませんが、これはより一般的なルールであり、rule 18.4.1 で扱われます。
    * - Rule 19.0.1
      -
-     - The cfg attribute always applies to the next item. This rule does not applies for it, as its syntax doesn't interleave with the code it applies to. cfg\_select does interleave with the code, but since it requires braces in all but the simplest cases, the rule also doesn't apply here.
+     - cfg アトリビュートは常に次のアイテムに適用されます。その構文は適用先のコードと入り混じらないため、このルールは cfg アトリビュートには当てはまりません。cfg\_select は適用先のコードと入り混じりますが、ごく単純な場合を除いて波括弧を必要とするため、このルールはここにも当てはまりません。
    * - Rule 19.0.4
      -
-     - It is not possible in rust to remove the definition of a macro after it was introduced.
+     - Rust では、一度導入したマクロの定義を後から取り除くことはできません。
    * - Rule 19.1.1
      -
-     - Rust has no way of checking if a macro definition is available (ignoring proc-macro crimes to run another compiler, but those still don't have issues with being defined in another macro).
+     - Rust には、マクロ定義が利用可能かどうかをチェックする方法はありません（別のコンパイラを実行するような手続き的マクロの荒技は除きますが、それでも別のマクロの中で定義されることに関する問題はありません）。
    * - Rule 19.1.2
      -
-     - Rust requires braces to be matched and therefore the combination between the cfg\_select (similar to preprocessor if) and include macros can't lead to these issues.
+     - Rust では括弧の対応が取れている必要があるため、cfg\_select（プリプロセッサの if に相当）と include マクロを組み合わせても、こうした問題にはつながりません。
    * - Rule 19.1.3
      -
-     - Rust does not implicitly set undefined identifiers to a value. Use of undefined identifiers leads to a compile error.
+     - Rust は、未定義の識別子に暗黙に値を設定することはありません。未定義の識別子を使うとコンパイルエラーになります。
    * - Rule 19.2.2
      -
-     - Not an issue in rust. If the path given to the include macro (or to a module path attribute) is invalid a compile error is raised and no UB occurs.
+     - Rust では問題になりません。include マクロ（またはモジュールの path アトリビュート）に与えたパスが無効な場合、コンパイルエラーが発生し、UB は起こりません。
    * - Rule 19.2.3
      -
-     - Rust supports full raw string literals both in the include macro and in the path attribute of module imports https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=d3b6c099b4eec8733a600204a3db185c It is possible to use whatever the OS allows as a file name and still import it.
+     - Rust は、include マクロでもモジュールのインポートの path アトリビュートでも、生文字列リテラルを完全にサポートしています https://play.rust-lang.org/?version=stable&mode=debug&edition=2024&gist=d3b6c099b4eec8733a600204a3db185c OS がファイル名として許すものであれば何でも使え、それでもインポートできます。
    * - Rule 19.3.1
      - Rule 20.10
-     - MISRA C has an equivalent rule which is not considered applicable (ADD6). Rust's macro equivalent are ``concat!`` and ``stringify!``, both of which are generally better behaved. Although for ``stringify!`` it is still not recommended to rely on its exact output.
+     - MISRA C には同等のルールがあり、適用されないとみなされています（ADD6）。Rust でこれに相当するマクロは ``concat!`` と ``stringify!`` で、どちらも一般により素直に振る舞います。ただし、 ``stringify!`` については、その正確な出力に依存することは依然として推奨されません。
    * - Rule 19.3.2
      - Rule 20.11
-     - MISRA C mapping does not apply for equivalent rule.
+     - 同等のルールについて、MISRA C のマッピングは適用されません。
    * - Rule 19.3.3
      -
-     - A macro invocation in rust always contains the symbol ``!``, which is not valid for identifiers.
+     - Rust のマクロ呼び出しには必ず記号 ``!`` が含まれ、これは識別子としては有効ではありません。
 
-       New identifiers can be created using the nightly ``concat_ident`` and ``${concat(...)}`` metavariable or using proc_macros (for example the ``paste`` crate)
+       新しい識別子は、nightly の ``concat_ident`` や ``${concat(...)}`` メタ変数、あるいは手続き的マクロ（たとえば ``paste`` クレート）を使って作ることができます
    * - Rule 19.3.5
      -
-     - This is well defined in rust, see https://lukaswirth.dev/tlborm/decl-macros/patterns/callbacks.html for usecases and a understandable description of the behaviour
+     - これは Rust では明確に定義されています。ユースケースと、振る舞いの分かりやすい説明については https://lukaswirth.dev/tlborm/decl-macros/patterns/callbacks.html を参照してください
    * - Rule 19.6.1
      -
-     - Rust does not have a general purpose macro for implementation defined behaviour.
+     - Rust には、処理系定義の動作のための汎用マクロはありません。
    * - Rule 21.2.1
      -
-     - Rust integer and floating point parsing functions (with the FromStr trait) can't cause UB and return Err on overflow or invalid input.
+     - Rust の整数と浮動小数点数のパース関数（FromStr トレイトによるもの）は UB を引き起こすことはなく、オーバーフローや無効な入力に対しては Err を返します。
    * - Rule 21.2.2
      -
-     - Mapping to rust std:
+     - Rust の std への対応:
 
        ``strcat``: ``String::push_str``
 
        ``strchr``: ``str::find``
 
-       ``strcmp``: ``str::cmp`` (Ord trait)
+       ``strcmp``: ``str::cmp`` （Ord トレイト）
 
-       ``strcoll``: no locale support in rust std
+       ``strcoll``: Rust の std にはロケールのサポートがない
 
-       ``strcpy``: target ``String``: ``clear`` + ``push\_str`` or ``clone\_into``, target ``str``: no direct mapping, maybe going through bytes
+       ``strcpy``: 対象が ``String`` の場合: ``clear`` + ``push\_str`` または ``clone\_into`` 、対象が ``str`` の場合: 直接対応するものはなく、バイト列を経由することになるかもしれない
 
-       ``strcspn``: ``str::find`` takes a pattern which can be a closure
+       ``strcspn``: ``str::find`` はクロージャを指定できるパターンを受け取る
 
        ``strerror``: ``last_os_error`` + ``Display``
 
        ``strlen``: ``str::len``
 
-       ``strpbrk``: same as ``strcspn`` + slicing
+       ``strpbrk``: ``strcspn`` と同じ + スライス
 
-       ``strrchr``: ``str::rfind`` + slicing
+       ``strrchr``: ``str::rfind`` + スライス
 
-       ``strspn``: ``str::find`` + closure with inverted predicate
+       ``strspn``: ``str::find`` + 述語を反転したクロージャ
 
-       ``strstr``: ``str::find`` takes a Pattern which can be a string
+       ``strstr``: ``str::find`` は文字列を指定できる Pattern を受け取る
 
        ``strtok``: ``str::split``
 
-       ``strxfrm``: no locale support in rust std
+       ``strxfrm``: Rust の std にはロケールのサポートがない
 
        ``strtol``, ``strtoll``, ``strtoul``, ``strtoumax``, ``strtoimax``, ``wcstoumax``, ``wcstoimax``: ``from_str_radix``
 
-       ``strtod``, ``strtof``, ``strtold``: ``FromStr`` trait
+       ``strtod``, ``strtof``, ``strtold``: ``FromStr`` トレイト
 
-       ``fgetwc``: ``Read`` trait (``read_exact`` in small buffer or bytes take one)
+       ``fgetwc``: ``Read`` トレイト（小さなバッファでの ``read_exact`` 、または bytes で 1 つ取る）
 
-       ``fputwc``: ``Write`` trait (``write_all`` with short slice)
+       ``fputwc``: ``Write`` トレイト（短いスライスでの ``write_all`` ）
 
-       ``wcstol``, ``wcstoll``, ``wcstoul``, ``wcstoull``, ``wcstod``, ``wcstof``, ``wcstold`` (assuming wide str = windows utf16): ``OsStr::to_string_lossy`` + regular parsing/conversion
+       ``wcstol``, ``wcstoll``, ``wcstoul``, ``wcstoull``, ``wcstod``, ``wcstof``, ``wcstold`` （ワイド文字列 = windows の utf16 と仮定）: ``OsStr::to_string_lossy`` + 通常のパース/変換
 
-       The strn-variants of functions are the same as the regular function + slicing
+       関数の strn 系の変種は、通常の関数 + スライスと同じです
 
-       Except for locale support all supported in rust std without risk of UB. Locale use is not supported by rust std and FFI is considered out of scope.
+       ロケールのサポートを除き、すべて Rust の std で UB のリスクなしにサポートされています。ロケールの使用は Rust の std ではサポートされておらず、FFI は範囲外とみなします。
    * - Rule 21.2.4
      -
-     - Using offset\_of with fields not visible to the callsite is not possible in rust. Use with methods or associated consts is not possible. Rust does not have bitfields as a language construct.
+     - Rust では、呼び出し箇所から見えないフィールドに対して offset\_of を使うことはできません。メソッドや関連定数に対して使うこともできません。Rust には言語の構成要素としてのビットフィールドはありません。
    * - Rule 21.6.4
      -
-     - Global operator delete maps to the trait "std::alloc::GlobalAlloc", whose deallocation function always requires the layout.
+     - グローバルな operator delete はトレイト「std::alloc::GlobalAlloc」に対応し、その解放関数は常にレイアウトを必要とします。
    * - Rule 21.6.5
      -
-     - Rust has no forward declaration and therefore also no concept of incomplete types.
+     - Rust には前方宣言がないため、不完全型という概念もありません。
    * - Rule 21.10.2
      -
-     - Rust does not have ``setjmp`` or ``longjmp`` or similar functionality. Using the C++ function via FFI or inline assembly is covered by the MISRA C++ rules.
+     - Rust には ``setjmp`` や ``longjmp`` 、あるいはそれに類する機能はありません。FFI やインラインアセンブリを介して C++ の関数を使うことは、MISRA C++ のルールで扱われます。
    * - Rule 21.10.3
      -
-     - Rust std provides no support for interacting with process signals. FFI is out of scope for this mapping.
+     - Rust の std は、プロセスのシグナルを扱うためのサポートを提供していません。FFI はこのマッピングの範囲外です。
    * - Rule 22.4.1
      -
-     - Rust std does not provide APIs to edit errno. It can be read using "std::io::Error::last\_os\_error". Use of FFI is considered out of scope for this mapping.
+     - Rust の std は、errno を編集するための API を提供していません。errno は「std::io::Error::last\_os\_error」を使って読み取れます。FFI の使用はこのマッピングの範囲外とみなします。
    * - Rule 24.5.1
      -
      - ``isalnum``: ``char::is_alphanumeric``
@@ -951,7 +950,7 @@ Table 3 – Guidelines not currently applicable to Rust
 
        ``isdigit``: ``char::is_digit`` / ``char::is_numeric``
 
-       ``isxdigit``: ``char::is_digit`` (hex is base 16)
+       ``isxdigit``: ``char::is_digit`` （16 進数は基数 16）
 
        ``iscntrl``: ``char::is_control``
 
@@ -959,9 +958,9 @@ Table 3 – Guidelines not currently applicable to Rust
 
        ``isspace``: ``char::is_whitespace``
 
-       ``isblank``: rust std has no locale support
+       ``isblank``: Rust の std にはロケールのサポートがない
 
-       ``isprint``: rust std has no locale support
+       ``isprint``: Rust の std にはロケールのサポートがない
 
        ``ispunct``: ``char::is_ascii_punctuation``
 
@@ -969,23 +968,23 @@ Table 3 – Guidelines not currently applicable to Rust
 
        ``toupper``: ``char::to_uppercase``
 
-       Equivalent functions in rust are safe. Missing functions are locale dependent which is not supported by the rust std.
+       Rust の同等の関数は安全です。欠けている関数はロケールに依存するもので、ロケールは Rust の std ではサポートされていません。
    * - Rule 26.3.1
      -
-     - The rust standard library doesn't specialize the layout of the type Vec<bool>, like C++ does.
+     - Rust の標準ライブラリは、C++ のように Vec<bool> 型のレイアウトを特殊化していません。
    * - Rule 28.6.2
      -
-     - Rust has no language feature like forwarding references.
+     - Rust には、転送参照（forwarding reference）のような言語フィーチャはありません。
    * - Rule 28.6.4
      -
-     - std::remove/std::remove\_if <-> Vec::retain / Vec::extract\_if: completely different API, doesn’t apply, retain can’t be used wrong and is the more common case
+     - std::remove/std::remove\_if <-> Vec::retain / Vec::extract\_if: API がまったく異なるため当てはまらない。retain は誤った使い方ができず、より一般的なケースである
 
-       std::unique <-> slice::partition\_dedup: nightly, more flexible, may apply depending on the name it is stabilised as / Vec::dedup: doesn’t apply
+       std::unique <-> slice::partition\_dedup: nightly であり、より柔軟。どの名前で安定化されるかによっては当てはまるかもしれない / Vec::dedup: 当てはまらない
 
-       std::vector::empty <-> std::Vec::is\_empty: doesn't apply, the different name prevents confusion.
+       std::vector::empty <-> std::Vec::is\_empty: 当てはまらない。名前が異なるため混乱は起こらない。
    * - Rule 30.0.1
      -
-     - This is about the specific issues of these APIs. filesystem operations are supposed to use the filesystem header in C++. As rust has it's own filesystem APIs this does not map. If there is a specific problem with the filesystem APIs in rust that should probably get its own rule.
+     - これは、これらの API に特有の問題に関するものです。C++ では、ファイルシステムの操作には filesystem ヘッダを使うことになっています。Rust には独自のファイルシステム API があるため、これは対応しません。Rust のファイルシステム API に特有の問題があるなら、おそらくそれ専用のルールを設けるべきです。
    * - Rule 30.0.2
      -
-     - See mapping of FIO39 in :ref:`cert_c_mapping` (TLDR: no risk of UB, therefore no mapping)
+     - :ref:`cert_c_mapping` の FIO39 のマッピングを参照してください（要約: UB のリスクはないため、マッピングはない）
