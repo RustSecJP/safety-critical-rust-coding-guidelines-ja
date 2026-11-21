@@ -1,0 +1,93 @@
+[build-system]
+requires = ["uv_build>=0.12.6,<0.13.0"]
+build-backend = "uv_build"
+
+[project]
+name = "safety-critical-rust-coding-guidelines"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "builder",
+    "coding-guidelines-ext",
+    "tqdm",
+    "pypandoc",
+    "sphinx>=8.2.3",
+    "sphinx-autobuild>=2024.10.3",
+    "sphinx-needs>=5.1.0",
+    "sphinx-rtd-theme>=3.0.2",
+    "requests>=2.32.4",
+    "pyyaml>=6.0.1",
+]
+
+[project.scripts]
+reviewer-bot = "scripts.reviewer_bot:main"
+
+[tool.uv]
+required-version = "==0.12.6"
+
+[tool.uv.workspace]
+members = ["builder", "exts"]
+
+[tool.uv.sources]
+builder = { workspace = true }
+coding-guidelines-ext = { workspace = true }
+
+[tool.uv.build-backend]
+module-root = ""
+module-name = "scripts"
+
+[tool.ruff]
+
+lint.select = [
+  "F",        # Pyflakes rules
+  "W",        # PyCodeStyle warnings
+  "E",        # PyCodeStyle errors
+  "I",        # Sort Imports
+  "TID",      # Some good import practices
+  "C4",       # Catch incorrect use of comprehensions, dict, list, etc
+]
+# Remove or reduce ignores to catch more issues
+lint.ignore = [
+    "E501",  # Ignore long lines, bc we use them frequently while composing .rst templates
+    "W293",  # Ignore white spaces in blank lines
+    "W291",  # Ignore Trailing white lines
+    "E402",  # Ignore "Imports must be at the top of the file" enforcement bc `guideline-from-issue.py` needs it
+    "C401",  # Ignore `Unnecessary generator` checks, further tests are needed in fls_checks.py
+]
+
+[tool.ruff.lint.flake8-comprehensions]
+allow-dict-calls-with-keyword-arguments = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = [
+    "--import-mode=importlib",
+    "-ra",
+    "--strict-config",
+    "--strict-markers",
+]
+markers = [
+    "integration: filesystem, subprocess, multi-module, or boundary tests",
+    "contract: workflow, CLI, adapter, or artifact contract tests",
+]
+filterwarnings = ["error"]
+xfail_strict = true
+
+[tool.coverage.run]
+branch = true
+relative_files = true
+source = ["scripts.reviewer_bot", "scripts.reviewer_bot_lib", "scripts.fls_audit_issue_lib"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "pytest-cov>=5.0.0",
+    "pytest-mock>=3.14.0",
+    "ruff>=0.12.3",
+]
