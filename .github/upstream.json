@@ -1,1 +1,12 @@
-{n  "upstreams": [n    {n      "repo": "Safety-Critical-Rust-Consortium/safety-critical-rust-coding-guidelines",n      "branch": "main",n      "paths": [n        "src"n      ],n      "base": "924aa78c82f21dd037f5d9c61ec9ce1c3fbe3f1a"n    }n  ]n}
+{
+  "upstreams": [
+    {
+      "repo": "Safety-Critical-Rust-Consortium/safety-critical-rust-coding-guidelines",
+      "branch": "main",
+      "paths": [
+        "src"
+      ],
+      "base": "924aa78c82f21dd037f5d9c61ec9ce1c3fbe3f1a"
+    }
+  ]
+}
