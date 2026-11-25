@@ -248,6 +248,9 @@ text_check_fail_on_inline_urls = True
 # Configure the theme
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+# 団体のアイコン(ja-docs-base)。ロゴは透明な背景に白のマークで、ダークな左サイドバーに合う
+html_logo = "_static/rustsecjp-mark.png"
+html_favicon = "_static/rustsecjp-favicon.png"
 templates_path = ['_templates']
 
 # Custom CSS files to include
